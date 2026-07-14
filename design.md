@@ -152,31 +152,47 @@ Color: use --accent-cyan for icon emphasis; keep surrounding text in --text-prim
 
 ## Hero background — live phone call waveform
 
-Full-bleed layered background behind hero content (z-0). A single continuous waveform of ~260 ultra-thin vertical bars scrolls horizontally right-to-left, simulating a live voice call being recorded in real time. The visual language matches professional audio software (Apple Voice Memos, Adobe Audition, Descript) — not a music visualizer or equalizer.
+Full-bleed layered background behind hero content (z-0). A single continuous waveform of ~466 ultra-thin vertical bars scrolls horizontally right-to-left, simulating a live voice call being recorded in real time. The visual language matches professional audio software (Apple Voice Memos, Adobe Audition, Descript) — not a music visualizer or equalizer.
 
 ```
-Front layer (id: front):   brightest, crisp, closest, opacity 0.92, blur 0.6, fastest scroll (0.38), max amplitude 58px
-Middle layer (id: mid):    semi-transparent, opacity 0.58, blur 1.6, moderate scroll (0.26), max amplitude 72px
-Back layer (id: back):     heavily blurred, faint, opacity 0.28, blur 2.8, slowest scroll (0.16), max amplitude 96px
+Front layer:   brightest, crisp, closest, opacity 0.92, blur 0.6, fastest scroll (175px/s), max amplitude 52px
+Middle layer:  semi-transparent, opacity 0.55, blur 1.6, moderate scroll (120px/s), max amplitude 68px
+Back layer:    heavily blurred, faint, opacity 0.25, blur 2.8, slowest scroll (70px/s), max amplitude 88px
 ```
 
-### Waveform generation — speech envelopes
+### Waveform generation — speech-event-driven engine
 
-Bar heights are NOT random. Each layer generates "speech envelopes" that mimic human speech characteristics:
+Bar heights are NOT random and NOT procedural noise. Each layer runs a `SpeechEngine` that models human speech as a state machine with explicit phases:
 
-- **Silence**: near-zero amplitude breathing pauses
-- **Soft syllables**: gentle low-amplitude clusters
-- **Louder words**: medium peaks with natural attack/decay
-- **Short bursts**: quick amplitude spikes followed by immediate fall-off
-- **Gradual decay**: exponential tail after peak clusters
-- **Natural rhythm**: phrase→pause→phrase cycling with variable durations
+1. **Pause phase** — near-zero amplitude, breathing. Duration: 0.25–0.85s, varies over time.
+2. **Speaking phase** — a phrase of N syllables (3–15). Syllable spacing: 150–300ms. Each syllable is a Gaussian envelope (attack→peak→decay) with emphasis variation and micro-oscillation.
+3. **Decay phase** — exponential tail after the last syllable. Duration: 0.18–0.38s.
+4. **Return to pause** — cycle repeats with different parameters each time.
 
-Key rules:
-- Neighboring bars are strongly correlated (0.68 exponential smoothing factor)
-- Amplitude interpolates smoothly (0.16 lerp factor) — never jumps abruptly
-- Phrases consist of clustered peaks followed by breathing pauses
-- Intensity varies per phrase cycle (0.14–0.36 range)
-- No visible looping or repeating patterns
+Each phrase has randomized: syllable count, spacing, intensity (0.18–0.73), decay duration, and pause duration. The engine carries continuous state across frames — amplitude never resets, never jumps, never visibly loops.
+
+### Spatial coherence — one continuous signal
+
+All bars in a layer are driven by the same `SpeechEngine` instance. Neighboring bar correlation is enforced by:
+
+- **Buffer shift**: each frame, all amplitudes shift left by one position; one new sample is pushed on the right.
+- **Double-pass Gaussian spatial smoothing** (radius 5, σ≈1.8): heights are averaged across neighbors with Gaussian weighting, applied twice for strong coherence.
+- **Per-bar shaping**: `amplitude^1.3` power curve for natural speech dynamics.
+- **Temporal continuity**: the `SpeechEngine` amplitude evolves continuously — no frame-to-frame discontinuities.
+
+The result is a single coherent waveform that behaves like one recorded audio signal, not independent animated bars.
+
+### Speech characteristics
+
+The engine reproduces natural speech patterns:
+- Long quiet moments (breathing pauses between phrases)
+- Soft onsets (exponential attack at phrase start)
+- Syllable clusters with natural emphasis variation
+- Gradual exponential decay after each phrase
+- Variable phrase lengths (short words to long sentences)
+- Rhythm that constantly evolves (no repeating sequences)
+
+Most of the waveform stays relatively calm. Occasional energetic phrases appear before returning to quieter regions.
 
 ### Movement
 
@@ -184,30 +200,31 @@ Key rules:
 - New amplitude data generated only at the right edge (buffer shift + push)
 - Old data exits naturally on the left
 - Scroll speed varies per layer (front fastest, back slowest)
-- Sub-pixel fractional scroll accumulator prevents jitter
 
 ### Visual design
 
 ```
 Background:    var(--hero-wave-background) #05070A
-Bars:          1px wide, 1px gap, rx=0.5 rounded caps
-Gradient:      cyan (#00D1FF) → sky (#4FACFE) → purple (#7000FF) via linearGradient
-Opacity:       varies with amplitude per layer (0.04–0.96 range)
-Glow:          SVG feGaussianBlur filter per layer (0.6 / 1.6 / 2.8 stdDeviation)
-Mask:          horizontal linearGradient fade at edges (0%→6% opacity ramp, 94%→100% fade)
+Bars:          2px wide, 1px gap, rx=1 rounded caps (fully rounded ends)
+Gradient:      cyan (#00D1FF) → sky (#4FACFE) via linearGradient (no purple — enterprise-grade minimal)
+Opacity:       varies with amplitude per layer (0.03–1.0 range)
+Glow:          single SVG feGaussianBlur filter (0.4 stdDeviation) — very subtle, no heavy bloom
+Mask:          horizontal linearGradient fade at edges (0%→4% opacity ramp, 96%→100% fade)
 ```
 
 ### Performance
 
-- All waveform data stored in useRef (buffers, states, scroll accumulators) — never triggers React re-renders
+- All waveform data stored in useRef (engines, Float32Array buffers, SVG elements) — never triggers React re-renders
 - Bar positions updated via direct SVG attribute mutation (setAttribute)
+- Float32Array for buffer operations (cache-friendly, no GC pressure)
 - GSAP ticker drives the animation loop at native frame rate
 - No React state updates during animation
+- Initialization guard prevents double-setup in React Strict Mode
 - Cleanup removes all DOM elements and ticker listener on unmount
 
 ### Reduced motion
 
-`prefers-reduced-motion: reduce` — GSAP ticker is never registered, waveform remains static at initial state.
+`prefers-reduced-motion: reduce` — GSAP ticker is never registered, waveform remains static at initial state (near-zero amplitude bars).
 
 ## Motion (GSAP)
 
