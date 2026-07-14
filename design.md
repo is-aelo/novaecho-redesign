@@ -43,7 +43,7 @@ Everything below is mathematically derived from the seven brand values above, fo
 
 The current site's problem isn't the colors, it's that cyan-to-sky is used as a full-saturation, hard-edged gradient *fill* on small elements (buttons especially), paired with heavy drop shadows. That reads as a generic startup template. The fix keeps the same brand colors but changes where and how they appear.
 
-**Rule: gradients are for ambient atmosphere, not for fills on interactive elements.**
+**Rule: gradients are for ambient atmosphere and the primary CTA fill. Secondary/tertiary buttons use solid or near-solid fills only.**
 
 ```
 --gradient-glow:
@@ -61,16 +61,22 @@ The current site's problem isn't the colors, it's that cyan-to-sky is used as a 
   Use: 1.5px border ring on hover/focus, or a low-opacity (≤15%) overlay.
   Never: as a button's default resting-state fill.
 
+--gradient-text-highlight:
+  linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-sky) 100%)
+  Use: a subtle accent treatment on a single hero headline phrase only, not the full headline.
+  Keep the effect restrained and avoid loud, full-saturation blends.
+
 --gradient-button-primary (button fill):
-  radial-gradient(ellipse 140% 120% at -10% -10%, #E61EAD 0%, #A614E2 35%, #7000FF 60%, #332094 82%, #1E3A8A 100%)
-  Elliptical radial from off-canvas top-left — 5-stop blend, magenta blooms inward through purple intermediates into navy.
+  linear-gradient(135deg, #E61EAD 0%, #BA0FFF 40%, #7000FF 65%, #2C259A 88%, #1E3A8A 100%)
+  5-stop linear blend at 135deg — magenta through hot purple into navy.
   Use: primary CTA default fill only. Hover state uses --gradient-accent-ring border + --shadow-glow instead.
+  Note: #BA0FFF and #2C259A are intermediate values not in the core brand palette — used only within this gradient.
 ```
 
 ## Buttons
 
 ```
-Primary — default:  linear-gradient 135deg var(--surface-700) to #2a4fa8 (subtle navy depth), white text, 1px transparent border, radius-sm, no shadow
+Primary — default:  linear-gradient 135deg #E61EAD → #BA0FFF → #7000FF → #2C259A → #1E3A8A (--gradient-button-primary), white text, 1px transparent border, radius-sm, no shadow
 Primary — hover:     border becomes var(--gradient-accent-ring), soft glow (blurred, ≤20% opacity cyan, NOT a hard drop shadow)
 Primary — focus:     2px solid var(--accent-cyan) outline, offset 2px
 
@@ -78,7 +84,7 @@ Secondary — default: transparent fill, 1px solid rgba(255,255,255,0.24) border
 Secondary — hover:    border brightens to rgba(255,255,255,0.48)
 ```
 
-No button in this system uses a gradient as its resting-state background. That is the single rule that fixes the "harsh CTA" problem from the audit.
+Only the primary CTA uses a gradient as its resting-state background (--gradient-button-primary). All other buttons use solid or near-solid fills. The gradient on the primary CTA is the deliberate focal point — secondary buttons remain restrained to maintain visual hierarchy.
 
 ## Typography
 
@@ -120,6 +126,88 @@ No shadow above a soft, low-opacity glow. No hard drop shadows anywhere — this
 --shadow-none: none
 --shadow-glow: 0 0 24px rgba(0,209,255,0.18)   (hover states only, see Buttons above)
 ```
+
+## Hero
+
+Full-viewport-height section (100vh min). Content centered vertically and horizontally over the breathing audiowave background.
+
+```
+Headline:   display-xl (56px / 60px), font-display, font-weight 700, white
+Subhead:    body-lg (18px / 28px), font-body, --text-secondary-on-dark
+Trust strip: three compact metrics beneath the subhead, centered, using Phosphor Icons via @phosphor-icons/react
+CTA row:    primary button + secondary button, gap 16px
+Max-width:  720px, text-align center
+```
+
+## Iconography
+
+Use Phosphor Icons only for interface and feature icons in this project.
+
+```
+Library: @phosphor-icons/react
+Style: duotone or regular, consistent weight
+Usage: small feature highlights, support metrics, and inline UI icons only
+Color: use --accent-cyan for icon emphasis; keep surrounding text in --text-primary-on-dark
+```
+
+## Hero background — live phone call waveform
+
+Full-bleed layered background behind hero content (z-0). A single continuous waveform of ~260 ultra-thin vertical bars scrolls horizontally right-to-left, simulating a live voice call being recorded in real time. The visual language matches professional audio software (Apple Voice Memos, Adobe Audition, Descript) — not a music visualizer or equalizer.
+
+```
+Front layer (id: front):   brightest, crisp, closest, opacity 0.92, blur 0.6, fastest scroll (0.38), max amplitude 58px
+Middle layer (id: mid):    semi-transparent, opacity 0.58, blur 1.6, moderate scroll (0.26), max amplitude 72px
+Back layer (id: back):     heavily blurred, faint, opacity 0.28, blur 2.8, slowest scroll (0.16), max amplitude 96px
+```
+
+### Waveform generation — speech envelopes
+
+Bar heights are NOT random. Each layer generates "speech envelopes" that mimic human speech characteristics:
+
+- **Silence**: near-zero amplitude breathing pauses
+- **Soft syllables**: gentle low-amplitude clusters
+- **Louder words**: medium peaks with natural attack/decay
+- **Short bursts**: quick amplitude spikes followed by immediate fall-off
+- **Gradual decay**: exponential tail after peak clusters
+- **Natural rhythm**: phrase→pause→phrase cycling with variable durations
+
+Key rules:
+- Neighboring bars are strongly correlated (0.68 exponential smoothing factor)
+- Amplitude interpolates smoothly (0.16 lerp factor) — never jumps abruptly
+- Phrases consist of clustered peaks followed by breathing pauses
+- Intensity varies per phrase cycle (0.14–0.36 range)
+- No visible looping or repeating patterns
+
+### Movement
+
+- Entire waveform continuously translates left via GSAP ticker
+- New amplitude data generated only at the right edge (buffer shift + push)
+- Old data exits naturally on the left
+- Scroll speed varies per layer (front fastest, back slowest)
+- Sub-pixel fractional scroll accumulator prevents jitter
+
+### Visual design
+
+```
+Background:    var(--hero-wave-background) #05070A
+Bars:          1px wide, 1px gap, rx=0.5 rounded caps
+Gradient:      cyan (#00D1FF) → sky (#4FACFE) → purple (#7000FF) via linearGradient
+Opacity:       varies with amplitude per layer (0.04–0.96 range)
+Glow:          SVG feGaussianBlur filter per layer (0.6 / 1.6 / 2.8 stdDeviation)
+Mask:          horizontal linearGradient fade at edges (0%→6% opacity ramp, 94%→100% fade)
+```
+
+### Performance
+
+- All waveform data stored in useRef (buffers, states, scroll accumulators) — never triggers React re-renders
+- Bar positions updated via direct SVG attribute mutation (setAttribute)
+- GSAP ticker drives the animation loop at native frame rate
+- No React state updates during animation
+- Cleanup removes all DOM elements and ticker listener on unmount
+
+### Reduced motion
+
+`prefers-reduced-motion: reduce` — GSAP ticker is never registered, waveform remains static at initial state.
 
 ## Motion (GSAP)
 

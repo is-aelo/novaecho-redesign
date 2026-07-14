@@ -20,6 +20,7 @@ export default function Nav() {
           alt="Nova Echo logo"
           width={28}
           height={28}
+          style={{ width: "auto", height: "auto" }}
           priority
         />
         <span className="font-display text-[15px] font-semibold tracking-tight text-text-primary">
@@ -35,7 +36,7 @@ Nova Echo
         ))}
       </nav>
 
-      <Link href="#book-call" className="btn-primary">
+      <Link href="#book-call" className="btn-primary header-cta">
         Book Discovery Call
       </Link>
     </header>

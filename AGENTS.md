@@ -10,6 +10,8 @@ Read `design.md` before writing or editing any component. It is the single sourc
 
 Gradients specifically: `design.md` defines exactly where gradients are allowed (subtle navy depth on primary CTA fill, ambient background glow, hover-state rings) and where they are forbidden (loud full-saturation cyan-to-sky on buttons, text). Follow that rule exactly — this is the direct fix for the site's original "harsh gradient CTA" problem, and reverting it defeats the point of the redesign.
 
+Whenever a design decision changes — new gradient, color, spacing, radius, shadow, motion value, or any rule about where something is allowed/forbidden — update `design.md` first (or in the same change). `design.md` must never lag behind the implementation. If code uses a value or pattern that isn't documented there, that's a bug in the spec, not a reason to skip the doc.
+
 ## Token wiring
 
 Design tokens live as CSS custom properties in `app/globals.css`, mapped into `tailwind.config.ts` under `theme.extend`. Reference them through Tailwind utility classes or `var(--token-name)` — never raw hex.
