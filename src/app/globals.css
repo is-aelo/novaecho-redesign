@@ -15,9 +15,14 @@
   --surface-900: #0B0B0F;
   --surface-800: #101A33;
   --surface-700: #1E3A8A;
+  --surface-50: #FAFAFA;
+  --surface-100: #F5F5F5;
+  --surface-200: #E5E5E5;
 
   --text-primary-on-dark: #FFFFFF;
   --text-secondary-on-dark: rgba(255, 255, 255, 0.64);
+  --text-primary-on-light: #000000;
+  --text-secondary-on-light: rgba(0, 0, 0, 0.60);
 
   --accent-cyan: #00D1FF;
   --accent-sky: #4FACFE;
@@ -56,9 +61,14 @@
   --color-surface-900: var(--surface-900);
   --color-surface-800: var(--surface-800);
   --color-surface-700: var(--surface-700);
+  --color-surface-50: var(--surface-50);
+  --color-surface-100: var(--surface-100);
+  --color-surface-200: var(--surface-200);
 
   --color-text-primary: var(--text-primary-on-dark);
   --color-text-secondary: var(--text-secondary-on-dark);
+  --color-text-primary-light: var(--text-primary-on-light);
+  --color-text-secondary-light: var(--text-secondary-on-light);
 
   --color-accent-cyan: var(--accent-cyan);
   --color-accent-sky: var(--accent-sky);
@@ -74,6 +84,10 @@
   --text-display-xl--line-height: 3.75rem;
   --text-display-lg: 2.5rem;
   --text-display-lg--line-height: 2.75rem;
+  --text-display-xs: 1.125rem;
+  --text-display-xs--line-height: 1.5rem;
+  --text-display-sm: 1.375rem;
+  --text-display-sm--line-height: 1.75rem;
   --text-display-md: 1.75rem;
   --text-display-md--line-height: 2.125rem;
   --text-body-lg: 1.125rem;
@@ -283,3 +297,12 @@ a, button {
   color: transparent;
   -webkit-text-fill-color: transparent;
 }
+
+.benchmark-nova-header {
+  background-image: var(--gradient-button-primary);
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+
+

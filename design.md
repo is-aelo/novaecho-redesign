@@ -19,10 +19,13 @@ Source of truth for every visual decision in this build. If a value isn't define
 Everything below is mathematically derived from the seven brand values above, for hierarchy on a dark-first UI. Marked derived so it's clear these aren't separately brand-sourced.
 
 ```
---surface-950:  #000000   (page background — brand black)
+--surface-950:  #000000   (page background — brand black, hero only)
 --surface-900:  #0B0B0F   (derived, navy-tinted near-black — large surfaces, avoids stark OLED-black)
 --surface-800:  #101A33   (derived — card / panel background)
 --surface-700:  #1E3A8A   (brand navy — elevated surfaces, default button fill)
+--surface-50:   #FAFAFA   (light section background — features, stats, etc.)
+--surface-100:  #F5F5F5   (light card / panel background)
+--surface-200:  #E5E5E5   (light card border)
 ```
 
 ### Text
@@ -32,6 +35,8 @@ Everything below is mathematically derived from the seven brand values above, fo
 --text-primary-on-light:   #000000
 --text-secondary-on-light: rgba(0,0,0,0.60)
 ```
+
+Light surfaces (Features, stats, etc.) use `--text-primary-on-light` and `--text-secondary-on-light`. Dark surfaces (Hero, footer) use `--text-primary-on-dark` and `--text-secondary-on-dark`.
 
 ### Accent — use sparingly
 ```
@@ -101,6 +106,8 @@ Data and stats (comparison table, metric callouts) use `--font-body` with `font-
 ```
 display-xl:  56px / 60px line-height   — hero headline
 display-lg:  40px / 44px               — section headlines
+display-xs:  18px / 24px               — mobile section headlines that must fit one row
+display-sm:  22px / 28px               — mobile section headlines
 display-md:  28px / 34px               — card / feature titles
 body-lg:     18px / 28px               — hero subhead, intro copy
 body-md:     16px / 24px               — default body
@@ -123,6 +130,9 @@ Only true laptop/desktop screens (≥1024px) get desktop layout. When in doubt, 
 ## Spacing
 4px base scale: `4, 8, 12, 16, 24, 32, 48, 64, 96, 180`. Nav height capped at 64px.
 
+### Section pattern — subtext to content gap
+The vertical gap between a section's subtext paragraph and its main content (card grid, logo track, etc.) must be `mt-5` (20px) on mobile and `lg:mt-6` (24px) on desktop. Matches the hero's subtext-to-metrics spacing.
+
 ## Radius
 ```
 --radius-sm: 4px   (buttons, inputs)
@@ -141,7 +151,7 @@ No shadow above a soft, low-opacity glow. No hard drop shadows anywhere — this
 
 ## Hero
 
-Full-viewport-height section (100vh min). Content centered vertically and horizontally over the breathing audiowave background.
+Full-viewport-height section (100vh min). Content centered vertically and horizontally over the breathing audiowave background. The hero is the only section on the dark background (`--surface-950`); subsequent sections use light surfaces (`--surface-50`, `--surface-100`).
 
 ```
 Headline:   display-xl (56px / 60px), font-display, font-weight 700, white
@@ -160,6 +170,36 @@ Library: @phosphor-icons/react
 Style: duotone or regular, consistent weight
 Usage: small feature highlights, support metrics, and inline UI icons only
 Color: use --accent-cyan for icon emphasis; keep surrounding text in --text-primary-on-dark
+```
+
+## Trusted / Logos section
+
+Light background (`--surface-50`), centered content. Displays brand logos in a flex-wrap row, grayscale with low opacity, transitioning to full-color on hover. Logo order is by popularity/impact.
+
+```
+Headline:   display-md → display-lg, font-display, --text-primary-on-light
+Subtext:    body-sm → body-md, --text-secondary-on-light
+Callout:    body-sm, medium weight, --text-primary-on-light at 80% opacity
+Logos:      32px height, object-contain, grayscale(100%) opacity-40 → hover: grayscale(0) opacity-80
+Gap:        column-gap 40px, row-gap 32px
+```
+
+## Agents section
+
+Light background (`--surface-100`), 3-column card grid on desktop. Cards are white (`--surface-50`) with subtle border (`--surface-200`). Each card has a title, body, and a "Calculate ROI" link styled in accent-cyan.
+
+```
+Background:    --surface-100
+Card fill:     --surface-50
+Card border:   --surface-200
+Headline:      display-md → display-lg, font-display, --text-primary-on-light
+Subtext:       body-sm → body-md, --text-secondary-on-light
+Card title:    display-sm, font-display, font-bold, --text-primary-on-light
+Card body:     body-sm, --text-secondary-on-light
+CTA link:      body-sm, font-medium, --accent-cyan → hover --accent-sky
+Grid:          1 col mobile → 3 cols at lg, gap-6
+Gap subtext:   mt-5 / lg:mt-6 (per section pattern)
+Card padding:  p-8
 ```
 
 ## Hero background — live phone call waveform
@@ -237,6 +277,85 @@ Mask:          horizontal linearGradient fade at edges (0%→4% opacity ramp, 96
 ### Reduced motion
 
 `prefers-reduced-motion: reduce` — GSAP ticker is never registered, waveform remains static at initial state (near-zero amplitude bars).
+
+## Pricing section
+
+Light section on `--surface-50` with a 3-column card grid. The center "Recommended" card uses `--surface-950` (pure black) with a cyan glow border (`shadow-glow`) and extra vertical padding to stand out against the light side cards. Side cards use `--surface-100` (light gray) matching the Features/Agents card style.
+
+```
+Background:       --surface-50
+Side card fill:   --surface-100
+Side card border: --surface-200
+Center card fill: --surface-950 + shadow-glow
+Center border:    --accent-cyan/40
+Center padding:   py-10 px-8 (lg: py-12) — taller than side cards (p-8)
+Headline:         display-md → display-lg, font-display, --text-primary-light
+Subtext:          body-sm → body-md, --text-secondary-light
+Tier label:       caption, uppercase, tracking-widest, --accent-cyan
+Plan name:        body-md, font-display, semibold, --text-primary-light (side) / --text-primary (center)
+Price:            display-lg, font-display, bold, --text-primary-light (side) / --text-primary (center)
+Feature icon:     CheckCircle, --accent-cyan, weight=fill
+Feature text:     body-sm, --text-secondary-light (side) / --text-secondary (center)
+Side CTA:         1px border surface-700/30, text-primary-light, hover border surface-700/60
+Center CTA:       btn-primary class (same as hero CTA), --gradient-button-primary, white text, hover shadow-glow
+Grid:             1 col mobile → 3 cols at lg, gap-6 → gap-8
+Gap subtext:      mt-5 / lg:mt-6 (per section pattern)
+Card padding:     p-8 (side), py-10 px-8 lg:py-12 (center)
+```
+
+## Benchmark section
+
+Light comparison table on `--surface-50` background. 4-column matrix comparing Nova Echo AI vs Competitors vs Humans across 13 metrics. The "Nova Echo AI" column header has a pink-to-purple gradient bottom border; values under it use `--accent-cyan` for visual emphasis.
+
+```
+Background:       --surface-50
+Header labels:    body-sm, semibold, uppercase, tracking-wider
+  Nova Echo AI:   text-primary-light, gradient bottom border (--gradient-button-primary)
+  Others:         text-secondary-light at 60% opacity, solid border using surface-200
+Feature column:   text-body-sm, medium weight, --text-secondary-light
+Nova Echo values: text-body-sm, medium weight, --accent-purple
+Other values:     text-body-sm, --text-secondary-light at 60% opacity
+Row divider:      thin line, --surface-200 at 80% opacity
+Scroll:           horizontal scroll on mobile (min-w-[640px])
+```
+
+## Partners section
+
+Light section on `--surface-50` with a 3-column card grid. Cards match the Features card style (`--surface-100` fill, `--surface-200` border). Three partner program types with icons.
+
+```
+Background:       --surface-50
+Card fill:        --surface-100
+Card border:      --surface-200
+Card min-height:  min-h-45
+Headline:         display-md → display-lg, font-display, --text-primary-light
+Subtext:          body-sm → body-md, --text-secondary-light
+Icon:             --accent-cyan, duotone, 24px
+Card title:       font-bold, body-md, --text-primary-light
+Card body:        body-sm, --text-secondary-light
+Grid:             1 col mobile → 3 cols at lg, gap-6 → gap-8
+Gap subtext:      mt-5 / lg:mt-6 (per section pattern)
+Card padding:     p-8
+Icons:            Buildings, Handshake, ShareNetwork (Phosphor duotone)
+```
+
+## Stories section
+
+Light section on `--surface-50` with a 3-column testimonial card grid. Each card features a large faded quote icon, a blockquote, and an author credit with a thin top border.
+
+```
+Background:       --surface-50
+Card fill:        --surface-100
+Card border:      --surface-200
+Quote icon:       Quotes, 28px, weight=fill, --accent-cyan at 20% opacity
+Quote text:       body-sm, --text-secondary-light, wrapped in curly quotes
+Author name:      font-bold, body-sm, --text-primary-light
+Author role:      caption, --text-secondary-light at 60% opacity
+Divider:          border-t, --surface-200
+Grid:             1 col mobile → 3 cols at lg, gap-6 → gap-8
+Gap subtext:      mt-5 / lg:mt-6 (per section pattern)
+Card padding:     p-8
+```
 
 ## Motion (GSAP)
 

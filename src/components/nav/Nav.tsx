@@ -1,5 +1,11 @@
+"use client";
+
+import { useCallback } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+gsap.registerPlugin(ScrollToPlugin);
 
 const links = [
   { label: "Platform", href: "#platform" },
@@ -8,13 +14,39 @@ const links = [
   { label: "Benchmarks", href: "#benchmarks" },
 ];
 
+const OFFSET = 64;
+
 export default function Nav() {
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      e.preventDefault();
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const el = document.getElementById(href.replace("#", ""));
+        if (el) {
+          window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - OFFSET);
+        }
+        return;
+      }
+      const id = href.replace("#", "");
+      const el = document.getElementById(id);
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.scrollY - OFFSET;
+        gsap.to(window, {
+          scrollTo: { y },
+          duration: 0.6,
+          ease: "power2.out",
+        });
+      }
+    },
+    []
+  );
+
   return (
     <header
       className="sticky top-0 z-50 flex items-center justify-between px-6 bg-surface-950/80 backdrop-blur-md"
-      style={{ height: 64 }}
+      style={{ height: OFFSET }}
     >
-      <Link href="/" className="flex items-center gap-2.5">
+      <a href="/" className="flex items-center gap-2.5">
         <Image
           src="/images/novaecho-logo.png"
           alt="Nova Echo logo"
@@ -24,21 +56,26 @@ export default function Nav() {
           priority
         />
         <span className="font-display text-[15px] font-semibold tracking-tight text-text-primary">
-Nova Echo
+          Nova Echo
         </span>
-      </Link>
+      </a>
 
       <nav className="hidden md:flex items-center gap-8">
         {links.map((link) => (
-          <Link key={link.href} href={link.href} className="nav-link">
+          <a
+            key={link.href}
+            href={link.href}
+            className="nav-link"
+            onClick={(e) => handleClick(e, link.href)}
+          >
             {link.label}
-          </Link>
+          </a>
         ))}
       </nav>
 
-      <Link href="#book-call" className="btn-primary header-cta">
+      <a href="#book-call" className="btn-primary header-cta">
         Book Discovery Call
-      </Link>
+      </a>
     </header>
   );
 }

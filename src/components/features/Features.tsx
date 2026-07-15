@@ -1,62 +1,62 @@
 import {
-  ChatCircleDots,
-  ChartLineUp,
-  GlobeHemisphereWest,
   Lightning,
+  Headphones,
+  ChatCircleDots,
+  SquaresFour,
 } from "@phosphor-icons/react/ssr";
 
 const features = [
   {
-    title: "Human-like Conversations",
-    body: "Deliver natural, context-aware voice experiences that feel effortless for every customer.",
-    icon: ChatCircleDots,
-  },
-  {
-    title: "Instant Scale",
-    body: "Handle surges in demand without adding headcount or sacrificing quality.",
+    title: "Low Latency",
+    body: "Near-instant voice responses powered by state-of-the-art infrastructure, delivering conversations that feel completely natural.",
     icon: Lightning,
   },
   {
-    title: "Multilingual by Design",
-    body: "Support global audiences with fluid language switching and localized experience.",
-    icon: GlobeHemisphereWest,
+    title: "High Call Capacity",
+    body: "Each Echo handles 10,000+ calls per day, so your business never misses a lead or opportunity.",
+    icon: Headphones,
   },
   {
-    title: "Operational Insight",
-    body: "Turn every interaction into actionable intelligence for your team and leadership.",
-    icon: ChartLineUp,
+    title: "Priority Support",
+    body: "Expert support team with years of voice AI experience, ready to help you get the most out of your Echos.",
+    icon: ChatCircleDots,
+  },
+  {
+    title: "All-in-One CRM",
+    body: "AI calls, human calls, texts, emails, and social media — all in one platform for multi-channel support and sales.",
+    icon: SquaresFour,
   },
 ];
 
 export default function Features() {
   return (
-    <section className="w-full px-6 py-16 bg-surface-950">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8">
-        <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-          <h2 className="font-display text-display-md lg:text-display-lg lg:whitespace-nowrap font-bold leading-tight tracking-tight text-text-primary">
+    <section id="platform" className="w-full px-6 py-16 bg-surface-50 scroll-mt-16">
+      <div className="mx-auto flex max-w-6xl flex-col">
+        <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
+          <h2 className="font-display text-display-md lg:text-display-lg lg:whitespace-nowrap font-bold leading-tight tracking-tight text-text-primary-light">
             Why Nova Echo Leads the <span className="hero-text-highlight">Voice AI Platform</span>
           </h2>
-          <p className="mt-3 max-w-2xl text-body-sm lg:text-body-md lg:max-w-none lg:whitespace-nowrap leading-relaxed text-text-secondary">
+          <p className="mt-3 max-w-2xl text-body-sm lg:text-body-md lg:max-w-none lg:whitespace-nowrap leading-relaxed text-text-secondary-light">
             Pioneer of conversational intelligence since 2023, delivering human-like voice employees at scale.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div className="mt-5 grid grid-cols-1 gap-8 md:grid-cols-2 lg:mt-6">
           {features.map((feature) => {
             const Icon = feature.icon;
 
             return (
               <article
                 key={feature.title}
-                className="border border-surface-800 bg-surface-900 p-8 flex flex-col h-full justify-between gap-3 min-h-45"
+                className="border border-surface-200 bg-surface-100 p-8 flex flex-col gap-3 min-h-45 text-left"
               >
                 <div className="flex items-center justify-start">
                   <Icon className="text-accent-cyan" size={24} weight="duotone" />
                 </div>
-                <h3 className="font-bold text-body-md text-text-primary">
+                <h3 className="font-bold text-body-md text-text-primary-light">
                   {feature.title}
                 </h3>
-                <p className="text-body-sm leading-relaxed text-text-secondary">
+                <p className="text-body-sm leading-relaxed text-text-secondary-light">
                   {feature.body}
                 </p>
               </article>
