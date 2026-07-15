@@ -62,7 +62,7 @@ The current site's problem isn't the colors, it's that cyan-to-sky is used as a 
   Never: as a button's default resting-state fill.
 
 --gradient-text-highlight:
-  linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-sky) 100%)
+  var(--gradient-accent-ring)
   Use: a subtle accent treatment on a single hero headline phrase only, not the full headline.
   Keep the effect restrained and avoid loud, full-saturation blends.
 

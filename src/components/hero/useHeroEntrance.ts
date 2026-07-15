@@ -5,7 +5,7 @@ import gsap from "gsap";
 
 export default function useHeroEntrance() {
   const containerRef = useRef<HTMLElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const headlineRef = useRef<HTMLDivElement>(null);
   const subheadRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
 
@@ -16,16 +16,17 @@ export default function useHeroEntrance() {
     if (prefersReduced) return;
 
     const headline = headlineRef.current;
+    const h1 = headline?.querySelector("h1");
     const subhead = subheadRef.current;
     const cta = ctaRef.current;
-    if (!headline) return;
+    if (!h1) return;
 
-    const words = headline.textContent?.split(" ") ?? [];
-    headline.innerHTML = words
+    const words = h1.textContent?.split(" ") ?? [];
+    h1.innerHTML = words
       .map((word) => `<span class="hero-word inline-block">${word}</span>`)
       .join(" ");
 
-    const wordElements = headline.querySelectorAll(".hero-word");
+    const wordElements = h1.querySelectorAll(".hero-word");
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power2.out" } });

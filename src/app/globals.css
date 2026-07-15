@@ -25,7 +25,7 @@
   --gradient-glow: radial-gradient(circle, rgba(0, 209, 255, 0.16) 0%, rgba(0, 209, 255, 0) 70%);
   --gradient-surface: linear-gradient(180deg, #0B0B0F 0%, #000000 100%);
   --gradient-accent-ring: linear-gradient(135deg, rgba(0, 209, 255, 0.9), rgba(79, 172, 254, 0.9));
-  --gradient-text-highlight: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-sky) 100%);
+  --gradient-text-highlight: var(--gradient-accent-ring);
   --gradient-button-primary: linear-gradient(135deg, #E61EAD 0%, #BA0FFF 40%, #7000FF 65%, #2C259A 88%, #1E3A8A 100%);
 
   --hero-blob-gradient-cyan: radial-gradient(circle at 30% 30%, var(--accent-cyan) 0%, transparent 72%);
@@ -86,10 +86,16 @@
   --text-caption--line-height: 1rem;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: var(--surface-950);
   color: var(--text-primary-on-dark);
   font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 a, button {
@@ -188,14 +194,83 @@ a, button {
   transform: translate3d(0, 0, 0);
 }
 
+.hero-content {
+  text-align: center;
+  align-items: center;
+}
+
+.hero-headline {
+  text-align: left;
+}
+
+.hero-headline-title {
+  white-space: normal;
+}
+
+.hero-subhead {
+  margin-left: 0;
+  margin-right: auto;
+  text-align: left;
+}
+
+.hero-metrics {
+  justify-content: center;
+}
+
 .hero-metric-card {
   border: none;
   border-radius: 0;
   background: transparent;
+  justify-content: flex-start;
+  text-align: left;
 }
 
 .hero-metric-icon {
   color: var(--accent-cyan);
+}
+
+.hero-cta-row {
+  align-items: center;
+  justify-content: center;
+}
+
+@media (orientation: portrait) and (max-width: 1024px) {
+  .hero-content {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .hero-headline {
+    text-align: left;
+  }
+
+  .hero-headline-title {
+    white-space: normal;
+  }
+
+  .hero-subhead {
+    margin-left: 0;
+    margin-right: auto;
+    text-align: left;
+  }
+
+  .hero-metrics {
+    justify-content: flex-start;
+  }
+
+  .hero-metric-card {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .hero-cta-row {
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .hero-cta-row > a {
+    width: 100%;
+  }
 }
 
 .hero-text-highlight {
