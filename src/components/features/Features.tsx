@@ -30,13 +30,13 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="w-full px-6 py-12 bg-surface-950">
+    <section className="w-full px-6 py-16 bg-surface-950">
       <div className="mx-auto flex max-w-6xl flex-col gap-8">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-          <h2 className="font-display text-display-md md:text-display-lg font-bold leading-tight tracking-tight text-text-primary md:whitespace-nowrap">
-            Why Nova Echo Leads the Voice AI Evolution
+          <h2 className="font-display text-display-md lg:text-display-lg lg:whitespace-nowrap font-bold leading-tight tracking-tight text-text-primary">
+            Why Nova Echo Leads the <span className="hero-text-highlight">Voice AI Platform</span>
           </h2>
-          <p className="mt-3 max-w-2xl text-body-sm md:text-body-md leading-relaxed text-text-secondary md:whitespace-nowrap">
+          <p className="mt-3 max-w-2xl text-body-sm lg:text-body-md lg:max-w-none lg:whitespace-nowrap leading-relaxed text-text-secondary">
             Pioneer of conversational intelligence since 2023, delivering human-like voice employees at scale.
           </p>
         </div>
@@ -53,10 +53,10 @@ export default function Features() {
                 <div className="flex items-center justify-start">
                   <Icon className="text-accent-cyan" size={24} weight="duotone" />
                 </div>
-                <h3 className="font-bold text-[1rem] text-text-primary">
+                <h3 className="font-bold text-body-md text-text-primary">
                   {feature.title}
                 </h3>
-                <p className="text-[0.875rem] leading-relaxed text-text-secondary">
+                <p className="text-body-sm leading-relaxed text-text-secondary">
                   {feature.body}
                 </p>
               </article>
