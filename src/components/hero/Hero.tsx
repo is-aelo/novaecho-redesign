@@ -47,13 +47,13 @@ export default function Hero() {
           </p>
         </div>
 
-        <ul className="mt-5 flex max-w-[760px] flex-nowrap items-center justify-start gap-1 sm:justify-center sm:mt-6 sm:gap-2 lg:gap-3">
+        <ul className="mt-5 flex max-w-190 flex-nowrap items-center justify-start gap-1 sm:justify-center sm:mt-6 sm:gap-2 lg:gap-3">
           {metrics.map(({ icon: Icon, label }) => (
             <li
               key={label}
               className="hero-metric-card flex min-w-0 flex-1 items-center justify-start gap-2 px-1 py-3 text-left sm:justify-center sm:text-center sm:px-3"
             >
-              <span className="hero-metric-icon flex-shrink-0">
+              <span className="hero-metric-icon shrink-0">
                 <Icon size={16} weight="duotone" aria-hidden="true" />
               </span>
               <span className="whitespace-nowrap text-[10px] leading-none text-text-primary sm:text-body-sm">

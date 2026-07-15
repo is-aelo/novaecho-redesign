@@ -108,8 +108,20 @@ body-sm:     14px / 20px               — supporting text, captions
 caption:     12px / 16px               — labels, metadata
 ```
 
+## Responsive breakpoints
+
+Mobile-first. Desktop layout triggers at `lg:` (≥1024px) — not `md:`.
+
+Tablets and large-pocket devices use **mobile styling** even if their viewport exceeds 768px:
+- iPad (all models except Mini): 810–1024px → mobile
+- iPad Mini: 768px → desktop (first device at the `lg:` boundary)
+- Surface Duo: 571px folded → mobile
+- Android tablets, Fire tablets, Surface Go: up to 1024px → mobile
+
+Only true laptop/desktop screens (≥1024px) get desktop layout. When in doubt, keep it mobile.
+
 ## Spacing
-4px base scale: `4, 8, 12, 16, 24, 32, 48, 64, 96`. Nav height capped at 64px.
+4px base scale: `4, 8, 12, 16, 24, 32, 48, 64, 96, 180`. Nav height capped at 64px.
 
 ## Radius
 ```
