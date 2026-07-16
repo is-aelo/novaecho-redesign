@@ -39,22 +39,24 @@ export default function Footer() {
           </p>
 
           <div className="flex items-center gap-4">
-            <div className="flex h-7 w-auto items-center">
+            <div className="flex h-7 w-28 items-center justify-center">
               <Image
                 src="/images/companies-trusted/imgi_16_Nova Echo Top Sales Software Tekpon Award.png"
                 alt="Top Lead Generation Software"
                 width={110}
                 height={28}
-                className="h-full w-auto object-contain"
+                style={{ width: "auto", height: "auto" }}
+                className="max-h-full max-w-full object-contain"
               />
             </div>
-            <div className="flex h-7 w-auto items-center">
+            <div className="flex h-7 w-28 items-center justify-center">
               <Image
                 src="/images/companies-trusted/imgi_18_HIPAA Complaint Banner (1).png"
                 alt="HIPAA Compliant"
                 width={110}
                 height={28}
-                className="h-full w-auto object-contain"
+                style={{ width: "auto", height: "auto" }}
+                className="max-h-full max-w-full object-contain"
               />
             </div>
           </div>

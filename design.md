@@ -434,6 +434,54 @@ cta-hover:         scale 1→1.02, glow opacity 0→1, --dur-fast
 call-trace-bars:   waveform bars grow from 0 height on scroll into view, stagger 40ms
 ```
 
+## ROI Calculator Modal
+
+Full-screen modal overlay triggered by "Calculate ROI" buttons in the Agents section. Dark theme matching the hero, with an 8-field input form on the left and calculated results on the right.
+
+```
+Background:       --surface-950
+Overlay:          bg-black/60 backdrop-blur-sm
+Panel:            max-w-4xl, border --surface-800, padding p-6 → lg:p-8
+Title:            display-md, font-display, bold, --text-primary — dynamically shows agent name
+Subtext:          body-sm, --text-secondary
+
+Input section:
+  Label:          caption, medium, --text-secondary at 60% opacity
+  Input border:   1px --surface-800, focus-within --accent-cyan, rounded-sm
+  Input fill:     transparent
+  Input text:     body-sm, font-mono, --text-primary
+  Input placeholders: "e.g., 200", etc.
+  Fields:         totalCalls, missedCalls, holdCalls, closeRate, ticketValue,
+                  receptionistCost, hoursSpent, hourlyRate
+  Calculate CTA:  btn-primary, full width, disabled (opacity-40) until all fields filled
+
+Results section:
+  Empty state:    dashed border --surface-800, centered prompt text
+  Result rows:    border-b --surface-800/60, font-mono values, accent-cyan for key figures
+  Breakdown:      caption-size, --text-secondary at 40% opacity labels
+
+Plan recommendation:
+  Total < $500      → Nova Light ($99/mo)
+  Total $500–$1999  → Nova Super ($333/mo)
+  Total ≥ $2000     → Nova Hyper ($1,299/mo)
+
+Calculation:
+  recoveredMissedRevenue  = missedCalls × (closeRate/100) × ticketValue
+  recoveredHoldRevenue    = holdCalls × (closeRate/100) × ticketValue
+  revenueBenefit          = recoveredMissed + recoveredHold
+  costSavings             = receptionistCost
+  timeValue               = hoursSpent × hourlyRate
+  totalMonthlyBenefit     = revenueBenefit + costSavings + timeValue
+  netMonthlyROI           = totalMonthlyBenefit − planCost
+  roiPercentage           = (netMonthlyROI / planCost) × 100
+  annualImpact            = netMonthlyROI × 12
+
+Modal entrance:  GSAP scale 0.97→1, y 24→0, opacity 0→1, power3.out, 0.4s
+Overlay:         GSAP opacity 0→1, power2.out, 0.3s
+```
+
+## Motion (GSAP)
+
 ### Hard rules
 - Animate only `transform` and `opacity` for performance. Never animate `box-shadow` blur directly — crossfade a pre-blurred glow element's opacity instead.
 - Respect `prefers-reduced-motion`: disable scroll-reveal stagger and hero-entrance, keep only essential state changes (hover feedback can stay, minimal).

@@ -1,9 +1,12 @@
+"use client";
+
 import {
   UserCircle,
   Rocket,
   Phone,
   ArrowRight,
 } from "@phosphor-icons/react/ssr";
+import { useRoiModal } from "@/contexts/RoiContext";
 
 const agents = [
   {
@@ -24,6 +27,8 @@ const agents = [
 ];
 
 export default function Agents() {
+  const { openRoi } = useRoiModal();
+
   return (
     <section id="solutions" className="w-full px-6 py-16 bg-surface-50 scroll-mt-16">
       <div className="mx-auto flex max-w-6xl flex-col">
@@ -54,13 +59,13 @@ export default function Agents() {
                 <p className="text-body-sm leading-relaxed text-text-secondary-light">
                   {agent.body}
                 </p>
-                <a
-                  href="#"
+                <button
+                  onClick={() => openRoi(agent.title)}
                   className="mt-auto inline-flex items-center gap-2 text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-cyan"
                 >
                   Calculate ROI
                   <ArrowRight size={16} weight="bold" />
-                </a>
+                </button>
               </article>
             );
           })}

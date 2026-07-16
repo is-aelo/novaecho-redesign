@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { List, X } from "@phosphor-icons/react";
+import gsap from "gsap";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 
 const links = [
@@ -16,7 +17,95 @@ const OFFSET = 64;
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("");
   const scrollTo = useSmoothScroll(OFFSET);
+  const menuRef = useRef<HTMLElement>(null);
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    const ids = links.map((l) => l.href.replace("#", ""));
+    const els = ids.map((id) => document.getElementById(id)).filter(Boolean);
+    if (els.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible.length > 0) {
+          setActive(`#${visible[0].target.id}`);
+        }
+      },
+      { rootMargin: `-${OFFSET + 24}px 0px -40% 0px` }
+    );
+
+    els.forEach((el) => observer.observe(el!));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const menu = menuRef.current;
+    if (!menu) return;
+
+    if (!initialized.current) {
+      initialized.current = true;
+      gsap.set(menu, { display: "none" });
+      return;
+    }
+
+    if (open) {
+      gsap.set(menu, { display: "flex" });
+      gsap.fromTo(
+        menu,
+        { opacity: 0, y: -10, scaleY: 0.96, transformOrigin: "top center" },
+        {
+          opacity: 1,
+          y: 0,
+          scaleY: 1,
+          duration: 0.5,
+          ease: "power4.out",
+        }
+      );
+      gsap.fromTo(
+        menu.querySelectorAll("[data-nav-item]"),
+        { opacity: 0, y: -8 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+          stagger: 0.07,
+          ease: "power3.out",
+        }
+      );
+    } else {
+      gsap.to(menu.querySelectorAll("[data-nav-item]"), {
+        opacity: 0,
+        y: -6,
+        duration: 0.2,
+        ease: "power2.in",
+      });
+      gsap.to(menu, {
+        opacity: 0,
+        y: -8,
+        scaleY: 0.96,
+        duration: 0.25,
+        ease: "power2.in",
+        delay: 0.15,
+        transformOrigin: "top center",
+        onComplete: () => gsap.set(menu, { display: "none" }),
+      });
+    }
+  }, [open]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    function handle(e: MediaQueryListEvent | MediaQueryList) {
+      if (e.matches) setOpen(false);
+    }
+    handle(mq);
+    mq.addEventListener("change", handle);
+    return () => mq.removeEventListener("change", handle);
+  }, []);
 
   function handleNav(href: string, e: React.MouseEvent<HTMLAnchorElement>) {
     scrollTo(href, e);
@@ -25,85 +114,83 @@ export default function Nav() {
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-center px-4 py-3">
-      <div className="flex w-full max-w-5xl items-center justify-between rounded-xl bg-white/70 px-5 py-2.5 backdrop-blur-xl shadow-sm border border-white/20">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setOpen((prev) => !prev)}
-            className="flex md:hidden items-center justify-center text-text-primary-light"
-            aria-label={open ? "Close menu" : "Open menu"}
-          >
-            {open ? <X size={22} weight="bold" /> : <List size={22} weight="bold" />}
-          </button>
-
-          <a href="/" className="flex items-center gap-2.5">
-            <Image
-              src="/images/novaecho-logo.png"
-              alt="Nova Echo logo"
-              width={28}
-              height={28}
-              style={{ width: "auto", height: "auto" }}
-              priority
-            />
-            <span className="hidden md:inline font-display text-[15px] font-semibold tracking-tight text-text-primary-light">
-              Nova Echo
-            </span>
-          </a>
-        </div>
-
-        <nav className="hidden md:flex items-center gap-8">
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-[14px] font-medium text-text-secondary-light transition-colors hover:text-accent-cyan"
-              onClick={(e) => scrollTo(link.href, e)}
+      <div className="relative flex w-full max-w-5xl rounded-xl bg-white shadow-sm border border-surface-200">
+        <div className="flex w-full items-center justify-between px-5 py-2.5">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setOpen((prev) => !prev)}
+              className="flex md:hidden items-center justify-center text-text-primary-light"
+              aria-label={open ? "Close menu" : "Open menu"}
             >
-              {link.label}
+              {open ? <X size={22} weight="bold" /> : <List size={22} weight="bold" />}
+            </button>
+
+            <a href="/" className="flex items-center gap-2.5">
+              <Image
+                src="/images/novaecho-logo.png"
+                alt="Nova Echo logo"
+                width={28}
+                height={28}
+                style={{ width: "auto", height: "auto" }}
+                priority
+              />
+              <span className="hidden md:inline font-display text-[15px] font-semibold tracking-tight text-text-primary-light">
+                Nova Echo
+              </span>
             </a>
-          ))}
-        </nav>
+          </div>
 
-        <a href="#book-call" className="btn-primary header-cta hidden md:inline-flex">
-          Book Discovery Call
-        </a>
-      </div>
-
-      {open && (
-        <div className="fixed inset-0 top-0 z-40 md:hidden" onClick={() => setOpen(false)}>
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
-          <nav
-            className="absolute top-[72px] left-4 right-4 flex flex-col gap-1 rounded-xl bg-white/90 px-4 py-4 backdrop-blur-xl shadow-sm border border-white/20"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-end">
-              <button
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-center text-text-secondary-light"
-                aria-label="Close menu"
-              >
-                <X size={20} weight="bold" />
-              </button>
-            </div>
+          <nav className="hidden md:flex items-center gap-8">
             {links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="rounded-sm px-4 py-3 text-body-sm font-medium text-text-secondary-light transition-colors hover:bg-surface-100 hover:text-accent-cyan"
-                onClick={(e) => handleNav(link.href, e)}
+                className={`text-[14px] font-medium transition-colors hover:text-accent-cyan ${
+                  active === link.href
+                    ? "text-accent-magenta"
+                    : "text-text-secondary-light"
+                }`}
+                onClick={(e) => scrollTo(link.href, e)}
               >
                 {link.label}
               </a>
             ))}
-            <a
-              href="#book-call"
-              className="btn-primary mt-2 self-start"
-              onClick={(e) => { scrollTo("#book-call", e); setOpen(false); }}
-            >
-              Book Discovery Call
-            </a>
           </nav>
+
+          <a href="#book-call" className="btn-primary header-cta hidden md:inline-flex">
+            Book Discovery Call
+          </a>
         </div>
-      )}
+
+        <nav
+          ref={menuRef}
+          className="absolute left-0 right-0 top-full mt-1 flex-col gap-1 rounded-xl bg-white px-5 py-4 shadow-sm border border-surface-200 md:hidden"
+        >
+          {links.map((link) => (
+            <a
+              key={link.href}
+              data-nav-item
+              href={link.href}
+              className={`rounded-sm px-4 py-3 text-body-sm font-medium transition-colors hover:bg-surface-100 hover:text-accent-cyan ${
+                active === link.href
+                  ? "text-accent-magenta bg-accent-magenta/5"
+                  : "text-text-secondary-light"
+              }`}
+              onClick={(e) => handleNav(link.href, e)}
+            >
+              {link.label}
+            </a>
+          ))}
+          <a
+            data-nav-item
+            href="#book-call"
+            className="btn-primary mt-2 self-start"
+            onClick={(e) => { scrollTo("#book-call", e); setOpen(false); }}
+          >
+            Book Discovery Call
+          </a>
+        </nav>
+      </div>
     </header>
   );
 }

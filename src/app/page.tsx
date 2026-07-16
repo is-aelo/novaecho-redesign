@@ -9,10 +9,11 @@ import Demo from "@/components/demo/Demo";
 import Footer from "@/components/footer/Footer";
 import Partners from "@/components/partners/Partners";
 import Stories from "@/components/stories/Stories";
+import RoiWrapper from "@/components/roi/RoiWrapper";
 
 export default function Home() {
   return (
-    <>
+    <RoiWrapper>
       <Nav />
       <Hero />
       <Trusted />
@@ -25,6 +26,6 @@ export default function Home() {
       <Demo />
       <Footer />
       <main className="flex-1" />
-    </>
+    </RoiWrapper>
   );
 }
