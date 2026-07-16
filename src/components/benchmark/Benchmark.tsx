@@ -112,7 +112,7 @@ export default function Benchmark() {
                   <th
                     key={header}
                     className={`px-4 py-4 text-left text-body-sm font-semibold tracking-wider uppercase ${
-                      i === 1
+                      i === 0 || i === 1
                         ? "text-text-primary-light border-b-2"
                         : "text-text-secondary-light/60 border-b border-surface-200"
                     } ${i === 1 ? "benchmark-nova-header" : ""}`}
@@ -125,7 +125,7 @@ export default function Benchmark() {
             <tbody>
               {rows.map((row) => (
                 <tr key={row.feature} className="border-b border-surface-200/80">
-                  <td className="px-4 py-4 text-body-sm font-medium text-surface-700">
+                  <td className="px-4 py-4 text-body-sm font-medium text-text-primary-light">
                     {row.feature}
                   </td>
                   <td className="px-4 py-4 text-body-sm font-medium text-accent-purple bg-accent-sky/6">
@@ -145,31 +145,31 @@ export default function Benchmark() {
           <div className="flex flex-col divide-y divide-surface-200/80 lg:hidden">
             {visibleRows.map((row) => (
               <div key={row.feature} className="py-4">
-                <p className="text-caption font-semibold uppercase tracking-wider text-surface-700">
+                <p className="text-caption font-semibold uppercase tracking-wider text-text-primary-light">
                   {row.feature}
                 </p>
-                <div className="mt-2 flex flex-col gap-1">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-caption font-medium text-surface-700 w-20 shrink-0">
+                <div className="mt-2 flex flex-col gap-1.5">
+                  <div className="flex items-baseline justify-between gap-2 -mx-6 px-6 py-1.5 bg-accent-sky/6">
+                    <span className="text-caption font-medium text-text-primary-light shrink-0">
                       Nova Echo AI
                     </span>
-                    <span className="text-body-sm font-medium text-accent-purple">
+                    <span className="text-body-sm font-medium text-accent-purple text-right">
                       {row.nova}
                     </span>
                   </div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-caption font-medium text-text-secondary-light/40 w-20 shrink-0">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="text-caption font-medium text-text-secondary-light/40 shrink-0">
                       Competitors
                     </span>
-                    <span className="text-body-sm text-text-secondary-light/60">
+                    <span className="text-body-sm text-text-secondary-light/60 text-right">
                       {row.comp}
                     </span>
                   </div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-caption font-medium text-text-secondary-light/40 w-20 shrink-0">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="text-caption font-medium text-text-secondary-light/40 shrink-0">
                       Humans
                     </span>
-                    <span className="text-body-sm text-text-secondary-light/60">
+                    <span className="text-body-sm text-text-secondary-light/60 text-right">
                       {row.human}
                     </span>
                   </div>
@@ -179,7 +179,7 @@ export default function Benchmark() {
             {rows.length > INITIAL_VISIBLE && (
               <button
                 onClick={() => setShowAll(!showAll)}
-                className="flex items-center justify-center gap-2 py-4 text-body-sm font-medium text-accent-purple transition-colors hover:text-accent-magenta"
+                className="flex items-center justify-center gap-2 py-4 text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-cyan"
               >
                 {showAll ? "Show less" : `Show all (${rows.length} comparisons)`}
                 <CaretDown

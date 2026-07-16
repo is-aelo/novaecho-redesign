@@ -357,6 +357,58 @@ Gap subtext:      mt-5 / lg:mt-6 (per section pattern)
 Card padding:     p-8
 ```
 
+## Demo / Book-a-Call section
+
+Light section (`--surface-50`) with a two-column responsive layout. Placed last on the page. Left column has the headline and subtext; right column has a form card on a light surface with thin, sharp borders.
+
+```
+Background:       --surface-50
+Layout:           flex-col → lg:flex-row, gap-12 → lg:gap-16
+Headline:         display-md → display-lg, font-display, bold, --text-primary-light
+Subtext:          body-sm → body-md, max-w-lg, --text-secondary-light
+Gap subtext:      mt-4
+
+Form card:
+  Fill:           --surface-100
+  Border:         1px solid --surface-200
+  Padding:        p-6 → lg:p-8
+  Width:          full → lg:max-w-lg
+
+Form label:       caption, uppercase, tracking-wider, --text-secondary-light at 60% opacity
+Input border:     1px solid --surface-200, focus-within transitions to --accent-cyan
+Input fill:       transparent
+Input text:       body-sm, font-mono, --text-primary-light
+Input placeholder:--text-secondary-light at 30% opacity
+Input padding:    px-3 py-2.5
+
+Voice dropdown:
+  Trigger:        same border/typography as inputs, chevron icon rotates on open
+  Panel:          absolute, top-full, mt-1, --surface-100, 1px --surface-200 border
+  Item:           px-3 py-2.5, hover --surface-200, selected item shows Check icon in --accent-cyan
+  Outside click:  closes via mousedown listener
+
+Submit CTA:       btn-primary class, full width on mobile (w-full)
+```
+
+## Footer
+
+Dark section (`--surface-950`) matching the hero background. Two-column layout with logo + badges on the left and contact details on the right.
+
+```
+Background:       --surface-950
+Layout:           flex-col → lg:flex-row, gap-10 → lg:gap-24
+Padding:          py-12 → lg:py-16
+
+Logo row:         novaecho-logo.png (28px) + font-display 15px semibold "Nova Echo AI"
+Badges:           28px height, object-contain
+  Top Lead Gen:   imgi_16_Nova Echo Top Sales Software Tekpon Award.png
+  HIPAA:          imgi_18_HIPAA Complaint Banner (1).png
+
+Contact heading:  body-md, font-display, semibold, --text-primary
+Contact items:    body-sm, --text-secondary, hover --accent-cyan links
+Address:          <address> not-italic, line breaks via <br>
+```
+
 ## Motion (GSAP)
 
 ### Durations

@@ -7,6 +7,7 @@ import {
 } from "@phosphor-icons/react";
 import HeroBackground from "./HeroBackground";
 import useHeroEntrance from "./useHeroEntrance";
+import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 
 const metrics = [
   {
@@ -25,11 +26,12 @@ const metrics = [
 
 export default function Hero() {
   const { containerRef, headlineRef, subheadRef, ctaRef } = useHeroEntrance();
+  const scrollTo = useSmoothScroll();
 
   return (
     <section
       ref={containerRef}
-      className="relative flex items-center justify-center overflow-hidden px-4 py-16 lg:px-6 lg:py-24"
+      className="relative flex items-center justify-center overflow-hidden px-4 py-20 lg:px-6 lg:py-24"
     >
       <HeroBackground />
 
@@ -67,7 +69,7 @@ export default function Hero() {
           <a href="#book-call" className="btn-primary flex-1 whitespace-nowrap lg:flex-none">
             Receive AI Call Now
           </a>
-          <a href="#platform" className="btn-secondary flex-1 whitespace-nowrap lg:flex-none">
+          <a href="#pricing" className="btn-secondary flex-1 whitespace-nowrap lg:flex-none" onClick={(e) => scrollTo("#pricing", e)}>
             See Plans
           </a>
         </div>

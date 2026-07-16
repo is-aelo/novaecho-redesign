@@ -5,6 +5,8 @@ import Trusted from "@/components/trusted/Trusted";
 import Agents from "@/components/agents/Agents";
 import Benchmark from "@/components/benchmark/Benchmark";
 import Pricing from "@/components/pricing/Pricing";
+import Demo from "@/components/demo/Demo";
+import Footer from "@/components/footer/Footer";
 import Partners from "@/components/partners/Partners";
 import Stories from "@/components/stories/Stories";
 
@@ -13,13 +15,15 @@ export default function Home() {
     <>
       <Nav />
       <Hero />
-      <Features />
       <Trusted />
+      <Features />
       <Agents />
       <Benchmark />
       <Pricing />
       <Partners />
       <Stories />
+      <Demo />
+      <Footer />
       <main className="flex-1" />
     </>
   );

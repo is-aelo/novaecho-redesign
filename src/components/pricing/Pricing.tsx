@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { CheckCircle, CaretDown } from "@phosphor-icons/react/ssr";
+import gsap from "gsap";
 
 const plans = [
   {
@@ -76,12 +77,64 @@ const INITIAL_FEATURES = 4;
 
 export default function Pricing() {
   const [expandedPlans, setExpandedPlans] = useState<string[]>([]);
+  const initialized = useRef(false);
 
   const toggleFeatures = (name: string) => {
     setExpandedPlans((prev) =>
       prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]
     );
   };
+
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      if (!window.matchMedia("(min-width: 1024px)").matches) {
+        gsap.set("[data-toggle]", {
+          opacity: 0,
+          height: 0,
+          marginTop: 0,
+          marginBottom: 0,
+          y: -4,
+          overflow: "hidden",
+        });
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    document.querySelectorAll<HTMLElement>("[data-plan]").forEach((card) => {
+      const name = card.getAttribute("data-plan");
+      if (!name) return;
+      const isExpanded = expandedPlans.includes(name);
+      const toggles = card.querySelectorAll<HTMLElement>("[data-toggle]");
+      if (isExpanded) {
+        gsap.to(toggles, {
+          opacity: 1,
+          height: "auto",
+          marginTop: 0,
+          marginBottom: 0,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.05,
+          ease: "power3.out",
+          clearProps: "overflow",
+        });
+      } else {
+        gsap.to(toggles, {
+          opacity: 0,
+          height: 0,
+          marginTop: 0,
+          marginBottom: 0,
+          y: -4,
+          overflow: "hidden",
+          duration: 0.3,
+          ease: "power2.in",
+        });
+      }
+    });
+  }, [expandedPlans]);
+
   return (
     <section id="pricing" className="w-full bg-surface-50 px-6 py-16 scroll-mt-16">
       <div className="mx-auto flex max-w-6xl flex-col">
@@ -98,6 +151,7 @@ export default function Pricing() {
           {plans.map((plan) => (
             <article
               key={plan.name}
+              data-plan={plan.name}
               className={`relative flex h-full flex-col border text-left ${
                 plan.popular
                   ? "border-accent-cyan/40 bg-surface-950 shadow-glow py-10 px-8"
@@ -164,11 +218,8 @@ export default function Pricing() {
                   {plan.features.map((feature, i) => (
                     <li
                       key={feature}
-                      className={`flex items-start gap-2 text-caption ${
-                        i >= INITIAL_FEATURES && !expandedPlans.includes(plan.name)
-                          ? "hidden lg:flex"
-                          : ""
-                      }`}
+                      {...(i >= INITIAL_FEATURES ? { "data-toggle": "" } : {})}
+                      className="flex items-start gap-2 text-caption lg:flex"
                     >
                       <CheckCircle size={14} weight="fill" className="mt-0.5 shrink-0 text-accent-cyan" />
                       {feature}
@@ -178,7 +229,7 @@ export default function Pricing() {
                 {plan.features.length > INITIAL_FEATURES && (
                   <button
                     onClick={() => toggleFeatures(plan.name)}
-                    className="mt-2 flex items-center gap-1 text-caption font-medium text-accent-cyan transition-colors hover:text-accent-sky lg:hidden"
+                    className="mt-2 self-center flex items-center justify-center gap-1 text-caption font-medium text-accent-cyan transition-colors hover:text-accent-sky lg:hidden"
                   >
                     {expandedPlans.includes(plan.name)
                       ? "Show less"
