@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import {
   FacebookLogo,
   XLogo,
@@ -16,6 +19,8 @@ const socials = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+
   return (
     <footer className="w-full bg-surface-950 px-6 py-12 lg:py-16">
       <div className="mx-auto flex max-w-6xl flex-col gap-10 lg:flex-row lg:justify-between">
@@ -38,27 +43,21 @@ export default function Footer() {
             The #1 platform to train, manage, deploy, scale, and monitor hyper human-like voice AI employees.
           </p>
 
-          <div className="flex items-center gap-4">
-            <div className="flex h-7 w-28 items-center justify-center">
-              <Image
-                src="/images/companies-trusted/imgi_16_Nova Echo Top Sales Software Tekpon Award.png"
-                alt="Top Lead Generation Software"
-                width={110}
-                height={28}
-                style={{ width: "auto", height: "auto" }}
-                className="max-h-full max-w-full object-contain"
-              />
-            </div>
-            <div className="flex h-7 w-28 items-center justify-center">
-              <Image
-                src="/images/companies-trusted/imgi_18_HIPAA Complaint Banner (1).png"
-                alt="HIPAA Compliant"
-                width={110}
-                height={28}
-                style={{ width: "auto", height: "auto" }}
-                className="max-h-full max-w-full object-contain"
-              />
-            </div>
+          <div className="flex items-center gap-3">
+            <Image
+              src="/images/companies-trusted/imgi_16_Nova Echo Top Sales Software Tekpon Award.png"
+              alt="Top Lead Generation Software"
+              width={110}
+              height={28}
+              className="h-7 w-auto"
+            />
+            <Image
+              src="/images/companies-trusted/imgi_18_HIPAA Complaint Banner (1).png"
+              alt="HIPAA Compliant"
+              width={110}
+              height={28}
+              className="h-7 w-auto"
+            />
           </div>
 
           <div className="flex items-center gap-3">
@@ -74,6 +73,38 @@ export default function Footer() {
                 <Icon size={20} weight="fill" />
               </a>
             ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <h3 className="font-display text-body-md font-semibold text-text-primary">
+            Docs
+          </h3>
+          <div className="flex flex-col gap-2 text-body-sm text-text-secondary leading-relaxed">
+            <a
+              href="/results"
+              className={`transition-colors hover:text-accent-cyan ${pathname === "/results" ? "text-accent-cyan" : ""}`}
+            >
+              Results & Stories
+            </a>
+            <a
+              href="/api-docs"
+              className={`transition-colors hover:text-accent-cyan ${pathname === "/api-docs" ? "text-accent-cyan" : ""}`}
+            >
+              API Documentation
+            </a>
+            <a
+              href="/privacy"
+              className={`transition-colors hover:text-accent-cyan ${pathname === "/privacy" ? "text-accent-cyan" : ""}`}
+            >
+              Privacy Policy
+            </a>
+            <a
+              href="/terms"
+              className={`transition-colors hover:text-accent-cyan ${pathname === "/terms" ? "text-accent-cyan" : ""}`}
+            >
+              Terms of Service
+            </a>
           </div>
         </div>
 

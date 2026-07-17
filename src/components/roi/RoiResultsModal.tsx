@@ -57,11 +57,11 @@ export default function RoiResultsModal() {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 items-center justify-center bg-black/60 backdrop-blur-sm px-4 py-8"
+      className="fixed inset-0 z-50 items-center justify-center bg-black/60 backdrop-blur-sm px-4 py-8 hidden"
     >
       <div
         ref={panelRef}
-        className="relative w-full max-w-lg max-h-full overflow-y-auto bg-surface-950 border border-surface-800"
+        className="relative w-full max-w-lg max-h-full overflow-y-auto bg-surface-950 border border-surface-800 hidden"
       >
         <div className="sticky top-0 z-10 flex items-center justify-between bg-surface-950/90 backdrop-blur-md px-6 py-4 border-b border-surface-800">
           <div>
