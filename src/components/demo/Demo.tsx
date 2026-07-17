@@ -59,7 +59,7 @@ export default function Demo() {
           </p>
         </div>
 
-        <div className="w-full border border-surface-700/50 bg-surface-100 p-6 lg:max-w-lg lg:p-8">
+        <div className="w-full border border-surface-700/50 bg-surface-100 rounded-md p-6 lg:max-w-lg lg:p-8">
           <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
             <label className="flex flex-col gap-2">
               <span className="text-caption font-semibold uppercase tracking-wider text-text-secondary-light">
@@ -143,7 +143,7 @@ export default function Demo() {
                 />
               </button>
               {voiceOpen && (
-                <div className="absolute left-0 right-0 bottom-full z-10 mb-1 border border-surface-200 bg-surface-100">
+                <div className="absolute left-0 right-0 bottom-full z-10 mb-1 border border-surface-200 bg-surface-100 rounded-sm">
                   {voices.map((v) => (
                     <button
                       key={v.value}

@@ -11,7 +11,7 @@ export default function ApiDocs() {
     <section className="w-full bg-surface-50 px-6 py-16">
       <div className="mx-auto flex max-w-6xl flex-col">
         <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
-          <span className="inline-block px-4 py-1 text-caption font-bold uppercase tracking-widest text-accent-cyan bg-surface-50 border border-accent-cyan/40 mb-6">
+          <span className="inline-block px-4 py-1 text-caption font-bold uppercase tracking-widest text-accent-cyan bg-surface-50 border border-accent-cyan/40 mb-6 rounded-sm">
             Coming Soon
           </span>
 
@@ -31,7 +31,7 @@ export default function ApiDocs() {
             return (
               <article
                 key={f.title}
-                className="flex flex-col gap-3 border border-surface-200 bg-surface-100 p-8 text-left min-h-45"
+                className="flex flex-col gap-3 border border-surface-200 bg-surface-100 rounded-md p-8 text-left min-h-45"
               >
                 <div className="flex items-center justify-start">
                   <Icon className="text-accent-cyan" size={24} weight="duotone" />

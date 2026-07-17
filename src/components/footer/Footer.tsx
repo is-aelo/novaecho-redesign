@@ -50,6 +50,7 @@ export default function Footer() {
               width={110}
               height={28}
               className="h-7 w-auto"
+              style={{ width: "auto" }}
             />
             <Image
               src="/images/companies-trusted/imgi_18_HIPAA Complaint Banner (1).png"
@@ -57,6 +58,7 @@ export default function Footer() {
               width={110}
               height={28}
               className="h-7 w-auto"
+              style={{ width: "auto" }}
             />
           </div>
 

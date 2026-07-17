@@ -34,7 +34,7 @@ export default function Stories() {
           {stories.map((s) => (
             <article
               key={s.author}
-              className="flex flex-col border border-surface-200 bg-surface-100 p-8 text-left"
+              className="flex flex-col border border-surface-200 bg-surface-100 rounded-md p-8 text-left"
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-cyan/10 text-body-sm font-bold text-accent-cyan">
@@ -73,7 +73,7 @@ export default function Stories() {
 
         <a
           href="/results"
-          className="mt-8 self-center border border-surface-700/30 px-6 py-2.5 text-body-sm font-semibold text-text-primary-light transition-all hover:border-surface-700/60"
+          className="mt-8 self-center border border-surface-700/30 px-6 py-2.5 text-body-sm font-semibold text-text-primary-light transition-all hover:border-surface-700/60 rounded-sm"
         >
           Show all stories
         </a>

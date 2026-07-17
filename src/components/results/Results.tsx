@@ -91,7 +91,7 @@ export default function Results() {
           {stories.map((s) => (
             <article
               key={s.author}
-              className="flex flex-col border border-surface-200 bg-surface-100 p-8 text-left"
+              className="flex flex-col border border-surface-200 bg-surface-100 rounded-md p-8 text-left"
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-cyan/10 text-body-sm font-bold text-accent-cyan">

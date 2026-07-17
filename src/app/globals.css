@@ -305,4 +305,40 @@ a, button {
   background-position: bottom;
 }
 
+.modal-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--surface-800);
+  border-radius: 3px;
+  transition: background var(--dur-fast) ease-out;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-cyan);
+}
+
+@supports (scrollbar-color: auto) {
+  .modal-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface-800) transparent;
+  }
+
+  .modal-scrollbar:hover {
+    scrollbar-color: var(--accent-cyan) transparent;
+  }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .modal-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface-800) transparent;
+  }
+}
+
 

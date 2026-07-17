@@ -48,7 +48,7 @@ export default function Features() {
             return (
               <article
                 key={feature.title}
-                className="border border-surface-200 bg-surface-100 p-8 flex flex-col gap-3 min-h-45 text-left"
+                className="border border-surface-200 bg-surface-100 rounded-md p-8 flex flex-col gap-3 min-h-45 text-left"
               >
                 <div className="flex items-center justify-start">
                   <Icon className="text-accent-cyan" size={24} weight="duotone" />

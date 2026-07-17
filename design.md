@@ -135,9 +135,9 @@ The vertical gap between a section's subtext paragraph and its main content (car
 
 ## Radius
 ```
---radius-sm: 4px   (buttons, inputs)
---radius-md: 6px   (cards)
---radius-lg: 10px  (large panels)
+--radius-sm: 4px   (buttons, inputs, badges, dropdown panels)
+--radius-md: 6px   (cards, form panels)
+--radius-lg: 10px  (modal panels)
 ```
 
 ## Shadow
@@ -439,9 +439,10 @@ call-trace-bars:   waveform bars grow from 0 height on scroll into view, stagger
 Full-screen modal overlay triggered by "Calculate ROI" buttons in the Agents section. Dark theme matching the hero, with an 8-field input form on the left and calculated results on the right.
 
 ```
-Background:       --surface-950
+Background:       --surface-100 (matches section card bg), border --surface-200
 Overlay:          bg-black/60 backdrop-blur-sm
-Panel:            max-w-4xl, border --surface-800, padding p-6 → lg:p-8
+Panel:            max-w-4xl, padding p-6 → lg:p-8
+Text:             --text-primary-light / --text-secondary-light throughout
 Title:            display-md, font-display, bold, --text-primary — dynamically shows agent name
 Subtext:          body-sm, --text-secondary
 
@@ -453,6 +454,19 @@ Input section:
   Input placeholders: "e.g., 200", etc.
   Fields:         totalCalls, missedCalls, holdCalls, closeRate, ticketValue,
                   receptionistCost, hoursSpent, hourlyRate
+  Slider fields:  closeRate (0–100, step 1, default 25, unit %),
+                  hoursSpent (0–200, step 1, default 40),
+                  hourlyRate (0–500, step 5, default 100, unit $)
+  Slider track:   8px height, rounded-full, linear-gradient fill using
+                  interpolated magenta→hot-purple for the active portion
+                  and var(--surface-200) for the inactive portion (light bg)
+  Slider thumb:   20px diameter, rounded-full, shadow-glow
+                  Fill matches track active color via CSS variable
+  Slider value:   font-mono text-body-sm font-semibold text-accent-magenta tabular-nums
+                  Hover: scale-110
+                  Active: scale-90
+                  Focus-visible: 2px surface-950 ring + 4px accent-cyan ring via box-shadow
+                  Transitions: all, 150ms
   Calculate CTA:  btn-primary, full width, disabled (opacity-40) until all fields filled
 
 Results section:

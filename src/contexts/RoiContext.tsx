@@ -25,6 +25,9 @@ interface RoiContextValue {
   openResults: (calc: RoiCalculation) => void;
   closeResults: () => void;
   reopenRoi: () => void;
+
+  isTransitioning: boolean;
+  setTransitioning: (v: boolean) => void;
 }
 
 const RoiContext = createContext<RoiContextValue | null>(null);
@@ -32,9 +35,9 @@ const RoiContext = createContext<RoiContextValue | null>(null);
 export function RoiProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [agentType, setAgentType] = useState("");
-
   const [resultsOpen, setResultsOpen] = useState(false);
   const [results, setResults] = useState<RoiCalculation | null>(null);
+  const [isTransitioning, setTransitioning] = useState(false);
 
   function openRoi(type: string) {
     setAgentType(type);
@@ -61,7 +64,11 @@ export function RoiProvider({ children }: { children: ReactNode }) {
 
   return (
     <RoiContext.Provider
-      value={{ open, agentType, openRoi, closeRoi, resultsOpen, results, openResults, closeResults, reopenRoi }}
+      value={{
+        open, agentType, openRoi, closeRoi,
+        resultsOpen, results, openResults, closeResults, reopenRoi,
+        isTransitioning, setTransitioning,
+      }}
     >
       {children}
     </RoiContext.Provider>

@@ -152,14 +152,14 @@ export default function Pricing() {
             <article
               key={plan.name}
               data-plan={plan.name}
-              className={`relative flex h-full flex-col border text-left ${
+              className={`relative flex h-full flex-col border text-left rounded-md ${
                 plan.popular
-                  ? "border-accent-cyan/40 bg-surface-950 shadow-glow py-10 px-8"
-                  : "border-surface-700/80 bg-white p-8"
+                  ? "border-accent-cyan/30 bg-surface-950 shadow-glow py-10 px-8"
+                  : "border-surface-700/30 bg-white p-8"
               }`}
             >
               {plan.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-caption font-bold uppercase tracking-widest text-accent-cyan bg-surface-950 border border-accent-cyan/40">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-caption font-bold uppercase tracking-widest text-accent-cyan bg-surface-950 border border-accent-cyan/30 rounded-sm">
                   Popular
                 </span>
               )}
@@ -226,14 +226,14 @@ export default function Pricing() {
               {plan.popular ? (
                 <a href="#" className="mt-8 self-center whitespace-nowrap btn-primary">{plan.cta}</a>
               ) : (
-                <a href="#" className="mt-8 self-center whitespace-nowrap border border-surface-700/30 px-6 py-2.5 text-body-sm font-semibold text-text-primary-light transition-all hover:border-surface-700/60">{plan.cta}</a>
+                <a href="#" className="mt-8 self-center whitespace-nowrap border border-surface-700/30 px-6 py-2.5 text-body-sm font-semibold text-text-primary-light transition-all hover:border-surface-700/60 rounded-sm">{plan.cta}</a>
               )}
             </article>
           ))}
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
-          <article className="relative flex h-full flex-col border border-surface-700/80 bg-white p-8 text-left">
+          <article className="relative flex h-full flex-col border border-surface-700/30 bg-white rounded-md p-8 text-left">
             <p className="font-bold text-body-lg text-text-primary-light">Done For You Setup</p>
             <div className="mt-2 flex items-baseline gap-1">
               <span className="font-display text-display-lg font-bold leading-none text-text-primary-light">Custom Quote</span>
@@ -259,7 +259,7 @@ export default function Pricing() {
             </ul>
           </article>
 
-          <article className="relative flex h-full flex-col border border-surface-700/80 bg-white p-8 text-left">
+          <article className="relative flex h-full flex-col border border-surface-700/30 bg-white rounded-md p-8 text-left">
             <p className="font-bold text-body-lg text-text-primary-light">Nova Enterprise</p>
             <div className="mt-2 flex items-baseline gap-1">
               <span className="font-display text-display-lg font-bold leading-none text-text-primary-light">Custom Quote</span>

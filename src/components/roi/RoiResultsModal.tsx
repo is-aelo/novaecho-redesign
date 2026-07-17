@@ -7,7 +7,7 @@ import { useRoiModal } from "@/contexts/RoiContext";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 
 export default function RoiResultsModal() {
-  const { resultsOpen, results, closeResults, reopenRoi } = useRoiModal();
+  const { resultsOpen, results, closeResults, openRoi, agentType, setTransitioning } = useRoiModal();
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
@@ -16,8 +16,10 @@ export default function RoiResultsModal() {
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
-      gsap.set(panelRef.current, { opacity: 0, y: 20, scale: 0.97, display: "none" });
-      gsap.set(overlayRef.current, { opacity: 0, display: "none" });
+      if (panelRef.current && overlayRef.current) {
+        gsap.set(panelRef.current, { opacity: 0, y: 20, scale: 0.97, display: "none" });
+        gsap.set(overlayRef.current, { opacity: 0, display: "none" });
+      }
     }
   }, []);
 
@@ -61,20 +63,20 @@ export default function RoiResultsModal() {
     >
       <div
         ref={panelRef}
-        className="relative w-full max-w-lg max-h-full overflow-y-auto bg-surface-950 border border-surface-800 hidden"
+        className="relative w-full max-w-lg max-h-full overflow-y-auto bg-surface-100 border border-surface-200 rounded-lg hidden modal-scrollbar"
       >
-        <div className="sticky top-0 z-10 flex items-center justify-between bg-surface-950/90 backdrop-blur-md px-6 py-4 border-b border-surface-800">
+        <div className="sticky top-0 z-10 flex items-center justify-between bg-surface-100/90 backdrop-blur-md px-6 py-4 border-b border-surface-200">
           <div>
-            <h2 className="font-display text-display-sm font-bold text-text-primary">
+            <h2 className="font-display text-display-sm font-bold text-text-primary-light">
               Your ROI Results
             </h2>
-            <p className="mt-0.5 text-body-sm text-text-secondary">
+            <p className="mt-0.5 text-body-sm text-text-secondary-light">
               Based on the metrics you entered.
             </p>
           </div>
           <button
             onClick={closeResults}
-            className="flex h-8 w-8 items-center justify-center rounded-sm text-text-secondary transition-colors hover:bg-surface-800 hover:text-text-primary"
+            className="flex h-8 w-8 items-center justify-center rounded-sm text-text-secondary-light transition-colors hover:bg-surface-200 hover:text-text-primary-light"
             aria-label="Close"
           >
             <X size={18} weight="bold" />
@@ -82,7 +84,7 @@ export default function RoiResultsModal() {
         </div>
 
         <div className="p-6 flex flex-col gap-6">
-          <div className="rounded-sm bg-surface-900 border border-surface-800 p-5 flex flex-col gap-3">
+          <div className="rounded-sm bg-surface-50 border border-surface-200 p-5 flex flex-col gap-3">
             <ResultRow
               label="Total Monthly Benefit"
               value={`$${results.total.toLocaleString("en-US", { maximumFractionDigits: 0 })}`}
@@ -99,7 +101,7 @@ export default function RoiResultsModal() {
             />
           </div>
 
-          <div className="rounded-sm bg-surface-900 border border-surface-800 p-5 flex flex-col gap-3">
+          <div className="rounded-sm bg-surface-50 border border-surface-200 p-5 flex flex-col gap-3">
             <ResultRow
               label="Net Monthly ROI"
               value={`$${results.netRoi.toLocaleString("en-US", { maximumFractionDigits: 0 })}`}
@@ -115,9 +117,9 @@ export default function RoiResultsModal() {
             />
           </div>
 
-          <div className="rounded-sm bg-surface-900/50 border border-surface-800/60 p-4">
+          <div className="rounded-sm bg-surface-50/50 border border-surface-200/60 p-4">
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-caption font-semibold uppercase tracking-wider text-text-secondary/40">
+              <span className="text-caption font-semibold uppercase tracking-wider text-surface-700">
                 Breakdown
               </span>
             </div>
@@ -144,7 +146,17 @@ export default function RoiResultsModal() {
             >
               Book Discovery Call
             </button>
-            <button onClick={reopenRoi} className="btn-secondary w-full">
+            <button
+              onClick={() => {
+                closeResults();
+                setTransitioning(true);
+                setTimeout(() => {
+                  setTransitioning(false);
+                  openRoi(agentType);
+                }, 400);
+              }}
+              className="btn-secondary w-full"
+            >
               Return To ROI Calculator
             </button>
           </div>
@@ -165,10 +177,10 @@ function ResultRow({
 }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-body-sm text-text-secondary/60">{label}</span>
+      <span className="text-body-sm text-text-secondary-light/60">{label}</span>
       <span
         className={`font-mono text-body-sm font-semibold ${
-          accent ? "text-accent-cyan" : "text-text-primary"
+          accent ? "text-accent-cyan" : "text-text-primary-light"
         }`}
       >
         {value}
@@ -180,8 +192,8 @@ function ResultRow({
 function BreakdownRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-caption text-text-secondary/40">{label}</span>
-      <span className="font-mono text-caption text-text-secondary">{value}</span>
+      <span className="text-caption text-text-secondary-light/40">{label}</span>
+      <span className="font-mono text-caption text-text-secondary-light">{value}</span>
     </div>
   );
 }
