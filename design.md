@@ -75,6 +75,7 @@ The current site's problem isn't the colors, it's that cyan-to-sky is used as a 
   linear-gradient(135deg, #E61EAD 0%, #BA0FFF 40%, #7000FF 65%, #2C259A 88%, #1E3A8A 100%)
   5-stop linear blend at 135deg — magenta through hot purple into navy.
   Use: primary CTA default fill only. Hover state uses --gradient-accent-ring border + --shadow-glow instead.
+  Note: The cyan/sky accent appears on hover via the border ring (--gradient-accent-ring) and soft glow (--shadow-glow), not in the default fill — this avoids banding and keeps the hover reveal satisfying.
   Note: #BA0FFF and #2C259A are intermediate values not in the core brand palette — used only within this gradient.
 ```
 
