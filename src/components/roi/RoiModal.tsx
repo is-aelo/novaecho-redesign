@@ -68,7 +68,7 @@ function calcResults(values: Record<string, number>): RoiCalculation {
 }
 
 export default function RoiModal() {
-  const { open, agentType, closeRoi, openResults, setTransitioning } = useRoiModal();
+  const { open, agentType, closeRoi, openResults, setTransitioning, formResetKey } = useRoiModal();
   const [values, setValues] = useState<Record<string, string>>({});
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -117,6 +117,15 @@ export default function RoiModal() {
       });
     }
   }, [open]);
+
+  useEffect(() => {
+    if (formResetKey === 0) return;
+    const init: Record<string, string> = {};
+    for (const f of fields) {
+      if (f.type === "slider" && f.defaultVal !== undefined) init[f.key] = String(f.defaultVal);
+    }
+    setValues(init);
+  }, [formResetKey]);
 
   function update(key: string, val: string) {
     setValues((prev) => ({ ...prev, [key]: val }));

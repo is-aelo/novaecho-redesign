@@ -38,6 +38,7 @@ export default {
           'primary-light': 'var(--text-primary-on-light)',
           'secondary-light': 'var(--text-secondary-on-light)',
         },
+        navy: 'var(--navy)',
         accent: {
           cyan: 'var(--accent-cyan)',
           sky: 'var(--accent-sky)',

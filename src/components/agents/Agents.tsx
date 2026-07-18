@@ -48,20 +48,20 @@ export default function Agents() {
             return (
               <article
                 key={agent.title}
-                className="flex flex-col gap-3 border border-surface-200 bg-surface-100 rounded-md p-8 text-left min-h-45"
+                className="flex flex-col gap-3 border border-surface-200 bg-surface-100 rounded-md p-6 md:p-8 text-left min-h-45"
               >
                 <div className="flex items-center justify-start">
                   <Icon className="text-accent-cyan" size={24} weight="duotone" />
                 </div>
-                <h3 className="font-bold text-body-md text-text-primary-light">
+                <h3 className="font-bold text-body-sm md:text-body-md text-text-primary-light">
                   {agent.title}
                 </h3>
-                <p className="text-body-sm leading-relaxed text-text-secondary-light">
+                <p className="text-caption md:text-body-sm leading-relaxed text-text-secondary-light">
                   {agent.body}
                 </p>
                 <button
                   onClick={() => openRoi(agent.title)}
-                  className="mt-auto inline-flex items-center gap-2 text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-cyan"
+                  className="mt-auto inline-flex items-center gap-2 text-caption md:text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-magenta"
                 >
                   Calculate ROI
                   <ArrowRight size={16} weight="bold" />

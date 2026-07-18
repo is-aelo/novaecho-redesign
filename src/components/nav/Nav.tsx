@@ -13,6 +13,7 @@ const links = [
   { label: "Benchmarks", href: "#benchmarks" },
   { label: "Pricing", href: "#pricing" },
   { label: "Results", href: "#results" },
+  { label: "Demo", href: "#book-call" },
 ];
 
 const pageLinks = new Set(["/results"]);
@@ -26,6 +27,7 @@ function isOnHomepage() {
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
+  const [shouldBlur, setShouldBlur] = useState(false);
   const pathname = usePathname();
   const scrollTo = useSmoothScroll(OFFSET);
   const menuRef = useRef<HTMLElement>(null);
@@ -57,6 +59,20 @@ export default function Nav() {
     els.forEach((el) => observer.observe(el!));
     return () => observer.disconnect();
   }, [pathname]);
+
+  useEffect(() => {
+    function check() {
+      const hero = document.getElementById("hero");
+      if (!hero) return;
+      const pastHero = hero.getBoundingClientRect().bottom < 0;
+      const footer = document.querySelector("footer");
+      const atFooter = footer ? footer.getBoundingClientRect().top < window.innerHeight : false;
+      setShouldBlur(pastHero && !atFooter);
+    }
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    return () => window.removeEventListener("scroll", check);
+  }, []);
 
   useEffect(() => {
     const menu = menuRef.current;
@@ -135,7 +151,7 @@ export default function Nav() {
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-center px-4 py-3">
-      <div className="relative flex w-full max-w-5xl rounded-xl bg-white shadow-sm border border-surface-200">
+      <div className={`relative flex w-full max-w-5xl rounded-xl shadow-sm border border-surface-200 transition-all duration-300 ${shouldBlur ? "bg-white/80 backdrop-blur-md" : "bg-white"}`}>
         <div className="flex w-full items-center justify-between px-5 py-2.5">
           <div className="flex items-center gap-2">
             <button
@@ -166,7 +182,7 @@ export default function Nav() {
               <a
                 key={link.href}
                 href={link.href}
-                className={`text-[14px] font-medium transition-colors hover:text-accent-cyan ${
+                className={`text-[14px] font-medium transition-colors hover:text-accent-magenta ${
                   active === link.href
                     ? "text-accent-magenta"
                     : "text-text-secondary-light"
@@ -200,7 +216,7 @@ export default function Nav() {
               key={link.href}
               data-nav-item
               href={link.href}
-              className={`rounded-sm px-4 py-3 text-body-sm font-medium transition-colors hover:bg-surface-100 hover:text-accent-cyan ${
+              className={`rounded-sm px-4 py-3 text-body-sm font-medium transition-colors hover:bg-surface-100 hover:text-accent-magenta ${
                 active === link.href
                   ? "text-accent-magenta bg-accent-magenta/5"
                   : "text-text-secondary-light"

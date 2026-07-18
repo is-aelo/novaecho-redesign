@@ -39,7 +39,7 @@ export default function Footer() {
             </span>
           </a>
 
-          <p className="text-body-sm leading-relaxed text-text-secondary max-w-sm">
+          <p className="text-caption lg:text-body-sm leading-relaxed text-text-secondary max-w-sm">
             The #1 platform to train, manage, deploy, scale, and monitor hyper human-like voice AI employees.
           </p>
 
@@ -70,7 +70,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="flex h-6 w-6 items-center justify-center text-text-secondary transition-colors hover:text-accent-cyan"
+                className="flex h-6 w-6 items-center justify-center text-text-secondary transition-colors hover:text-accent-magenta"
               >
                 <Icon size={20} weight="fill" />
               </a>
@@ -79,31 +79,31 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col gap-4">
-          <h3 className="font-display text-body-md font-semibold text-text-primary">
+          <h3 className="font-display text-body-sm lg:text-body-md font-semibold text-text-primary">
             Docs
           </h3>
-          <div className="flex flex-col gap-2 text-body-sm text-text-secondary leading-relaxed">
+          <div className="flex flex-col gap-2 text-caption lg:text-body-sm text-text-secondary leading-relaxed">
             <a
               href="/results"
-              className={`transition-colors hover:text-accent-cyan ${pathname === "/results" ? "text-accent-cyan" : ""}`}
+              className={`transition-colors hover:text-accent-magenta ${pathname === "/results" ? "text-accent-cyan" : ""}`}
             >
               Results & Stories
             </a>
             <a
               href="/api-docs"
-              className={`transition-colors hover:text-accent-cyan ${pathname === "/api-docs" ? "text-accent-cyan" : ""}`}
+              className={`transition-colors hover:text-accent-magenta ${pathname === "/api-docs" ? "text-accent-cyan" : ""}`}
             >
               API Documentation
             </a>
             <a
               href="/privacy"
-              className={`transition-colors hover:text-accent-cyan ${pathname === "/privacy" ? "text-accent-cyan" : ""}`}
+              className={`transition-colors hover:text-accent-magenta ${pathname === "/privacy" ? "text-accent-cyan" : ""}`}
             >
               Privacy Policy
             </a>
             <a
               href="/terms"
-              className={`transition-colors hover:text-accent-cyan ${pathname === "/terms" ? "text-accent-cyan" : ""}`}
+              className={`transition-colors hover:text-accent-magenta ${pathname === "/terms" ? "text-accent-cyan" : ""}`}
             >
               Terms of Service
             </a>
@@ -111,19 +111,19 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col gap-4">
-          <h3 className="font-display text-body-md font-semibold text-text-primary">
+          <h3 className="font-display text-body-sm lg:text-body-md font-semibold text-text-primary">
             Contact Us
           </h3>
-          <div className="flex flex-col gap-2 text-body-sm text-text-secondary leading-relaxed">
+          <div className="flex flex-col gap-2 text-caption lg:text-body-sm text-text-secondary leading-relaxed">
             <a
               href="tel:+15614751497"
-              className="transition-colors hover:text-accent-cyan"
+              className="transition-colors hover:text-accent-magenta"
             >
               +1 (561) 475-1497
             </a>
             <a
               href="mailto:support@novaecho.ai"
-              className="transition-colors hover:text-accent-cyan"
+              className="transition-colors hover:text-accent-magenta"
             >
               support@novaecho.ai
             </a>

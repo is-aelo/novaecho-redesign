@@ -48,15 +48,15 @@ export default function Features() {
             return (
               <article
                 key={feature.title}
-                className="border border-surface-200 bg-surface-100 rounded-md p-8 flex flex-col gap-3 min-h-45 text-left"
+                className="border border-surface-200 bg-surface-100 rounded-md p-6 md:p-8 flex flex-col gap-3 min-h-45 text-left"
               >
                 <div className="flex items-center justify-start">
                   <Icon className="text-accent-cyan" size={24} weight="duotone" />
                 </div>
-                <h3 className="font-bold text-body-md text-text-primary-light">
+                <h3 className="font-bold text-body-sm md:text-body-md text-text-primary-light">
                   {feature.title}
                 </h3>
-                <p className="text-body-sm leading-relaxed text-text-secondary-light">
+                <p className="text-caption md:text-body-sm leading-relaxed text-text-secondary-light">
                   {feature.body}
                 </p>
               </article>

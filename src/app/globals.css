@@ -70,6 +70,7 @@
   --color-text-primary-light: var(--text-primary-on-light);
   --color-text-secondary-light: var(--text-secondary-on-light);
 
+  --color-navy: var(--navy);
   --color-accent-cyan: var(--accent-cyan);
   --color-accent-sky: var(--accent-sky);
   --color-accent-magenta: var(--magenta);
@@ -119,7 +120,7 @@ a, button {
 }
 
 .btn-primary {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px 24px;

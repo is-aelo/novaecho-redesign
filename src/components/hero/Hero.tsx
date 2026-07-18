@@ -30,6 +30,7 @@ export default function Hero() {
 
   return (
     <section
+      id="hero"
       ref={containerRef}
       className="relative flex items-center justify-center overflow-hidden px-4 py-20 lg:px-6 lg:py-24"
     >

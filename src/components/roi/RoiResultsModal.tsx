@@ -1,13 +1,13 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { X } from "@phosphor-icons/react";
+import { X, TrendUp, Medal, type Icon as PhosphorIcon } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { useRoiModal } from "@/contexts/RoiContext";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 
 export default function RoiResultsModal() {
-  const { resultsOpen, results, closeResults, openRoi, agentType, setTransitioning } = useRoiModal();
+  const { resultsOpen, results, closeResults, openRoi, agentType, setTransitioning, resetForm } = useRoiModal();
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
@@ -63,9 +63,9 @@ export default function RoiResultsModal() {
     >
       <div
         ref={panelRef}
-        className="relative w-full max-w-lg max-h-full overflow-y-auto bg-surface-100 border border-surface-200 rounded-lg hidden modal-scrollbar"
+        className="relative w-full max-w-4xl max-h-full overflow-y-auto bg-surface-100 border border-surface-200 rounded-lg hidden modal-scrollbar"
       >
-        <div className="sticky top-0 z-10 flex items-center justify-between bg-surface-100/90 backdrop-blur-md px-6 py-4 border-b border-surface-200">
+        <div className="sticky top-0 z-10 flex items-center justify-between bg-surface-100/90 backdrop-blur-md px-6 py-4 border-b border-surface-200 lg:px-8">
           <div>
             <h2 className="font-display text-display-sm font-bold text-text-primary-light">
               Your ROI Results
@@ -83,7 +83,7 @@ export default function RoiResultsModal() {
           </button>
         </div>
 
-        <div className="p-6 flex flex-col gap-6">
+        <div className="p-6 lg:p-8 flex flex-col gap-6">
           <div className="rounded-sm bg-surface-50 border border-surface-200 p-5 flex flex-col gap-3">
             <ResultRow
               label="Total Monthly Benefit"
@@ -94,6 +94,7 @@ export default function RoiResultsModal() {
               label="Best Nova Plan"
               value={results.plan}
               accent
+              icon={Medal}
             />
             <ResultRow
               label="Plan Cost"
@@ -139,6 +140,10 @@ export default function RoiResultsModal() {
             </div>
           </div>
 
+          <p className="text-caption text-text-secondary-light/60 leading-relaxed text-center">
+            This is a concept estimate and may not reflect the full accuracy of the official Nova Echo AI ROI calculator.
+          </p>
+
           <div className="flex flex-col gap-3 pt-2">
             <button
               onClick={() => { closeResults(); scrollTo("#book-call"); }}
@@ -149,15 +154,16 @@ export default function RoiResultsModal() {
             <button
               onClick={() => {
                 closeResults();
+                resetForm();
                 setTransitioning(true);
                 setTimeout(() => {
                   setTransitioning(false);
                   openRoi(agentType);
                 }, 400);
               }}
-              className="btn-secondary w-full"
+              className="text-body-sm font-medium text-text-secondary-light underline underline-offset-2 decoration-surface-200 hover:text-surface-700 hover:decoration-surface-700 transition-colors"
             >
-              Return To ROI Calculator
+              Start Fresh
             </button>
           </div>
         </div>
@@ -170,20 +176,25 @@ function ResultRow({
   label,
   value,
   accent,
+  icon: Icon,
 }: {
   label: string;
   value: string;
   accent?: boolean;
+  icon?: PhosphorIcon;
 }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-body-sm text-text-secondary-light/60">{label}</span>
-      <span
-        className={`font-mono text-body-sm font-semibold ${
-          accent ? "text-accent-cyan" : "text-text-primary-light"
-        }`}
-      >
-        {value}
+      <span className="text-body-sm text-text-secondary-light/80">{label}</span>
+      <span className="flex items-center gap-1.5">
+        {accent && (Icon ? <Icon size={14} weight="fill" className="text-accent-magenta" /> : <TrendUp size={14} weight="bold" className="text-accent-magenta" />)}
+        <span
+          className={`font-mono text-body-sm font-semibold ${
+            accent ? "text-accent-magenta" : "text-text-primary-light"
+          }`}
+        >
+          {value}
+        </span>
       </span>
     </div>
   );
@@ -192,7 +203,7 @@ function ResultRow({
 function BreakdownRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-caption text-text-secondary-light/40">{label}</span>
+      <span className="text-caption text-text-secondary-light/60">{label}</span>
       <span className="font-mono text-caption text-text-secondary-light">{value}</span>
     </div>
   );

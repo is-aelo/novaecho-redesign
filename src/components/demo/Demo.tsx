@@ -13,7 +13,7 @@ const voices = [
 ];
 
 const inputClass =
-  "w-full bg-transparent text-body-sm text-text-primary-light placeholder:text-text-secondary-light/30 outline-none";
+  "w-full bg-transparent text-caption md:text-body-sm text-text-primary-light placeholder:text-text-secondary-light/30 outline-none";
 
 const fieldBorderClass =
   "border border-surface-700/30 focus-within:border-accent-cyan rounded-sm transition-[border-color]";
@@ -85,7 +85,7 @@ export default function Demo() {
                   type="email"
                   value={form.email}
                   onChange={(e) => update("email", e.target.value)}
-                  placeholder="jane@acme.com"
+                  placeholder="you@company.com"
                   className={`${inputClass} px-3 py-2.5`}
                 />
               </div>
@@ -115,7 +115,7 @@ export default function Demo() {
                   type="text"
                   value={form.company}
                   onChange={(e) => update("company", e.target.value)}
-                  placeholder="Acme Corp"
+                  placeholder="Your company name"
                   className={`${inputClass} px-3 py-2.5`}
                 />
               </div>
@@ -128,7 +128,7 @@ export default function Demo() {
               <button
                 type="button"
                 onClick={() => setVoiceOpen((prev) => !prev)}
-                className={`flex items-center justify-between ${fieldBorderClass} px-3 py-2.5 text-body-sm text-left cursor-pointer rounded-sm ${
+                className={`flex items-center justify-between ${fieldBorderClass} px-3 py-2.5 text-caption md:text-body-sm text-left cursor-pointer rounded-sm ${
                   selectedVoice ? "text-text-primary-light" : "text-text-secondary-light/30"
                 }`}
               >
@@ -152,7 +152,7 @@ export default function Demo() {
                         update("voice", v.value);
                         setVoiceOpen(false);
                       }}
-                      className={`flex w-full items-center gap-2 px-3 py-2.5 text-body-sm text-left transition-colors hover:bg-accent-cyan ${
+                      className={`flex w-full items-center gap-2 px-3 py-2.5 text-body-sm text-left transition-colors hover:bg-accent-magenta ${
                         form.voice === v.value
                           ? "text-accent-cyan"
                           : "text-text-primary-light"

@@ -1,14 +1,7 @@
-import { Quotes } from "@phosphor-icons/react/ssr";
+import StoryCard from "@/components/shared/StoryCard";
+import type { StoryData } from "@/components/shared/StoryCard";
 
-interface Story {
-  author: string;
-  role: string;
-  industry: string;
-  story: string;
-  results: string[];
-}
-
-const stories: Story[] = [
+const stories: StoryData[] = [
   {
     author: "Paul Suha",
     role: "Mayflower AI",
@@ -89,42 +82,7 @@ export default function Results() {
 
         <div className="mt-5 grid grid-cols-1 gap-6 lg:mt-6 lg:grid-cols-2 lg:gap-8">
           {stories.map((s) => (
-            <article
-              key={s.author}
-              className="flex flex-col border border-surface-200 bg-surface-100 rounded-md p-8 text-left"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-cyan/10 text-body-sm font-bold text-accent-cyan">
-                  {s.author.split(" ").map((n) => n[0]).join("").slice(0, 2)}
-                </div>
-                <div>
-                  <p className="font-bold text-body-sm text-text-primary-light">
-                    {s.author} <span className="text-text-secondary-light/40 mx-1">&bull;</span> {s.role}
-                    <span className="ml-2 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-accent-magenta bg-accent-magenta/10 rounded-sm align-middle">
-                      {s.industry}
-                    </span>
-                  </p>
-                </div>
-              </div>
-
-              <Quotes size={20} weight="fill" className="text-accent-cyan/60 mb-2 shrink-0" />
-              <blockquote className="text-body-sm leading-relaxed text-text-secondary-light">
-                {s.story}
-              </blockquote>
-
-              <div className="mt-5 border-t border-surface-200 pt-4">
-                <p className="text-caption font-bold uppercase tracking-wider text-text-primary-light mb-2">
-                  Key Results
-                </p>
-                <div className="flex flex-col gap-1.5">
-                  {s.results.map((r) => (
-                    <p key={r} className="text-body-sm text-text-primary-light">
-                      {r}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </article>
+            <StoryCard key={s.author} story={s} />
           ))}
         </div>
       </div>

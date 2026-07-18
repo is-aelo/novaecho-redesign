@@ -179,7 +179,7 @@ export default function Benchmark() {
             {rows.length > INITIAL_VISIBLE && (
               <button
                 onClick={() => setShowAll(!showAll)}
-                className="flex items-center justify-center gap-2 py-4 text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-cyan"
+                className="flex items-center justify-center gap-2 py-4 text-caption md:text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-magenta"
               >
                 {showAll ? "Show less" : `Show all (${rows.length} comparisons)`}
                 <CaretDown

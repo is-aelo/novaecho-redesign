@@ -468,6 +468,7 @@ Input section:
                   Focus-visible: 2px surface-950 ring + 4px accent-cyan ring via box-shadow
                   Transitions: all, 150ms
   Calculate CTA:  btn-primary, full width, disabled (opacity-40) until all fields filled
+  Start Fresh:    clears all form fields and reopens blank calculator
 
 Results section:
   Empty state:    dashed border --surface-800, centered prompt text
