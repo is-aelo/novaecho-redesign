@@ -203,8 +203,8 @@ function ResultRow({
 function BreakdownRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-caption text-text-secondary-light/60">{label}</span>
-      <span className="font-mono text-caption text-text-secondary-light">{value}</span>
+      <span className="text-caption text-text-secondary-light">{label}</span>
+      <span className="font-mono text-caption text-text-secondary-light font-medium">{value}</span>
     </div>
   );
 }

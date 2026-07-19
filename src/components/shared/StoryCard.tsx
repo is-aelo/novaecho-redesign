@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Quotes, CheckCircle } from "@phosphor-icons/react/ssr";
 
 export interface StoryData {
@@ -6,15 +7,22 @@ export interface StoryData {
   industry: string;
   story: string;
   results: string[];
+  photo?: string;
 }
 
 export default function StoryCard({ story }: { story: StoryData }) {
   return (
     <article className="flex flex-col border border-surface-200 bg-surface-100 rounded-md p-6 md:p-8 text-left">
       <div className="flex items-start gap-3 mb-4">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-cyan/10 text-caption md:text-body-sm font-bold text-accent-cyan md:h-12 md:w-12">
-          {story.author.split(" ").map((n) => n[0]).join("").slice(0, 2)}
-        </div>
+        {story.photo ? (
+          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full md:h-12 md:w-12">
+            <Image src={story.photo} alt={story.author} fill className="object-cover" sizes="48px" />
+          </div>
+        ) : (
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-cyan/10 text-caption md:text-body-sm font-bold text-accent-cyan md:h-12 md:w-12">
+            {story.author.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+          </div>
+        )}
         <div className="min-w-0">
           <p className="font-bold text-caption md:text-body-sm text-text-primary-light">
             <span className="font-bold">{story.author}</span> <span className="text-text-secondary-light/40 mx-1">&bull;</span> <span className="font-normal">{story.role}</span>

@@ -49,7 +49,7 @@ export default function Demo() {
 
   return (
     <section id="book-call" className="w-full bg-surface-50 px-6 py-16">
-      <div className="mx-auto flex max-w-6xl flex-col gap-12 lg:flex-row lg:gap-16">
+      <div className="mx-auto flex max-w-6xl flex-col gap-12 lg:flex-row lg:gap-16" data-parallax data-parallax-y="12">
         <div className="flex flex-1 flex-col justify-center">
           <h2 className="font-display text-display-md lg:text-display-lg font-bold leading-tight tracking-tight text-text-primary-light">
             Still in doubt?

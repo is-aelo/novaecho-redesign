@@ -25,7 +25,7 @@ const programs = [
 export default function Partners() {
   return (
     <section className="w-full bg-surface-50 px-6 py-16">
-      <div className="mx-auto flex max-w-6xl flex-col">
+      <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12">
         <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
           <h2 className="font-display text-display-md lg:text-display-lg font-bold leading-tight tracking-tight text-text-primary-light">
             Partner Programs

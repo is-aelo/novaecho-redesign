@@ -3,6 +3,9 @@
 import { useState, useRef, useEffect } from "react";
 import { CheckCircle, CaretDown } from "@phosphor-icons/react/ssr";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const plans = [
   {
@@ -85,6 +88,32 @@ export default function Pricing() {
     );
   };
 
+  const priceAnim = useRef(false);
+
+  useEffect(() => {
+    const st = ScrollTrigger.create({
+      trigger: "#pricing",
+      start: "top 80%",
+      once: true,
+      onEnter: () => {
+        priceAnim.current = true;
+        const el = document.querySelector("[data-price='nova-light']");
+        if (!el) return;
+        el.textContent = "$125";
+        const cents = { val: 12500 };
+        gsap.to(cents, {
+          val: 9900,
+          duration: 0.5,
+          ease: "power2.out",
+          onUpdate: () => {
+            el.textContent = `$${(cents.val / 100).toFixed(0)}`;
+          },
+        });
+      },
+    });
+    return () => st.kill();
+  }, []);
+
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
@@ -137,7 +166,7 @@ export default function Pricing() {
 
   return (
     <section id="pricing" className="w-full bg-surface-50 px-6 py-16 scroll-mt-16">
-      <div className="mx-auto flex max-w-6xl flex-col">
+      <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12">
         <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
           <h2 className="font-display text-display-md lg:text-display-lg font-bold leading-tight tracking-tight text-text-primary-light">
             Pricing
@@ -169,7 +198,10 @@ export default function Pricing() {
               </p>
 
               <div className="mt-2 flex items-baseline gap-1">
-                <span className={`font-display text-display-lg font-bold leading-none ${plan.popular ? "text-text-primary" : "text-text-primary-light"}`}>
+                <span
+                  {...(plan.name === "Nova Light" ? { "data-price": "nova-light" } : {})}
+                  className={`font-display text-display-lg font-bold leading-none ${plan.popular ? "text-text-primary" : "text-text-primary-light"}`}
+                >
                   {plan.price}
                 </span>
                 <span className={`text-body-sm ${plan.popular ? "text-text-secondary" : "text-text-secondary-light"}`}>

@@ -31,7 +31,7 @@ export default function Agents() {
 
   return (
     <section id="solutions" className="w-full px-6 py-16 bg-surface-50 scroll-mt-16">
-      <div className="mx-auto flex max-w-6xl flex-col">
+      <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12">
         <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
           <h2 className="font-display text-display-md lg:text-display-lg font-bold leading-tight tracking-tight text-text-primary-light">
             Your Agents to <span className="hero-text-highlight">Success</span>

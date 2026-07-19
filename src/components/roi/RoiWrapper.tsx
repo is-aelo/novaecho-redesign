@@ -3,6 +3,7 @@
 import { ReactNode, useRef, useEffect } from "react";
 import { RoiProvider, useRoiModal } from "@/contexts/RoiContext";
 import gsap from "gsap";
+import { useParallax } from "@/hooks/useParallax";
 import RoiModal from "./RoiModal";
 import RoiResultsModal from "./RoiResultsModal";
 
@@ -59,7 +60,7 @@ function TransitionOverlay() {
           ref={textRef}
           className="text-body-sm font-medium tracking-wide text-text-secondary"
         >
-          Calculating your ROI&hellip;
+          Just a moment&hellip;
         </span>
       </div>
     </div>
@@ -67,6 +68,8 @@ function TransitionOverlay() {
 }
 
 export default function RoiWrapper({ children }: { children: ReactNode }) {
+  useParallax();
+
   return (
     <RoiProvider>
       {children}
