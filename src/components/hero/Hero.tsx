@@ -67,7 +67,7 @@ export default function Hero() {
         </ul>
 
         <div ref={ctaRef} className="mt-7 flex w-full flex-row items-center justify-center gap-3 lg:mt-9 lg:gap-4">
-          <a href="#book-call" className="btn-primary flex-1 whitespace-nowrap lg:flex-none">
+          <a href="#book-call" className="btn-primary flex-1 whitespace-nowrap lg:flex-none" onClick={(e) => scrollTo("#book-call", e)}>
             Receive AI Call Now
           </a>
           <a href="#pricing" className="btn-secondary flex-1 whitespace-nowrap lg:flex-none" onClick={(e) => scrollTo("#pricing", e)}>
