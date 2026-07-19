@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { CaretDown } from "@phosphor-icons/react/ssr";
+import gsap from "gsap";
 
 const rows = [
   {
@@ -90,7 +91,55 @@ const INITIAL_VISIBLE = 4;
 
 export default function Benchmark() {
   const [showAll, setShowAll] = useState(false);
-  const visibleRows = showAll ? rows : rows.slice(0, INITIAL_VISIBLE);
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      if (!window.matchMedia("(min-width: 1024px)").matches) {
+        gsap.set("[data-bench-toggle]", {
+          opacity: 0,
+          height: 0,
+          overflow: "hidden",
+          paddingTop: 0,
+          paddingBottom: 0,
+          marginTop: 0,
+          marginBottom: 0,
+        });
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    const toggles = document.querySelectorAll<HTMLElement>("[data-bench-toggle]");
+    if (showAll) {
+      gsap.to(toggles, {
+        opacity: 1,
+        height: "auto",
+        paddingTop: "",
+        paddingBottom: "",
+        marginTop: "",
+        marginBottom: "",
+        duration: 0.4,
+        stagger: 0.04,
+        ease: "power3.out",
+        clearProps: "overflow",
+      });
+    } else {
+      gsap.to(toggles, {
+        opacity: 0,
+        height: 0,
+        overflow: "hidden",
+        paddingTop: 0,
+        paddingBottom: 0,
+        marginTop: 0,
+        marginBottom: 0,
+        duration: 0.25,
+        ease: "power2.in",
+      });
+    }
+  }, [showAll]);
 
   return (
     <section id="benchmarks" className="w-full bg-surface-50 px-6 py-16 scroll-mt-16">
@@ -131,10 +180,10 @@ export default function Benchmark() {
                   <td className="px-4 py-4 text-body-sm font-medium text-accent-purple bg-accent-sky/6">
                     {row.nova}
                   </td>
-                  <td className="px-4 py-4 text-body-sm text-text-secondary-light/60">
+                  <td className="px-4 py-4 text-body-sm text-text-secondary-light/80">
                     {row.comp}
                   </td>
-                  <td className="px-4 py-4 text-body-sm text-text-secondary-light/60">
+                  <td className="px-4 py-4 text-body-sm text-text-secondary-light/80">
                     {row.human}
                   </td>
                 </tr>
@@ -143,8 +192,8 @@ export default function Benchmark() {
           </table>
 
           <div className="flex flex-col divide-y divide-surface-200/80 lg:hidden">
-            {visibleRows.map((row) => (
-              <div key={row.feature} className="py-4">
+            {rows.map((row, i) => (
+              <div key={row.feature} {...(i >= INITIAL_VISIBLE ? { "data-bench-toggle": "" } : {})} className="py-4">
                 <p className="text-caption font-semibold uppercase tracking-wider text-text-primary-light">
                   {row.feature}
                 </p>
@@ -158,18 +207,18 @@ export default function Benchmark() {
                     </span>
                   </div>
                   <div className="flex items-baseline justify-between gap-2">
-                    <span className="text-caption font-medium text-text-secondary-light/40 shrink-0">
+                    <span className="text-caption font-medium text-text-secondary-light/60 shrink-0">
                       Competitors
                     </span>
-                    <span className="text-body-sm text-text-secondary-light/60 text-right">
+                    <span className="text-body-sm text-text-secondary-light/80 text-right">
                       {row.comp}
                     </span>
                   </div>
                   <div className="flex items-baseline justify-between gap-2">
-                    <span className="text-caption font-medium text-text-secondary-light/40 shrink-0">
+                    <span className="text-caption font-medium text-text-secondary-light/60 shrink-0">
                       Humans
                     </span>
-                    <span className="text-body-sm text-text-secondary-light/60 text-right">
+                    <span className="text-body-sm text-text-secondary-light/80 text-right">
                       {row.human}
                     </span>
                   </div>

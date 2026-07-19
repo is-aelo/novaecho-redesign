@@ -137,6 +137,12 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
+      <div className="mx-auto mt-10 max-w-6xl border-t border-surface-800 pt-6 text-center">
+        <p className="text-caption text-text-secondary/60 leading-relaxed">
+          This is a portfolio project by <span className="font-medium text-text-secondary/80">Eloisa Jane Talingting</span>. Not an official website of Nova Echo AI. Not affiliated with, endorsed, or sponsored by Nova Echo AI.
+        </p>
+      </div>
     </footer>
   );
 }
