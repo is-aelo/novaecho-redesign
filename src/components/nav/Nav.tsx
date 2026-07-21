@@ -226,14 +226,7 @@ export default function Nav() {
               {link.label}
             </a>
           ))}
-          <a
-            data-nav-item
-            href="#book-call"
-            className="btn-primary mt-2 self-start"
-            onClick={(e) => { if (document.getElementById("book-call")) { scrollTo("#book-call", e); } else { window.location.href = "/#book-call"; } setOpen(false); }}
-          >
-            Book Discovery Call
-          </a>
+
         </nav>
       </div>
     </header>
