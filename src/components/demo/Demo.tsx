@@ -16,7 +16,7 @@ const inputClass =
   "w-full bg-transparent text-caption md:text-body-sm text-text-primary-light placeholder:text-text-secondary-light/30 outline-none";
 
 const fieldBorderClass =
-  "border border-surface-700/30 focus-within:border-accent-cyan rounded-sm transition-[border-color]";
+  "border border-surface-700/30 focus-within:border-accent-purple rounded-sm transition-[border-color]";
 
 export default function Demo() {
   const [form, setForm] = useState({
@@ -128,7 +128,7 @@ export default function Demo() {
               <button
                 type="button"
                 onClick={() => setVoiceOpen((prev) => !prev)}
-                className={`flex items-center justify-between ${fieldBorderClass} px-3 py-2.5 text-caption md:text-body-sm text-left cursor-pointer rounded-sm ${
+                className={`flex items-center justify-between ${fieldBorderClass} px-3 py-2.5 text-caption md:text-body-sm text-left cursor-pointer rounded-btn ${
                   selectedVoice ? "text-text-primary-light" : "text-text-secondary-light/30"
                 }`}
               >
@@ -154,7 +154,7 @@ export default function Demo() {
                       }}
                       className={`flex w-full items-center gap-2 px-3 py-2.5 text-body-sm text-left transition-colors hover:bg-accent-magenta ${
                         form.voice === v.value
-                          ? "text-accent-cyan"
+                          ? "text-accent-purple"
                           : "text-text-primary-light"
                       }`}
                     >

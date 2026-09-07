@@ -3,13 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { X } from "@phosphor-icons/react";
 import gsap from "gsap";
-import { useRoiModal, RoiCalculation } from "@/contexts/RoiContext";
-
-const plans = [
-  { name: "Nova Light", price: 99 },
-  { name: "Nova Super", price: 333 },
-  { name: "Nova Hyper", price: 1299 },
-];
+import { useRoiModal } from "@/contexts/RoiContext";
+import { calcResults } from "./calc";
 
 interface FieldDef {
   key: string;
@@ -36,35 +31,6 @@ const fields: FieldDef[] = [
 
 function lerpColor(_pct: number): string {
   return "rgb(30, 58, 138)";
-}
-
-function calcResults(values: Record<string, number>): RoiCalculation {
-  const recoveredMissed = values.missedCalls * (values.closeRate / 100) * values.ticketValue;
-  const recoveredHold = values.holdCalls * (values.closeRate / 100) * values.ticketValue;
-  const revenueBenefit = recoveredMissed + recoveredHold;
-  const costSavings = values.receptionistCost;
-  const timeValue = values.hoursSpent * values.hourlyRate;
-  const total = revenueBenefit + costSavings + timeValue;
-
-  let plan = plans[2];
-  if (total < 500) plan = plans[0];
-  else if (total < 2000) plan = plans[1];
-
-  const netRoi = total - plan.price;
-  const roiPct = plan.price > 0 ? (netRoi / plan.price) * 100 : 0;
-  const annualImpact = netRoi * 12;
-
-  return {
-    total,
-    plan: plan.name,
-    planPrice: plan.price,
-    netRoi,
-    roiPct,
-    annualImpact,
-    revenueBenefit,
-    costSavings,
-    timeValue,
-  };
 }
 
 export default function RoiModal() {
@@ -171,7 +137,7 @@ export default function RoiModal() {
           </div>
           <button
             onClick={closeRoi}
-            className="flex h-8 w-8 items-center justify-center rounded-sm text-text-secondary-light transition-colors hover:bg-surface-200 hover:text-text-primary-light"
+            className="flex h-8 w-8 items-center justify-center rounded-btn text-text-secondary-light transition-colors hover:bg-surface-200 hover:text-text-primary-light"
             aria-label="Close"
           >
             <X size={18} weight="bold" />
@@ -193,7 +159,7 @@ export default function RoiModal() {
                     <span className="text-caption font-medium text-text-secondary-light">
                       {field.label}
                     </span>
-                    <div className="border border-surface-200 focus-within:border-accent-cyan rounded-sm transition-[border-color]">
+                    <div className="border border-surface-200 focus-within:border-accent-purple rounded-sm transition-[border-color]">
                       <input
                         type="number"
                         value={values[field.key] ?? ""}
@@ -237,8 +203,8 @@ export default function RoiModal() {
                       onChange={(e) => update(field.key, e.target.value)}
                       style={{ '--thumb-bg': fillColor } as React.CSSProperties}
                       className="relative w-full h-5 appearance-none cursor-pointer bg-transparent outline-none
-                        [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[var(--thumb-bg)] [&::-webkit-slider-thumb]:shadow-glow [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-150 [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:focus-visible:shadow-[0_0_0_2px_var(--surface-100),0_0_0_4px_var(--accent-cyan)] [&::-webkit-slider-thumb]:active:scale-90
-                        [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[var(--thumb-bg)] [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:shadow-glow [&::-moz-range-thumb]:transition-all [&::-moz-range-thumb]:duration-150 [&::-moz-range-thumb]:hover:scale-110 [&::-moz-range-thumb]:focus-visible:shadow-[0_0_0_2px_var(--surface-100),0_0_0_4px_var(--accent-cyan)] [&::-moz-range-thumb]:active:scale-90"
+                        [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[var(--thumb-bg)] [&::-webkit-slider-thumb]:shadow-glow [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-150 [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:focus-visible:shadow-[0_0_0_2px_var(--surface-100),0_0_0_4px_var(--accent-purple)] [&::-webkit-slider-thumb]:active:scale-90
+                        [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[var(--thumb-bg)] [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:shadow-glow [&::-moz-range-thumb]:transition-all [&::-moz-range-thumb]:duration-150 [&::-moz-range-thumb]:hover:scale-110 [&::-moz-range-thumb]:focus-visible:shadow-[0_0_0_2px_var(--surface-100),0_0_0_4px_var(--accent-purple)] [&::-moz-range-thumb]:active:scale-90"
                     />
                   </div>
                 </label>

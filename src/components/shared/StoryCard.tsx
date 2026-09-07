@@ -19,7 +19,7 @@ export default function StoryCard({ story }: { story: StoryData }) {
             <Image src={story.photo} alt={story.author} fill className="object-cover" sizes="48px" />
           </div>
         ) : (
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-cyan/10 text-caption md:text-body-sm font-semibold text-accent-cyan md:h-12 md:w-12">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-purple/10 text-caption md:text-body-sm font-semibold text-accent-purple md:h-12 md:w-12">
             {story.author.split(" ").map((n) => n[0]).join("").slice(0, 2)}
           </div>
         )}
@@ -33,7 +33,7 @@ export default function StoryCard({ story }: { story: StoryData }) {
         </div>
       </div>
 
-      <Quotes size={20} weight="fill" className="text-accent-cyan/60 mb-2 shrink-0" />
+      <Quotes size={20} weight="fill" className="text-accent-purple/60 mb-2 shrink-0" />
       <blockquote className="flex-1 text-caption md:text-body-sm leading-relaxed text-text-secondary-light">
         {story.story}
       </blockquote>

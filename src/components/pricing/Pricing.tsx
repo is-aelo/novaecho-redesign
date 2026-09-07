@@ -183,12 +183,12 @@ export default function Pricing() {
               data-plan={plan.name}
               className={`relative flex h-full flex-col border text-left rounded-md ${
                 plan.popular
-                  ? "border-accent-cyan/30 bg-surface-950 shadow-glow py-10 px-6 lg:px-8"
+                  ? "border-accent-purple/30 bg-surface-950 shadow-glow py-10 px-6 lg:px-8"
                   : "border-surface-700/30 bg-white p-6 lg:p-8"
               }`}
             >
               {plan.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-caption font-semibold uppercase tracking-wider text-accent-cyan bg-surface-950 border border-accent-cyan/30 rounded-sm">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-caption font-semibold uppercase tracking-wider text-accent-purple bg-surface-950 border border-accent-purple/30 rounded-sm">
                   Popular
                 </span>
               )}
@@ -222,7 +222,7 @@ export default function Pricing() {
                     <span className={`text-body-sm ${plan.popular ? "text-text-secondary" : "text-text-secondary-light"}`}>
                       {rate.label}
                     </span>
-                    <span className={`text-body-sm font-semibold ${plan.popular ? "text-accent-cyan" : "text-surface-700"}`}>
+                    <span className={`text-body-sm font-semibold ${plan.popular ? "text-accent-purple" : "text-surface-700"}`}>
                       {rate.value}
                     </span>
                   </div>
@@ -237,7 +237,7 @@ export default function Pricing() {
                       {...(i >= INITIAL_FEATURES ? { "data-toggle": "" } : {})}
                       className="flex items-start gap-2 text-caption lg:flex"
                     >
-                      <CheckCircle size={14} weight="fill" className={`mt-0.5 shrink-0 ${plan.popular ? "text-accent-cyan" : "text-surface-700"}`} />
+                      <CheckCircle size={14} weight="fill" className={`mt-0.5 shrink-0 ${plan.popular ? "text-accent-purple" : "text-surface-700"}`} />
                       {feature}
                     </li>
                   ))}
@@ -246,7 +246,7 @@ export default function Pricing() {
                   <button
                     onClick={() => toggleFeatures(plan.name)}
                     className={`mt-2 self-center flex items-center justify-center gap-1 text-caption font-medium transition-colors lg:hidden ${
-                      plan.popular ? "text-accent-cyan hover:text-accent-magenta" : "text-surface-700 hover:text-surface-800"
+                      plan.popular ? "text-accent-purple hover:text-accent-magenta" : "text-surface-700 hover:text-surface-800"
                     }`}
                   >
                     {expandedPlans.includes(plan.name) ? "Show less" : `Show all ${plan.features.length} features`}
@@ -258,7 +258,7 @@ export default function Pricing() {
               {plan.popular ? (
                 <a href="#" className="mt-8 w-full btn-primary whitespace-nowrap text-caption md:text-body-sm">{plan.cta}</a>
               ) : (
-                <a href="#" className="mt-8 w-full border border-surface-700/30 px-6 py-2.5 text-caption md:text-body-sm font-semibold text-text-primary-light text-center whitespace-nowrap transition-all hover:border-surface-700/60 rounded-sm">{plan.cta}</a>
+                <a href="#" className="mt-8 w-full border border-surface-700/30 px-6 py-2.5 text-caption md:text-body-sm font-semibold text-text-primary-light text-center whitespace-nowrap transition-all hover:border-surface-700/60 rounded-btn">{plan.cta}</a>
               )}
             </article>
           ))}

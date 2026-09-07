@@ -24,12 +24,12 @@
   --text-primary-on-light: #000000;
   --text-secondary-on-light: rgba(0, 0, 0, 0.60);
 
-  --accent-cyan: #00D1FF;
-  --accent-sky: #4FACFE;
+  --accent-purple: #7000FF;
+  --accent-hot-purple: #BA0FFF;
 
-  --gradient-glow: radial-gradient(circle, rgba(0, 209, 255, 0.16) 0%, rgba(0, 209, 255, 0) 70%);
+  --gradient-glow: radial-gradient(circle, rgba(112, 0, 255, 0.16) 0%, rgba(112, 0, 255, 0) 70%);
   --gradient-surface: linear-gradient(180deg, #0B0B0F 0%, #000000 100%);
-  --gradient-accent-ring: linear-gradient(135deg, rgba(0, 209, 255, 0.9), rgba(79, 172, 254, 0.9));
+  --gradient-accent-ring: linear-gradient(135deg, rgba(112, 0, 255, 0.9), rgba(186, 15, 255, 0.9));
   --gradient-text-highlight: var(--gradient-accent-ring);
   /* DEPRECATED: retired as default fill per docs/design.md L1 Solid rule. Solid --surface-700 is the primary default. */
   --gradient-button-primary: linear-gradient(135deg, #E61EAD 0%, #BA0FFF 40%, #7000FF 65%, #2C259A 88%, #1E3A8A 100%);
@@ -38,8 +38,11 @@
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 10px;
+  --radius-window: 12px;
+  --radius-btn: 8px;
 
-  --shadow-glow: 0 0 24px rgba(0, 209, 255, 0.18);
+  --shadow-glow: 0 0 24px rgba(112, 0, 255, 0.18);
+  --shadow-window: 0 32px 64px -24px rgba(0, 0, 0, 0.5);
   --hero-wave-background: #05070A;
 
   --dur-fast: 150ms;
@@ -71,14 +74,16 @@
   --color-text-secondary-light: var(--text-secondary-on-light);
 
   --color-navy: var(--navy);
-  --color-accent-cyan: var(--accent-cyan);
-  --color-accent-sky: var(--accent-sky);
   --color-accent-magenta: var(--magenta);
-  --color-accent-purple: var(--purple);
+  --color-accent-purple: var(--accent-purple);
+  --color-accent-hot-purple: var(--accent-hot-purple);
 
-  --font-display: var(--font-geist-sans);
-  --font-body: var(--font-geist-sans);
+  --font-display: var(--font-manrope);
+  --font-body: var(--font-dm-sans);
   --font-mono: var(--font-geist-mono);
+
+  --radius-window: var(--radius-window);
+  --radius-btn: var(--radius-btn);
 
   --text-display-2xl: 4.5rem;
   --text-display-2xl--line-height: 4.75rem;
@@ -141,7 +146,7 @@ a, button {
   color: var(--white);
   background: var(--surface-700);
   border: 1px solid transparent;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-btn);
 }
 
 .btn-primary:hover {
@@ -158,7 +163,7 @@ a, button {
 }
 
 .btn-primary:focus-visible {
-  outline: 2px solid var(--accent-cyan);
+  outline: 2px solid var(--accent-purple);
   outline-offset: 2px;
 }
 
@@ -171,17 +176,18 @@ a, button {
   font-size: 15px;
   font-weight: 500;
   color: var(--white);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-btn);
 }
 
 .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.48);
 }
 
 .btn-secondary:focus-visible {
-  outline: 2px solid var(--accent-cyan);
+  outline: 2px solid var(--accent-purple);
   outline-offset: 2px;
 }
 
@@ -194,7 +200,7 @@ a, button {
 }
 
 .nav-link:hover {
-  color: var(--accent-cyan);
+  color: var(--accent-purple);
 }
 
 .hero-background {
@@ -216,8 +222,9 @@ a, button {
 }
 
 .hero-noise {
-  background-image: radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--surface-950) 82%, var(--accent-cyan)) 0%, transparent 30%),
-    radial-gradient(circle at 80% 30%, color-mix(in srgb, var(--surface-950) 84%, var(--accent-sky)) 0%, transparent 24%),
+  background-image: radial-gradient(circle at 50% 8%, color-mix(in srgb, var(--surface-950) 88%, var(--accent-hot-purple)) 0%, transparent 22%),
+    radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--surface-950) 82%, var(--accent-purple)) 0%, transparent 30%),
+    radial-gradient(circle at 80% 30%, color-mix(in srgb, var(--surface-950) 84%, var(--accent-hot-purple)) 0%, transparent 24%),
     radial-gradient(circle at 55% 80%, color-mix(in srgb, var(--surface-950) 78%, var(--purple)) 0%, transparent 26%);
   opacity: 0.16;
   filter: blur(1px) saturate(110%);
@@ -256,7 +263,7 @@ a, button {
 }
 
 .hero-metric-icon {
-  color: var(--accent-cyan);
+  color: var(--accent-purple);
 }
 
 .hero-cta-row {
@@ -315,7 +322,7 @@ a, button {
 }
 
 .benchmark-nova-header {
-  border-bottom: 2px solid var(--accent-cyan);
+  border-bottom: 2px solid var(--accent-purple);
 }
 
 .modal-scrollbar::-webkit-scrollbar {
@@ -333,7 +340,7 @@ a, button {
 }
 
 .modal-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-cyan);
+  background: var(--accent-purple);
 }
 
 @supports (scrollbar-color: auto) {
@@ -343,7 +350,7 @@ a, button {
   }
 
   .modal-scrollbar:hover {
-    scrollbar-color: var(--accent-cyan) transparent;
+    scrollbar-color: var(--accent-purple) transparent;
   }
 }
 
@@ -370,22 +377,25 @@ a, button {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
+  top: 0;
   height: 72%;
   overflow: hidden;
 }
 
 .atmo-breathe {
   height: 100%;
-  transform-origin: 50% 100%;
+  transform-origin: 50% 0%;
   opacity: 0.92;
   will-change: transform, opacity;
 }
 
 .atmo-svg {
   display: block;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: -12%;
+  left: -10%;
+  width: 120%;
+  height: 124%;
 }
 
 .voice-wave-svg {
@@ -395,7 +405,13 @@ a, button {
 }
 
 .voice-wave-compact {
-  height: 220px;
+  height: 112px;
+}
+
+.agent-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .agent-nav-btn {
@@ -403,51 +419,92 @@ a, button {
   align-items: center;
   gap: 12px;
   width: 100%;
-  padding: 12px 0;
+  padding: 10px 12px;
+  border-radius: var(--radius-btn);
   font-family: var(--font-body);
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
   text-align: left;
-  color: var(--text-secondary-on-dark);
+  color: var(--text-secondary-on-light);
   background: transparent;
   border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
+  transition:
+    background-color var(--dur-fast) ease-out,
+    color var(--dur-fast) ease-out;
 }
 
 .agent-nav-btn:hover {
-  color: var(--text-primary-on-dark);
+  color: var(--text-primary-on-light);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .agent-nav-btn[data-active="true"] {
   font-weight: 500;
-  color: var(--text-primary-on-dark);
+  color: var(--text-primary-on-light);
+  background: rgba(0, 0, 0, 0.08);
 }
 
-.agent-nav-bar {
-  width: 2px;
-  height: 20px;
-  border-radius: 9999px;
-  background: transparent;
-  flex-shrink: 0;
+.agent-nav-icon {
+  color: var(--text-secondary-on-light);
+  transition: color var(--dur-fast) ease-out;
 }
 
-.agent-nav-btn[data-active="true"] .agent-nav-bar {
-  background: var(--accent-cyan);
+.agent-nav-btn:hover .agent-nav-icon,
+.agent-nav-btn[data-active="true"] .agent-nav-icon {
+  color: var(--accent-purple);
 }
 
-.agent-nav-btn:last-child {
-  border-bottom-color: transparent;
+.agent-nav-name {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.agent-nav-tagline {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--text-secondary-on-light);
 }
 
 .agent-nav-btn:focus-visible {
-  outline: 2px solid var(--accent-cyan);
+  outline: 2px solid var(--accent-purple);
   outline-offset: 2px;
 }
 
-.voice-readout {
-  min-height: 200px;
+.console-panel-head {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-secondary-on-light);
+}
+
+.window-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+.intent-phase-chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent-purple);
+  background: rgba(112, 0, 255, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  white-space: nowrap;
 }
 
 .voice-row {
@@ -458,11 +515,19 @@ a, button {
   opacity: 0;
 }
 
+.reveal-block {
+  transition: opacity var(--dur-base) ease-out;
+}
+
+.reveal-block[data-visible="false"] {
+  opacity: 0;
+}
+
 .hero-live-dot {
   width: 6px;
   height: 6px;
   border-radius: 9999px;
-  background: var(--accent-cyan);
+  background: var(--accent-purple);
   flex-shrink: 0;
 }
 
@@ -470,10 +535,68 @@ a, button {
   animation: hero-live-pulse 2s ease-in-out infinite;
 }
 
+.hero-transcript {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hero-transcript-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.hero-speaker-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-secondary-on-light);
+  background: var(--surface-200);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+}
+
+.hero-speaker-tag-ai {
+  color: var(--accent-purple);
+  background: rgba(112, 0, 255, 0.12);
+}
+
+.hero-speaker-text {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-primary-on-light);
+}
+
+.hero-speaker-text-sub {
+  color: var(--text-secondary-on-light);
+}
+
 .hero-action-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
+  animation: hero-action-in var(--dur-base) ease-out backwards;
+}
+
+.hero-action-check {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+@keyframes hero-action-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes hero-live-pulse {
@@ -486,23 +609,17 @@ a, button {
   }
 }
 
-@media (min-width: 1024px) {
-  .voice-wave-svg {
-    height: 360px;
-  }
-
-  .voice-wave-compact {
-    height: 280px;
-  }
-
-  .voice-readout {
-    min-height: 320px;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .voice-row {
     transition: none;
+  }
+
+  .reveal-block {
+    transition: none;
+  }
+
+  .hero-action-row {
+    animation: none;
   }
 
   .atmo-breathe {

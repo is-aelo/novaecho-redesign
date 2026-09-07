@@ -1,18 +1,9 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
+import type { RoiCalculation } from "@/components/roi/calc";
 
-export interface RoiCalculation {
-  total: number;
-  plan: string;
-  planPrice: number;
-  netRoi: number;
-  roiPct: number;
-  annualImpact: number;
-  revenueBenefit: number;
-  costSavings: number;
-  timeValue: number;
-}
+export type { RoiCalculation };
 
 interface RoiContextValue {
   open: boolean;

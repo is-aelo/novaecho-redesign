@@ -216,7 +216,7 @@ export default function Nav() {
               key={link.href}
               data-nav-item
               href={link.href}
-              className={`rounded-sm px-4 py-3 text-body-sm font-medium transition-colors hover:bg-surface-100 hover:text-accent-magenta ${
+              className={`rounded-btn px-4 py-3 text-body-sm font-medium transition-colors hover:bg-surface-100 hover:text-accent-magenta ${
                 active === link.href
                   ? "text-accent-magenta bg-accent-magenta/5"
                   : "text-text-secondary-light"

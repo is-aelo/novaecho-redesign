@@ -85,25 +85,25 @@ export default function Footer() {
           <div className="flex flex-col gap-2 text-caption lg:text-body-sm text-text-secondary leading-relaxed">
             <a
               href="/results"
-              className={`transition-colors hover:text-accent-magenta ${pathname === "/results" ? "text-accent-cyan" : ""}`}
+              className={`transition-colors hover:text-accent-magenta ${pathname === "/results" ? "text-accent-purple" : ""}`}
             >
               Results & Stories
             </a>
             <a
               href="/api-docs"
-              className={`transition-colors hover:text-accent-magenta ${pathname === "/api-docs" ? "text-accent-cyan" : ""}`}
+              className={`transition-colors hover:text-accent-magenta ${pathname === "/api-docs" ? "text-accent-purple" : ""}`}
             >
               API Documentation
             </a>
             <a
               href="/privacy"
-              className={`transition-colors hover:text-accent-magenta ${pathname === "/privacy" ? "text-accent-cyan" : ""}`}
+              className={`transition-colors hover:text-accent-magenta ${pathname === "/privacy" ? "text-accent-purple" : ""}`}
             >
               Privacy Policy
             </a>
             <a
               href="/terms"
-              className={`transition-colors hover:text-accent-magenta ${pathname === "/terms" ? "text-accent-cyan" : ""}`}
+              className={`transition-colors hover:text-accent-magenta ${pathname === "/terms" ? "text-accent-purple" : ""}`}
             >
               Terms of Service
             </a>

@@ -54,7 +54,7 @@ function TransitionOverlay() {
       <div className="flex flex-col items-center gap-4">
         <div
           ref={spinnerRef}
-          className="h-10 w-10 rounded-full border-2 border-accent-cyan/20 border-t-accent-cyan shadow-glow animate-spin"
+          className="h-10 w-10 rounded-full border-2 border-accent-purple/20 border-t-accent-purple shadow-glow animate-spin"
         />
         <span
           ref={textRef}

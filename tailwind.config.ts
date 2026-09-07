@@ -40,13 +40,15 @@ export default {
         },
         navy: 'var(--navy)',
         accent: {
-          cyan: 'var(--accent-cyan)',
-          sky: 'var(--accent-sky)',
+          purple: 'var(--accent-purple)',
+          'hot-purple': 'var(--accent-hot-purple)',
+          magenta: 'var(--magenta)',
         },
       },
       fontFamily: {
         display: 'var(--font-display)',
         body: 'var(--font-body)',
+        mono: 'var(--font-mono)',
       },
       fontSize: {
         'display-2xl': ['4.5rem', { lineHeight: '4.75rem' }],
@@ -64,9 +66,12 @@ export default {
         sm: 'var(--radius-sm)',
         md: 'var(--radius-md)',
         lg: 'var(--radius-lg)',
+        window: 'var(--radius-window)',
+        btn: 'var(--radius-btn)',
       },
       boxShadow: {
         glow: 'var(--shadow-glow)',
+        window: 'var(--shadow-window)',
       },
     },
   },

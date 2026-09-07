@@ -41,7 +41,7 @@ export default function Stories() {
 
         <a
           href="/results"
-          className="mt-8 self-center px-6 py-2.5 text-caption md:text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-magenta rounded-sm"
+          className="mt-8 self-center px-6 py-2.5 text-caption md:text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-magenta rounded-btn"
         >
           Show all stories
         </a>

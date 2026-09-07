@@ -18,6 +18,8 @@ export type VoiceCall = {
   showAi: boolean;
   showCustomer: boolean;
   showClosing: boolean;
+  showIntent: boolean;
+  showResult: boolean;
   visibleActions: number;
   isComplete: boolean;
   elapsed: string;
@@ -53,6 +55,8 @@ export default function useVoiceCall(): VoiceCall {
   const [visibleActions, setVisibleActions] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(prefersReducedMotion);
+  const [revealIntent, setRevealIntent] = useState(false);
+  const [revealResult, setRevealResult] = useState(false);
 
   const script = AGENT_SCRIPTS.find((entry) => entry.id === agentId) ?? AGENT_SCRIPTS[0];
 
@@ -62,6 +66,8 @@ export default function useVoiceCall(): VoiceCall {
     setPhase("idle");
     setVisibleActions(0);
     setSeconds(0);
+    setRevealIntent(false);
+    setRevealResult(false);
   }
 
   useEffect(() => {
@@ -81,31 +87,39 @@ export default function useVoiceCall(): VoiceCall {
         setSeconds(0);
         setVisibleActions(0);
         setPhase("listening");
-      }, 1600);
+      }, 1000);
       return () => window.clearTimeout(timer);
     }
     if (phase === "listening") {
-      const timer = window.setTimeout(() => setPhase("processing"), 1700);
+      const timer = window.setTimeout(() => setPhase("processing"), 1100);
       return () => window.clearTimeout(timer);
     }
     if (phase === "processing") {
-      const timer = window.setTimeout(() => setPhase("speaking"), 1200);
+      const timer = window.setTimeout(() => setPhase("speaking"), 800);
       return () => window.clearTimeout(timer);
     }
     if (phase === "speaking") {
-      const timer = window.setTimeout(() => setPhase("action"), 2300);
+      const timer = window.setTimeout(() => setPhase("action"), 1500);
       return () => window.clearTimeout(timer);
     }
     if (phase === "action") {
       if (visibleActions < script.actions.length) {
         const timer = window.setTimeout(
           () => setVisibleActions((count) => count + 1),
-          600
+          400
         );
         return () => window.clearTimeout(timer);
       }
-      const timer = window.setTimeout(() => setPhase("complete"), 600);
+      const timer = window.setTimeout(() => setPhase("complete"), 400);
       return () => window.clearTimeout(timer);
+    }
+    if (phase === "complete") {
+      const intentTimer = window.setTimeout(() => setRevealIntent(true), 800);
+      const resultTimer = window.setTimeout(() => setRevealResult(true), 1300);
+      return () => {
+        window.clearTimeout(intentTimer);
+        window.clearTimeout(resultTimer);
+      };
     }
     return;
   }, [phase, visibleActions, reducedMotion, script.actions.length]);
@@ -131,7 +145,9 @@ export default function useVoiceCall(): VoiceCall {
       displayPhase === "action" ||
       displayPhase === "complete",
     showCustomer: inCallEnd,
-    showClosing: inCallEnd,
+    showClosing: displayPhase === "complete",
+    showIntent: reducedMotion || revealIntent,
+    showResult: reducedMotion || revealResult,
     visibleActions: displayActions,
     isComplete: displayPhase === "complete",
     elapsed: reducedMotion ? "00:42" : formatElapsed(seconds),

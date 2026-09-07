@@ -175,9 +175,9 @@ export default function VoiceWaveform({
     >
       <defs>
         <linearGradient id="voice-bar-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="var(--accent-sky)" stopOpacity="0.85" />
-          <stop offset="0.5" stopColor="var(--accent-cyan)" stopOpacity="0.9" />
-          <stop offset="1" stopColor="var(--accent-sky)" stopOpacity="0.85" />
+          <stop offset="0" stopColor="var(--accent-hot-purple)" stopOpacity="0.85" />
+          <stop offset="0.5" stopColor="var(--accent-purple)" stopOpacity="0.9" />
+          <stop offset="1" stopColor="var(--accent-hot-purple)" stopOpacity="0.85" />
         </linearGradient>
         <linearGradient id="voice-edge-fade" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stopColor="#000" stopOpacity="0" />
@@ -215,42 +215,42 @@ export default function VoiceWaveform({
           ref={ticksRef}
           d=""
           fill="none"
-          stroke="var(--accent-sky)"
+          stroke="var(--accent-hot-purple)"
           strokeWidth="1"
-          opacity="0.14"
+          opacity="0.1"
         />
         <path
           ref={backRef}
           d=""
           fill="none"
-          stroke="var(--accent-sky)"
+          stroke="var(--accent-hot-purple)"
           strokeWidth="1.25"
           strokeLinecap="round"
-          opacity="0.22"
+          opacity="0.16"
         />
         <path
           ref={midRef}
           d=""
           fill="none"
-          stroke="var(--accent-cyan)"
+          stroke="var(--accent-purple)"
           strokeWidth="1.5"
           strokeLinecap="round"
-          opacity="0.32"
+          opacity="0.22"
         />
         <path
           ref={barsRef}
           d=""
           fill="url(#voice-bar-fill)"
-          opacity="0.55"
+          opacity="0.38"
         />
         <path
           ref={frontRef}
           d=""
           fill="none"
-          stroke="var(--accent-cyan)"
+          stroke="var(--accent-purple)"
           strokeWidth="1.75"
           strokeLinecap="round"
-          opacity="0.6"
+          opacity="0.42"
         />
         <rect
           x="0"

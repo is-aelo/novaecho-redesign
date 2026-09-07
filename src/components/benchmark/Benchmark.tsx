@@ -177,7 +177,7 @@ export default function Benchmark() {
                   <td className="px-4 py-4 text-body-sm font-medium text-text-primary-light">
                     {row.feature}
                   </td>
-                  <td className="px-4 py-4 text-body-sm font-medium tabular-nums text-accent-purple bg-accent-sky/6">
+                  <td className="px-4 py-4 text-body-sm font-medium tabular-nums text-accent-purple bg-accent-hot-purple/6">
                     {row.nova}
                   </td>
                   <td className="px-4 py-4 text-body-sm text-text-secondary-light/80">
@@ -198,7 +198,7 @@ export default function Benchmark() {
                   {row.feature}
                 </p>
                 <div className="mt-2 flex flex-col gap-1.5">
-                  <div className="flex items-baseline justify-between gap-2 -mx-4 px-4 py-1.5 bg-accent-sky/6">
+                  <div className="flex items-baseline justify-between gap-2 -mx-4 px-4 py-1.5 bg-accent-hot-purple/6">
                     <span className="text-caption font-medium text-text-primary-light shrink-0">
                       Nova Echo AI
                     </span>

@@ -45,7 +45,7 @@ export default function Partners() {
                 className="flex flex-col gap-3 border border-surface-200 bg-surface-100 rounded-md p-6 md:p-8 text-left min-h-45"
               >
                 <div className="flex items-center justify-start">
-                  <Icon className="text-accent-cyan" size={24} weight="duotone" />
+                  <Icon className="text-accent-purple" size={24} weight="duotone" />
                 </div>
                 <h3 className="font-semibold text-body-sm md:text-body-md text-text-primary-light">
                   {program.title}

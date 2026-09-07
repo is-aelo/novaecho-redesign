@@ -76,7 +76,7 @@ export default function RoiResultsModal() {
           </div>
           <button
             onClick={closeResults}
-            className="flex h-8 w-8 items-center justify-center rounded-sm text-text-secondary-light transition-colors hover:bg-surface-200 hover:text-text-primary-light"
+            className="flex h-8 w-8 items-center justify-center rounded-btn text-text-secondary-light transition-colors hover:bg-surface-200 hover:text-text-primary-light"
             aria-label="Close"
           >
             <X size={18} weight="bold" />

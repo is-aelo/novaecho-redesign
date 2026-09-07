@@ -1,42 +1,20 @@
 "use client";
 
-import {
-  ArrowRight,
-  ChatsCircle,
-  ClockCounterClockwise,
-  Play,
-  SpeakerHigh,
-} from "@phosphor-icons/react";
 import HeroBackground from "./HeroBackground";
 import VoiceWaveform from "./VoiceWaveform";
 import CallReadout from "./CallReadout";
+import CallIntent from "./CallIntent";
 import WorkflowPreview from "./WorkflowPreview";
 import AgentSelector from "./AgentSelector";
+import RoiPreview from "./RoiPreview";
 import useHeroEntrance from "./useHeroEntrance";
 import useVoiceCall from "./useVoiceCall";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
-import { useRoiModal } from "@/contexts/RoiContext";
-
-const values = [
-  {
-    icon: ChatsCircle,
-    label: "Human-like conversations",
-  },
-  {
-    icon: SpeakerHigh,
-    label: "Natural-sounding AI voices",
-  },
-  {
-    icon: ClockCounterClockwise,
-    label: "24/7 expert support",
-  },
-];
 
 export default function Hero() {
   const { containerRef } = useHeroEntrance();
   const call = useVoiceCall();
   const scrollTo = useSmoothScroll();
-  const { openRoi } = useRoiModal();
 
   return (
     <section
@@ -46,78 +24,76 @@ export default function Hero() {
     >
       <HeroBackground />
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
-          <div className="flex max-w-3xl flex-col items-start text-left lg:order-1 lg:col-span-12">
-            <h1
-              data-hero-item
-              className="font-display text-display-lg font-medium tracking-tight text-text-primary lg:text-display-xl"
-            >
-              Human-like AI calls that get things done.
-            </h1>
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col">
+        <div className="relative z-10 order-1 flex max-w-3xl flex-col items-start text-left">
+          <h1
+            data-hero-item
+            className="font-display text-display-md font-medium tracking-tight text-text-primary lg:text-display-xl"
+          >
+            Human-like AI calls that get things done.
+          </h1>
 
-            <p
-              data-hero-item
-              className="mt-4 max-w-lg font-body text-body-md leading-relaxed text-text-secondary"
-            >
-              Nova Echo holds natural conversations, remembers every detail,
-              and takes action across 5,000+ apps.
-            </p>
+          <p
+            data-hero-item
+            className="mt-4 max-w-lg font-body text-body-md leading-relaxed text-text-secondary lg:max-w-none lg:whitespace-nowrap"
+          >
+            Nova Echo holds natural conversations, remembers every detail,
+            and takes action across 5,000+ apps.
+          </p>
+        </div>
 
-            <div data-hero-item className="mt-8 flex w-full flex-row items-center gap-4">
-              <a
-                href="#book-call"
-                className="btn-primary whitespace-nowrap"
-                onClick={(e) => scrollTo("#book-call", e)}
-              >
-                Book a Call
-              </a>
-              <a
-                href="#book-call"
-                className="btn-secondary whitespace-nowrap"
-                onClick={(e) => scrollTo("#book-call", e)}
-              >
-                <Play size={14} weight="fill" aria-hidden="true" className="mr-2" />
-                Watch Demo
-              </a>
-            </div>
-
-            <ul
-              data-hero-item
-              className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3"
-              aria-label="Product highlights"
-            >
-              {values.map(({ icon: Icon, label }) => (
-                <li key={label} className="flex items-center gap-2">
-                  <Icon size={16} weight="duotone" aria-hidden="true" className="shrink-0 text-accent-cyan" />
-                  <span className="font-body text-body-sm text-text-secondary">
-                    {label}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div data-hero-item className="lg:order-2 lg:col-span-12">
-            <div className="rounded-md border border-white/10 bg-white/10 p-6 backdrop-blur-xl lg:p-8">
-              <div className="mb-6 flex flex-col items-start gap-2 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
-                <p className="font-mono text-body-sm font-medium uppercase tracking-wider text-text-primary">
-                  Your Agents to Success
-                </p>
-                <p className="font-mono text-caption uppercase tracking-wider text-text-secondary">
-                  Simulated preview
+        <div
+          data-hero-item
+          className="relative z-0 order-2 mt-8 lg:order-3 lg:mt-12"
+        >
+            <div className="overflow-hidden rounded-window border border-surface-200 bg-surface-100 shadow-window">
+              <div className="flex flex-col items-start gap-2 border-b border-surface-200 px-4 py-3 lg:flex-row lg:items-center lg:justify-between lg:gap-4 lg:px-6">
+                <div className="flex items-center gap-2">
+                  <span className="window-dot" aria-hidden="true" />
+                  <span className="window-dot" aria-hidden="true" />
+                  <span className="window-dot" aria-hidden="true" />
+                  <p className="font-mono text-body-sm font-medium uppercase tracking-wider text-text-primary-light">
+                    Nova Echo Console
+                  </p>
+                </div>
+                <p className="flex items-center gap-2 font-mono text-caption uppercase tracking-wider text-text-secondary-light">
+                  <span className="hero-live-dot" data-active="true" aria-hidden="true" />
+                  Simulated call
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 md:gap-x-4 lg:grid-cols-12 lg:gap-x-6 lg:gap-y-3">
-                <div className="lg:col-span-2 lg:flex lg:flex-col lg:justify-center">
+              <div className="grid grid-cols-1 lg:grid-cols-12">
+                <div className="px-4 pt-3 pb-4 lg:col-span-3 lg:border-r lg:border-surface-200 lg:px-6 lg:pt-4 lg:pb-6">
+                  <p className="console-panel-head mb-2 lg:mb-3">Agents</p>
                   <AgentSelector
                     activeId={call.script.id}
                     onSelect={call.selectAgent}
                   />
+                  <p
+                    key={call.script.id}
+                    className="mt-4 border-t border-surface-200 pt-4 font-body text-caption leading-relaxed text-text-secondary-light"
+                  >
+                    {call.script.description}
+                  </p>
                 </div>
 
-                <div className="border-t border-white/10 pt-6 lg:col-span-3 lg:flex lg:flex-col lg:justify-center lg:border-l lg:border-t-0 lg:pl-3 lg:pt-0">
+                <div className="border-t border-surface-200 px-4 pt-3 pb-2 lg:col-span-6 lg:border-t-0 lg:px-6 lg:pt-4 lg:pb-6">
+                  <div className="mb-2 flex flex-col items-start gap-2 lg:mb-3 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
+                    <p className="console-panel-head">Live call</p>
+                    <p
+                      className="font-mono text-caption tabular-nums text-text-secondary-light"
+                      aria-live="polite"
+                    >
+                      {call.script.agentLabel} · {call.elapsed}
+                    </p>
+                  </div>
+
+                  <CallReadout call={call} />
+
+                  <div className="mt-4 border-t border-surface-200 pt-4">
+                    <CallIntent call={call} />
+                  </div>
+
                   <VoiceWaveform
                     phase={call.phase}
                     reducedMotion={call.reducedMotion}
@@ -126,35 +102,35 @@ export default function Hero() {
                   />
                 </div>
 
-                <div className="border-t border-white/10 pt-6 lg:col-span-4 lg:border-l lg:border-t-0 lg:pl-3 lg:pt-0">
-                  <CallReadout call={call} />
-                </div>
-
-                <div className="border-t border-white/10 pt-6 lg:col-span-3 lg:border-l lg:border-t-0 lg:pl-3 lg:pt-0">
+                <div className="border-t border-surface-200 px-4 pt-2 pb-4 lg:col-span-3 lg:bg-white lg:border-l lg:border-t-0 lg:border-surface-200 lg:px-6 lg:pt-4 lg:pb-6">
+                  <p className="console-panel-head mb-2 lg:mb-3">Live workflow</p>
                   <WorkflowPreview call={call} />
+                  <RoiPreview call={call} />
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-              <p
-                key={call.script.id}
-                className="max-w-md font-body text-body-sm leading-relaxed text-text-secondary"
-              >
-                {call.script.description}
-              </p>
-              <button
-                type="button"
-                onClick={() => openRoi(call.script.roiName)}
-                className="inline-flex shrink-0 items-center gap-2 font-body text-body-sm font-medium text-text-primary transition-colors hover:text-accent-cyan"
-              >
-                {call.script.roiCta}
-                <ArrowRight size={16} weight="bold" aria-hidden="true" />
-              </button>
-            </div>
+          <div
+            data-hero-item
+            className="order-3 mt-8 flex w-full flex-row items-center gap-4 lg:order-2"
+          >
+            <a
+              href="#book-call"
+              className="btn-primary whitespace-nowrap"
+              onClick={(e) => scrollTo("#book-call", e)}
+            >
+              Book a Call
+            </a>
+            <a
+              href="#results"
+              className="btn-secondary whitespace-nowrap"
+              onClick={(e) => scrollTo("#results", e)}
+            >
+              Clients Wins
+            </a>
           </div>
         </div>
-      </div>
     </section>
   );
 }
