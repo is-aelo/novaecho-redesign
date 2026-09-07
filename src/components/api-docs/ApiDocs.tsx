@@ -11,11 +11,11 @@ export default function ApiDocs() {
     <section className="w-full bg-surface-50 px-6 py-16">
       <div className="mx-auto flex max-w-6xl flex-col">
         <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
-          <span className="inline-block px-4 py-1 text-caption font-bold uppercase tracking-widest text-accent-cyan bg-surface-50 border border-accent-cyan/40 mb-6 rounded-sm">
+          <span className="inline-block px-4 py-1 text-caption font-semibold uppercase tracking-wider text-accent-cyan bg-surface-50 border border-accent-cyan/40 mb-6 rounded-sm">
             Coming Soon
           </span>
 
-          <h1 className="font-display text-display-md lg:text-display-lg font-bold leading-tight tracking-tight text-text-primary-light">
+          <h1 className="font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
             API Documentation
           </h1>
 
@@ -36,7 +36,7 @@ export default function ApiDocs() {
                 <div className="flex items-center justify-start">
                   <Icon className="text-accent-cyan" size={24} weight="duotone" />
                 </div>
-                <h3 className="font-bold text-body-md text-text-primary-light">
+                <h3 className="font-semibold text-body-md text-text-primary-light">
                   {f.title}
                 </h3>
                 <p className="flex-1 text-body-sm leading-relaxed text-text-secondary-light">

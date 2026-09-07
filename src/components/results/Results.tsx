@@ -81,7 +81,7 @@ export default function Results() {
     <section className="w-full bg-surface-50 px-6 py-16">
       <div className="mx-auto flex max-w-6xl flex-col">
         <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
-          <h1 className="font-display text-display-md lg:text-display-lg font-bold leading-tight tracking-tight text-text-primary-light">
+          <h1 className="font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
             Results & Customer Success Stories
           </h1>
           <p className="mt-3 max-w-2xl text-body-sm lg:text-body-md leading-relaxed text-text-secondary-light">

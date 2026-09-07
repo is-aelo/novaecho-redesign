@@ -4,13 +4,13 @@ Portfolio case study. Concept redesign of novaecho.ai, not affiliated with or en
 
 ## Design system — mandatory, read first
 
-Read `design.md` before writing or editing any component. It is the single source of truth for color, type, spacing, radius, shadow, and motion.
+Read `docs/design.md` before writing or editing any component. It is the single source of truth for color, type, spacing, radius, shadow, and motion.
 
-**Never hardcode a color, font size, spacing value, radius, shadow, or gradient directly in JSX, CSS, or Tailwind arbitrary values.** Every visual value must resolve through a Tailwind theme token or CSS variable that traces back to `design.md`. If you need a value that isn't defined there, stop and flag it back to the user — do not invent one inline and do not approximate with an arbitrary value like `bg-[#0a0e1a]`.
+**Never hardcode a color, font size, spacing value, radius, shadow, or gradient directly in JSX, CSS, or Tailwind arbitrary values.** Every visual value must resolve through a Tailwind theme token or CSS variable that traces back to `docs/design.md`. If you need a value that isn't defined there, stop and flag it back to the user — do not invent one inline and do not approximate with an arbitrary value like `bg-[#0a0e1a]`.
 
-Gradients specifically: `design.md` defines exactly where gradients are allowed (subtle navy depth on primary CTA fill, ambient background glow, hover-state rings) and where they are forbidden (loud full-saturation cyan-to-sky on buttons, text). Follow that rule exactly — this is the direct fix for the site's original "harsh gradient CTA" problem, and reverting it defeats the point of the redesign.
+Gradients specifically: `docs/design.md` defines exactly where gradients are allowed (ambient background glow, hover-state rings) and where they are forbidden (any button default fill, headings outside the single hero phrase, section backgrounds, borders). Primary CTA default is solid `var(--surface-700)`. Follow that rule exactly — this is the direct fix for the site's original "harsh gradient CTA" problem, and reverting it defeats the point of the redesign.
 
-Whenever a design decision changes — new gradient, color, spacing, radius, shadow, motion value, or any rule about where something is allowed/forbidden — update `design.md` first (or in the same change). `design.md` must never lag behind the implementation. If code uses a value or pattern that isn't documented there, that's a bug in the spec, not a reason to skip the doc.
+Whenever a design decision changes — new gradient, color, spacing, radius, shadow, motion value, or any rule about where something is allowed/forbidden — update `docs/design.md` first (or in the same change). `docs/design.md` must never lag behind the implementation. If code uses a value or pattern that isn't documented there, that's a bug in the spec, not a reason to skip the doc.
 
 ## Token wiring
 
@@ -53,13 +53,13 @@ fontFamily: {
 
 Before treating any component as done, check it against this list. If it matches any of these, revise it.
 
-- Gradient used as a button's default fill instead of the glow/ring-on-hover pattern in `design.md` — subtle navy depth gradient is the allowed default fill; loud full-saturation cyan-to-sky gradients remain forbidden
+- Gradient used as a button's default fill instead of the solid-fill + glow/ring-on-hover pattern in `docs/design.md` — solid `var(--surface-700)` is the only allowed default fill; all gradients on buttons are hover/focus-only
 - Generic rounded-full pill badges used as pure decoration with no functional purpose
 - Emoji used as icons in place of a real icon set
 - Copy leaning on generic SaaS-hype language — "Unlock," "Elevate," "Supercharge," "Revolutionize," "Seamless" — instead of specific, concrete claims
 - Numbered badges (01/02/03) used decoratively where the content isn't actually a sequence
-- Decorative blurred gradient "blob" shapes with no relationship to the product (this build's one legitimate exception is the call-trace waveform motif in `design.md`, since it's grounded in the actual product — voice calls)
-- Default framework spacing/type scale left untouched instead of the scale defined in `design.md`
+- Decorative blurred gradient "blob" shapes with no relationship to the product (this build's one legitimate exception is the call-trace waveform motif in `docs/design.md`, since it's grounded in the actual product — voice calls)
+- Default framework spacing/type scale left untouched instead of the scale defined in `docs/design.md`
 - Card grids where every card is identical in structure and weight, with no visual hierarchy between primary and secondary content
 
 ## Definition of done
@@ -67,5 +67,5 @@ Before treating any component as done, check it against this list. If it matches
 - [ ] No raw hex, px, or arbitrary Tailwind values in component files — everything resolves through a token
 - [ ] Responsive and unbroken at 375px, 768px, and 1280px
 - [ ] Motion respects `prefers-reduced-motion`
-- [ ] No gradient used as a default button fill — glow/ring on hover only, per design.md (subtle navy depth gradient allowed as default fill)
+- [ ] No gradient used as a default button fill — glow/ring on hover only, per docs/design.md (solid `var(--surface-700)` is the only allowed default fill)
 - [ ] No shadow harder than `--shadow-glow`

@@ -162,7 +162,7 @@ export default function RoiModal() {
       >
         <div className="sticky top-0 z-10 flex items-center justify-between bg-surface-100/90 backdrop-blur-md px-6 py-4 border-b border-surface-200 lg:px-8">
           <div>
-            <h2 className="font-display text-display-sm font-bold text-text-primary-light">
+            <h2 className="font-display text-display-sm font-semibold text-text-primary-light">
               {agentType} ROI Calculator
             </h2>
             <p className="mt-0.5 text-body-sm text-text-secondary-light">

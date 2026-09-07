@@ -145,7 +145,7 @@ export default function Benchmark() {
     <section id="benchmarks" className="w-full bg-surface-50 px-6 py-16 scroll-mt-16">
       <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12">
         <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
-          <h2 className="font-display text-display-md lg:text-display-lg font-bold leading-tight tracking-tight text-text-primary-light">
+          <h2 className="font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
             Precision Benchmark
           </h2>
           <p className="mt-3 max-w-2xl text-body-sm lg:text-body-md leading-relaxed text-text-secondary-light">
@@ -177,7 +177,7 @@ export default function Benchmark() {
                   <td className="px-4 py-4 text-body-sm font-medium text-text-primary-light">
                     {row.feature}
                   </td>
-                  <td className="px-4 py-4 text-body-sm font-medium text-accent-purple bg-accent-sky/6">
+                  <td className="px-4 py-4 text-body-sm font-medium tabular-nums text-accent-purple bg-accent-sky/6">
                     {row.nova}
                   </td>
                   <td className="px-4 py-4 text-body-sm text-text-secondary-light/80">
@@ -198,11 +198,11 @@ export default function Benchmark() {
                   {row.feature}
                 </p>
                 <div className="mt-2 flex flex-col gap-1.5">
-                  <div className="flex items-baseline justify-between gap-2 -mx-6 px-6 py-1.5 bg-accent-sky/6">
+                  <div className="flex items-baseline justify-between gap-2 -mx-4 px-4 py-1.5 bg-accent-sky/6">
                     <span className="text-caption font-medium text-text-primary-light shrink-0">
                       Nova Echo AI
                     </span>
-                    <span className="text-body-sm font-medium text-accent-purple text-right">
+                    <span className="text-body-sm font-medium tabular-nums text-accent-purple text-right">
                       {row.nova}
                     </span>
                   </div>

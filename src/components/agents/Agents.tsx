@@ -33,7 +33,7 @@ export default function Agents() {
     <section id="solutions" className="w-full px-6 py-16 bg-surface-50 scroll-mt-16">
       <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12">
         <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
-          <h2 className="font-display text-display-md lg:text-display-lg font-bold leading-tight tracking-tight text-text-primary-light">
+          <h2 className="font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
             Your Agents to <span className="hero-text-highlight">Success</span>
           </h2>
           <p className="mt-3 max-w-2xl text-body-sm lg:text-body-md leading-relaxed text-text-secondary-light">
@@ -53,7 +53,7 @@ export default function Agents() {
                 <div className="flex items-center justify-start">
                   <Icon className="text-accent-cyan" size={24} weight="duotone" />
                 </div>
-                <h3 className="font-bold text-body-sm md:text-body-md text-text-primary-light">
+                <h3 className="font-semibold text-body-sm md:text-body-md text-text-primary-light">
                   {agent.title}
                 </h3>
                 <p className="text-caption md:text-body-sm leading-relaxed text-text-secondary-light">

@@ -24,7 +24,7 @@ export default function Trusted() {
   return (
     <section className="w-full overflow-hidden bg-surface-50 px-6 py-16">
       <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
-        <h2 className="font-display text-display-xs sm:whitespace-nowrap font-bold leading-tight tracking-tight text-text-primary-light">
+        <h2 className="font-display text-display-xs sm:whitespace-nowrap font-semibold leading-tight tracking-tight text-text-primary-light">
           Trusted by Industry Leaders
         </h2>
 

@@ -15,7 +15,7 @@ Built with **Next.js (App Router)**, **Tailwind CSS 4**, and **GSAP**.
 
 ## Design System
 
-See [`design.md`](./design.md) for the full source of truth — colors, typography, spacing, gradients, motion tokens, and component specs.
+See [`design.md`](./docs/design.md) for the full source of truth — colors, typography, spacing, gradients, motion tokens, and component specs.
 
 ## Getting Started
 
@@ -41,4 +41,4 @@ Open [http://localhost:3000](http://localhost:3000).
 - **Styling:** Tailwind CSS 4
 - **Animation:** GSAP 3 (ScrollTrigger, motion hooks)
 - **Icons:** Phosphor React
-- **Fonts:** Plus Jakarta Sans (display), Inter (body)
+- **Fonts:** Geist (primary), Geist Mono (technical UI)

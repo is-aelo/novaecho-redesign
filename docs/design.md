@@ -46,9 +46,23 @@ Light surfaces (Features, stats, etc.) use `--text-primary-on-light` and `--text
 
 ## Gradient system — this is the fix
 
-The current site's problem isn't the colors, it's that cyan-to-sky is used as a full-saturation, hard-edged gradient *fill* on small elements (buttons especially), paired with heavy drop shadows. That reads as a generic startup template. The fix keeps the same brand colors but changes where and how they appear.
+The current site's problem isn't the colors, it's that saturated gradients compete across buttons, headings, borders, and backgrounds. That reads as a generic startup template. The fix keeps the same brand colors but changes where and how they appear.
 
-**Rule: gradients are for ambient atmosphere and the primary CTA fill. Secondary/tertiary buttons use solid or near-solid fills only.**
+**Rule: color communicates hierarchy, not decoration. L1 Solid is the default. Gradients are accent treatments only.**
+
+```
+Level 1 --- Solid (default UI):
+  Cards, navigation, buttons, surfaces, pricing structures.
+  No gradient. Primary CTA default is solid brand navy.
+
+Level 2 --- Subtle gradient (emphasis only):
+  Selected cards, hero background lighting, important feature panels.
+  --gradient-glow and --gradient-surface only. Never above 20% opacity.
+
+Level 3 --- Hero gradient / glow (reserved):
+  Major visual moments only. Hero is the strongest use of color on the page.
+  Everything below calms down. Waveform cyan-to-sky + one soft glow behind product UI.
+```
 
 ```
 --gradient-glow:
@@ -68,21 +82,20 @@ The current site's problem isn't the colors, it's that cyan-to-sky is used as a 
 
 --gradient-text-highlight:
   var(--gradient-accent-ring)
-  Use: a subtle accent treatment on a single hero headline phrase only, not the full headline.
-  Keep the effect restrained and avoid loud, full-saturation blends.
+  Use: single hero headline phrase ONLY. Never on section headings, card titles, or multiple headings on one page.
+  Agents, Features, and all non-hero headings use solid text.
 
---gradient-button-primary (button fill):
-  linear-gradient(135deg, #E61EAD 0%, #BA0FFF 40%, #7000FF 65%, #2C259A 88%, #1E3A8A 100%)
-  5-stop linear blend at 135deg — magenta through hot purple into navy.
-  Use: primary CTA default fill only. Hover state uses --gradient-accent-ring border + --shadow-glow instead.
-  Note: The cyan/sky accent appears on hover via the border ring (--gradient-accent-ring) and soft glow (--shadow-glow), not in the default fill — this avoids banding and keeps the hover reveal satisfying.
-  Note: #BA0FFF and #2C259A are intermediate values not in the core brand palette — used only within this gradient.
+DEPRECATED — do not use on new code:
+--gradient-button-primary (5-stop magenta-to-navy) is retired as a default fill.
+  Replaced by solid --surface-700. Retained in globals.css only until callers migrate.
+  --hero-blob-gradient-* (cyan/sky/purple/navy blobs) are removed. No floating blobs.
+  Benchmark Nova header uses solid --accent-cyan 2px underline, not a gradient border.
 ```
 
 ## Buttons
 
 ```
-Primary — default:  linear-gradient 135deg #E61EAD → #BA0FFF → #7000FF → #2C259A → #1E3A8A (--gradient-button-primary), white text, 1px transparent border, radius-sm, no shadow
+Primary — default:  solid var(--surface-700) #1E3A8A, white text, 1px transparent border, radius-sm, no shadow
 Primary — hover:     border becomes var(--gradient-accent-ring), soft glow (blurred, ≤20% opacity cyan, NOT a hard drop shadow)
 Primary — focus:     2px solid var(--accent-cyan) outline, offset 2px
 
@@ -90,30 +103,75 @@ Secondary — default: transparent fill, 1px solid rgba(255,255,255,0.24) border
 Secondary — hover:    border brightens to rgba(255,255,255,0.48)
 ```
 
-Only the primary CTA uses a gradient as its resting-state background (--gradient-button-primary). All other buttons use solid or near-solid fills. The gradient on the primary CTA is the deliberate focal point — secondary buttons remain restrained to maintain visual hierarchy.
+Only the primary CTA gets the hover ring + glow emphasis. Default state is solid on all buttons. No gradient default fills.
 
 ## Typography
 
-Two families only, per spec.
+Geist is the single primary typeface across the entire site. Geist Mono is a
+functional detail for technical/system contexts only — never body copy, nav,
+buttons, or general headings. Loaded via `next/font/google` (`Geist` 400–700,
+`Geist_Mono` 400–500); no font-management dependencies.
 
 ```
---font-display: 'Plus Jakarta Sans'   — hero, section headlines, feature titles. Weights 600 / 700.
---font-body:    'Inter'                — paragraphs, UI, buttons, nav. Weights 400 / 500.
+--font-display: 'Geist'   — hero, section headlines, feature titles. Weight 600.
+--font-body:    'Geist'   — paragraphs, UI, buttons, nav. Weights 400 / 500.
+--font-mono:    'Geist Mono' — system status, call duration, technical metadata,
+                live activity, data-heavy interface elements. Weights 400 / 500.
 ```
 
-Data and stats (comparison table, metric callouts) use `--font-body` with `font-variant-numeric: tabular-nums` — keeps to the two-font system while still aligning numerals cleanly.
+### Weights
+
+```
+400:  paragraphs, descriptions, supporting copy, secondary content
+500:  navigation, buttons, UI labels, secondary headings, emphasized interface text
+600:  H1, H2, important H3 headings, feature titles, important product statements
+700:  sparingly — major pricing values and exceptional display emphasis only
+```
+
+Hierarchy comes from scale + spacing + weight + contrast — never gradients,
+glow, or text effects. All headings use solid text.
+
+Data and stats (comparison table, pricing values, metric callouts) use Geist
+with `font-variant-numeric: tabular-nums`. Geist Mono is used only when a
+number is explicitly presented as technical/system information (call timer,
+connection status).
+
+### Tracking
+
+```
+Display (H1/H2):       tracking-tight (-0.025em)
+Body:                  normal (0)
+Small uppercase labels: tracking-wider (0.05em) — never tracking-widest
+```
 
 ### Scale
 ```
-display-xl:  56px / 60px line-height   — hero headline
-display-lg:  40px / 44px               — section headlines
+display-xl:  48px / 50px line-height   — hero headline (desktop)
+display-lg:  44px / 48px               — hero headline (mobile), section headlines (desktop), major pricing values
+display-md:  34px / 38px               — section headlines (mobile)
 display-xs:  18px / 24px               — mobile section headlines that must fit one row
-display-sm:  22px / 28px               — mobile section headlines
-display-md:  28px / 34px               — card / feature titles
+display-sm:  22px / 28px               — ROI modal titles, legal H2s
 body-lg:     18px / 28px               — hero subhead, intro copy
 body-md:     16px / 24px               — default body
 body-sm:     14px / 20px               — supporting text, captions
 caption:     12px / 16px               — labels, metadata
+```
+
+## Global page shell — overflow + gutter
+
+Horizontal overflow is locked globally and the page gutter is a single
+responsive token, so no section can cause sideways scroll or touch the
+viewport edge at 375px, 768px, or 1280px.
+
+```
+Overflow:      html + body overflow-x hidden (clip where supported).
+               Y-axis is never locked — vertical scroll, sticky, and
+               modal overflow-y-auto keep working.
+--page-gutter: 16px mobile → 24px at lg (both from the spacing scale).
+               Applied globally to section.w-full, footer.w-full, and
+               header.sticky, overriding per-section px utilities.
+               Inner content stays mx-auto max-w-6xl; backgrounds stay
+               full-bleed on the section element itself.
 ```
 
 ## Responsive breakpoints
@@ -132,7 +190,7 @@ Only true laptop/desktop screens (≥1024px) get desktop layout. When in doubt, 
 4px base scale: `4, 8, 12, 16, 24, 32, 48, 64, 96, 180`. Nav height capped at 64px.
 
 ### Section pattern — subtext to content gap
-The vertical gap between a section's subtext paragraph and its main content (card grid, logo track, etc.) must be `mt-5` (20px) on mobile and `lg:mt-6` (24px) on desktop. Matches the hero's subtext-to-metrics spacing.
+The vertical gap between a section's subtext paragraph and its main content (card grid, logo track, etc.) must be `mt-5` (20px) on mobile and `lg:mt-6` (24px) on desktop.
 
 ## Radius
 ```
@@ -150,16 +208,91 @@ No shadow above a soft, low-opacity glow. No hard drop shadows anywhere — this
 --shadow-glow: 0 0 24px rgba(0,209,255,0.18)   (hover states only, see Buttons above)
 ```
 
-## Hero
+## Hero — editorial voice composition
 
-Full-viewport-height section (100vh min). Content centered vertically and horizontally over the breathing audiowave background. The hero is the only section on the dark background (`--surface-950`); subsequent sections use light surfaces (`--surface-50`, `--surface-100`).
+Editorial hero on `--surface-950`: message column + compact call readout on top,
+full-width live waveform band below. No ambient gradient blobs — depth comes from
+the waveform layering, structural grid hairlines, and film grain. Must look
+excellent with all effects removed (solid text, hairline borders, flat surfaces).
 
 ```
-Headline:   display-xl (56px / 60px), font-display, font-weight 700, white
-Subhead:    body-lg (18px / 28px), font-body, --text-secondary-on-dark
-Trust strip: three compact metrics beneath the subhead, centered, using Phosphor Icons via @phosphor-icons/react
-CTA row:    primary button + secondary button, gap 16px
-Max-width:  720px, text-align center
+Layout:        grid, 1 col mobile → 12 cols at lg, gap-12 → lg:gap-8
+  Message:     span 12, max-w-3xl (headline, subhead, CTAs, values — unchanged)
+  Band:        span 12 frosted white card — bg white/10, backdrop-blur-xl,
+               1px white/10 border, radius-md, p-6 → lg:p-8. Selector (span 2) +
+               waveform (span 3, hairline divider) + conversation (span 4,
+               hairline divider) + workflow (span 3, hairline divider).
+               Conversation + workflow together are the two-col call preview.
+               Selections left, live demo right.
+               Inner grid gap-6 → lg:gap-3 with lg:pl-3 dividers; selector +
+               waveform vertically centered at lg against readout height
+               (readouts stay top-aligned so revealing rows never shift).
+               Mobile order: selector → waveform → conversation → workflow.
+  Footer:      selected description + contextual ROI CTA below the band
+  Mobile order: message → selector → waveform → readout → footer (DOM order)
+Background:    --surface-950 + 4 vertical hairlines, 1px rgba(255,255,255,0.035),
+               full hero height, vertically faded at both ends, aligned to container
+Headline:      display-lg → display-xl (44px/48px → 48px/50px), font-display, weight 500, solid white — never gradient
+Subhead:       body-md (16px / 24px), font-body, --text-secondary-on-dark
+CTA row:       primary (btn-primary, solid --surface-700) + secondary (btn-secondary, quiet outline), gap-4
+Values:        three items below CTAs, body-sm --text-secondary-on-dark, Phosphor icons in --accent-cyan
+Readout:       transparent (no card chrome), min-height 200 → lg:320
+  Headers:     band header (Your Agents to Success / Simulated preview) and
+               readout status (agent name / state · mm:ss) stack vertically
+               (flex-col, items-start, gap-2) on mobile and sit side-by-side
+               (flex-row, justify-between, gap-4) only at lg — never squeeze
+               two labels onto one row at small sizes.
+  Mobile rhythm: the gap between the band header and the first readout row is
+               tighter on mobile (`mb-4` / `mt-4 pt-4`) and returns to the
+               standard `lg:mb-6` / `lg:mt-6 lg:pt-6` spacing at desktop.
+  Status:      mono caption uppercase — agent name + live dot + state · mm:ss (aria-live polite)
+  Transcript:  mono speaker tags + Geist body text; rows always in DOM, revealed by opacity.
+               Order is AI opener → customer → AI closer (aiFollowUp), so the
+               conversation always ends with the agent. Type scale unchanged.
+  Workflow:    separate last column headed "Live workflow"; mono text rows with
+               CheckCircle --accent-cyan, staggered in. Never stacked under the
+               transcript.
+Selector:      compact vertical nav, no cards. Transparent buttons, 1px
+               rgba(255,255,255,0.08) dividers, body-sm secondary text.
+  Active:      white medium text + 2px accent-cyan left bar (text label always
+               present — never color-alone) + aria-pressed/aria-current.
+  Focus:       2px solid --accent-cyan outline, offset 2px.
+Waveform band: left label "Your Agents to Success" leads — mono body-sm medium
+                uppercase primary; right "Simulated preview" stays mono caption secondary.
+               compact SVG height 220 → lg:280.
+               Per-agent energy multipliers (subtle): Receptionist 1.0/1.0,
+               Speed-to-Lead 1.1 amp/1.35 speed, Outbound 1.2 amp/0.9 speed.
+Footer:        selected agent description (body-sm secondary) + contextual ROI
+               CTA opening the existing ROI modal via openRoi(agentName) —
+               no second calculator, no reselection.
+```
+
+### Hero voice demo — Conversation → Understanding → Action
+
+Three agent scripts (Receptionist default, Speed-to-Lead, Mass Outbound), each with
+its own conversation, actions, description, mock company, and waveform energy. Selecting an agent
+resets and replays that agent's sequence once — no reload, no navigation, no modal.
+Each run plays once per selection (and once on load); no auto-loop, refresh replays.
+
+```
+Engine:        requestAnimationFrame, all geometry in refs (no React re-renders).
+               Parameters (amplitude, speed, irregularity, bar energy) ease toward
+               per-phase targets every frame — transitions are smooth, never jumping.
+Pacing:        ~1.5x demo sequence — idle 1600 → listening 1700 → processing 1200 →
+               speaking 2300 → actions stagger 600 each → complete 600.
+               Call timer stays real-time (1s ticks).
+Layers:        3 flowing curves (sky 1.25px/0.22, cyan 1.5px/0.32, cyan 1.75px/0.6),
+               84 center-weighted bars (cyan→sky fill, 0.55), 56 hairline ticks (sky, 0.14).
+               Center-weighted envelope: detail concentrates mid-band, edges fade via mask.
+Grain:         static SVG feTurbulence rect (fractalNoise, baseFrequency 0.8),
+               white speckle at 0.07 opacity, inside the edge-fade mask so it melts
+               into the background. Texture on the visualization only — never over text.
+Reduced motion: single static idle frame, no loop; full transcript + actions visible,
+               timer fixed at 00:42, status reads "Call completed".
+Live region:   status + duration line is aria-live polite; hidden transcript rows are
+               aria-hidden until revealed; state is never color-alone (text always present).
+Previews:      neutral mock businesses only (Bright Smile Studio, Harbor Realty Group,
+               Peak Fitness Co.). Never Nova / Nova Echo in preview transcripts or speaker tags.
 ```
 
 ## Iconography
@@ -203,81 +336,32 @@ Gap subtext:   mt-5 / lg:mt-6 (per section pattern)
 Card padding:  p-8
 ```
 
-## Hero background — live phone call waveform
+## Hero background — atmospheric dome + structural grid
 
-Full-bleed layered background behind hero content (z-0). A single continuous waveform of ~466 ultra-thin vertical bars scrolls horizontally right-to-left, simulating a live voice call being recorded in real time. The visual language matches professional audio software (Apple Voice Memos, Adobe Audition, Descript) — not a music visualizer or equalizer.
-
-```
-Front layer:   brightest, crisp, closest, opacity 0.92, blur 0.6, fastest scroll (175px/s), max amplitude 52px
-Middle layer:  semi-transparent, opacity 0.55, blur 1.6, moderate scroll (120px/s), max amplitude 68px
-Back layer:    heavily blurred, faint, opacity 0.25, blur 2.8, slowest scroll (70px/s), max amplitude 88px
-```
-
-### Waveform generation — speech-event-driven engine
-
-Bar heights are NOT random and NOT procedural noise. Each layer runs a `SpeechEngine` that models human speech as a state machine with explicit phases:
-
-1. **Pause phase** — near-zero amplitude, breathing. Duration: 0.25–0.85s, varies over time.
-2. **Speaking phase** — a phrase of N syllables (3–15). Syllable spacing: 150–300ms. Each syllable is a Gaussian envelope (attack→peak→decay) with emphasis variation and micro-oscillation.
-3. **Decay phase** — exponential tail after the last syllable. Duration: 0.18–0.38s.
-4. **Return to pause** — cycle repeats with different parameters each time.
-
-Each phrase has randomized: syllable count, spacing, intensity (0.18–0.73), decay duration, and pause duration. The engine carries continuous state across frames — amplitude never resets, never jumps, never visibly loops.
-
-### Spatial coherence — one continuous signal
-
-All bars in a layer are driven by the same `SpeechEngine` instance. Neighboring bar correlation is enforced by:
-
-- **Buffer shift**: each frame, all amplitudes shift left by one position; one new sample is pushed on the right.
-- **Double-pass Gaussian spatial smoothing** (radius 5, σ≈1.8): heights are averaged across neighbors with Gaussian weighting, applied twice for strong coherence.
-- **Per-bar shaping**: `amplitude^1.3` power curve for natural speech dynamics.
-- **Temporal continuity**: the `SpeechEngine` amplitude evolves continuously — no frame-to-frame discontinuities.
-
-The result is a single coherent waveform that behaves like one recorded audio signal, not independent animated bars.
-
-### Speech characteristics
-
-The engine reproduces natural speech patterns:
-- Long quiet moments (breathing pauses between phrases)
-- Soft onsets (exponential attack at phrase start)
-- Syllable clusters with natural emphasis variation
-- Gradual exponential decay after each phrase
-- Variable phrase lengths (short words to long sentences)
-- Rhythm that constantly evolves (no repeating sequences)
-
-Most of the waveform stays relatively calm. Occasional energetic phrases appear before returning to quieter regions.
-
-### Movement
-
-- Entire waveform continuously translates left via GSAP ticker
-- New amplitude data generated only at the right edge (buffer shift + push)
-- Old data exits naturally on the left
-- Scroll speed varies per layer (front fastest, back slowest)
-
-### Visual design
+The hero's one allowed atmospheric treatment: a single broad, low dome of luminous
+color across the lower ~72% of the hero, behind the waveform band. Flat
+`--surface-950` everywhere else, with 4 vertical 1px hairlines at
+rgba(255,255,255,0.035), full hero height, vertically faded at both ends via mask.
 
 ```
-Background:    var(--hero-wave-background) #05070A
-Bars:          2px wide, 1px gap, rx=1 rounded caps (fully rounded ends)
-Gradient:      cyan (#00D1FF) → sky (#4FACFE) via linearGradient (no purple — enterprise-grade minimal)
-Opacity:       varies with amplitude per layer (0.03–1.0 range)
-Glow:          single SVG feGaussianBlur filter (0.4 stdDeviation) — very subtle, no heavy bloom
-Mask:          horizontal linearGradient fade at edges (0%→4% opacity ramp, 96%→100% fade)
+Form:          ONE continuous mass (never multiple blobs, never a circle/pill).
+               Broad gentle arch, densest center-low, tapering both sides,
+               full-bleed width extending past the waveform. Upper edge uneven
+               and organic via turbulence displacement — never geometric.
+Colors:        system only, navy-dominant — wide navy edges → narrowed cyan → sky → purple hint.
+                Dark leads, bright center recedes. No bands: stops bleed into each other under heavy blur.
+Texture:       mottling + fine grain composited INSIDE the mass (clipped to its
+               alpha), denser at center, dissolving with the edge fade.
+Motion:        slow waveform sway, transform + opacity only — y -8→10px / 7s,
+                scaleY 1→1.03 / 9s, xPercent 0→-1.5% / 11s, opacity 0.92→1 / 6s.
+                All sine.inOut yoyo. Calm swell, never aggressive.
+                Disabled under prefers-reduced-motion.
+Implementation: static SVG filter (displacement + blur + grain, rendered once),
+                GSAP sway on the wrapper via useAtmosphereMotion. No filter animation.
 ```
 
-### Performance
-
-- All waveform data stored in useRef (engines, Float32Array buffers, SVG elements) — never triggers React re-renders
-- Bar positions updated via direct SVG attribute mutation (setAttribute)
-- Float32Array for buffer operations (cache-friendly, no GC pressure)
-- GSAP ticker drives the animation loop at native frame rate
-- No React state updates during animation
-- Initialization guard prevents double-setup in React Strict Mode
-- Cleanup removes all DOM elements and ticker listener on unmount
-
-### Reduced motion
-
-`prefers-reduced-motion: reduce` — GSAP ticker is never registered, waveform remains static at initial state (near-zero amplitude bars).
+RETIRED: the full-bleed scrolling bar waveform, the multi-color sine paths, and the
+single ambient `--gradient-glow` blob are all removed.
 
 ## Pricing section
 
@@ -306,12 +390,12 @@ Card padding:     p-8 (side), py-10 px-8 lg:py-12 (center)
 
 ## Benchmark section
 
-Light comparison table on `--surface-50` background. 4-column matrix comparing Nova Echo AI vs Competitors vs Humans across 13 metrics. The "Nova Echo AI" column header has a pink-to-purple gradient bottom border; values under it use `--accent-cyan` for visual emphasis.
+Light comparison table on `--surface-50` background. 4-column matrix comparing Nova Echo AI vs Competitors vs Humans across 13 metrics. The "Nova Echo AI" column header has a solid `--accent-cyan` 2px bottom border; values under it use `--accent-cyan` for visual emphasis.
 
 ```
 Background:       --surface-50
 Header labels:    body-sm, semibold, uppercase, tracking-wider
-  Nova Echo AI:   text-primary-light, gradient bottom border (--gradient-button-primary)
+  Nova Echo AI:   text-primary-light, solid 2px bottom border --accent-cyan
   Others:         text-secondary-light at 60% opacity, solid border using surface-200
 Feature column:   text-body-sm, medium weight, --text-secondary-light
 Nova Echo values: text-body-sm, medium weight, --accent-purple

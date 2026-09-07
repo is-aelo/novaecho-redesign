@@ -19,13 +19,13 @@ export default function StoryCard({ story }: { story: StoryData }) {
             <Image src={story.photo} alt={story.author} fill className="object-cover" sizes="48px" />
           </div>
         ) : (
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-cyan/10 text-caption md:text-body-sm font-bold text-accent-cyan md:h-12 md:w-12">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-cyan/10 text-caption md:text-body-sm font-semibold text-accent-cyan md:h-12 md:w-12">
             {story.author.split(" ").map((n) => n[0]).join("").slice(0, 2)}
           </div>
         )}
         <div className="min-w-0">
-          <p className="font-bold text-caption md:text-body-sm text-text-primary-light">
-            <span className="font-bold">{story.author}</span> <span className="text-text-secondary-light/40 mx-1">&bull;</span> <span className="font-normal">{story.role}</span>
+          <p className="font-semibold text-caption md:text-body-sm text-text-primary-light">
+            <span className="font-semibold">{story.author}</span> <span className="text-text-secondary-light/40 mx-1">&bull;</span> <span className="font-normal">{story.role}</span>
           </p>
           <span className="mt-1 inline-block px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-accent-magenta bg-accent-magenta/10 rounded-sm">
             {story.industry}
@@ -39,7 +39,7 @@ export default function StoryCard({ story }: { story: StoryData }) {
       </blockquote>
 
       <div className="mt-5 bg-navy/5 border border-navy/10 rounded-sm p-3 md:p-4">
-        <p className="text-caption font-bold uppercase tracking-wider text-navy mb-3">
+        <p className="text-caption font-semibold uppercase tracking-wider text-navy mb-3">
           Key Results
         </p>
         <div className="flex flex-col gap-2">

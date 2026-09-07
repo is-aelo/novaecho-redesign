@@ -168,7 +168,7 @@ export default function Pricing() {
     <section id="pricing" className="w-full bg-surface-50 px-6 py-16 scroll-mt-16">
       <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12">
         <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
-          <h2 className="font-display text-display-md lg:text-display-lg font-bold leading-tight tracking-tight text-text-primary-light">
+          <h2 className="font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
             Pricing
           </h2>
           <p className="mt-3 max-w-2xl text-body-sm lg:text-body-md leading-relaxed text-text-secondary-light">
@@ -188,19 +188,19 @@ export default function Pricing() {
               }`}
             >
               {plan.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-caption font-bold uppercase tracking-widest text-accent-cyan bg-surface-950 border border-accent-cyan/30 rounded-sm">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-caption font-semibold uppercase tracking-wider text-accent-cyan bg-surface-950 border border-accent-cyan/30 rounded-sm">
                   Popular
                 </span>
               )}
 
-              <p className={`font-bold text-body-md lg:text-body-lg ${plan.popular ? "text-text-primary" : "text-text-primary-light"}`}>
+              <p className={`font-semibold text-body-md lg:text-body-lg ${plan.popular ? "text-text-primary" : "text-text-primary-light"}`}>
                 {plan.name}
               </p>
 
               <div className="mt-2 flex items-baseline gap-1">
                 <span
                   {...(plan.name === "Nova Light" ? { "data-price": "nova-light" } : {})}
-                  className={`font-display text-display-lg font-bold leading-none ${plan.popular ? "text-text-primary" : "text-text-primary-light"}`}
+                  className={`font-display text-display-lg font-bold leading-none tabular-nums ${plan.popular ? "text-text-primary" : "text-text-primary-light"}`}
                 >
                   {plan.price}
                 </span>
@@ -266,9 +266,9 @@ export default function Pricing() {
 
         <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
             <article className="relative flex h-full flex-col border border-surface-700/30 bg-white rounded-md p-6 lg:p-8 text-left">
-            <p className="font-bold text-body-md lg:text-body-lg text-text-primary-light">Done For You Setup</p>
+            <p className="font-semibold text-body-md lg:text-body-lg text-text-primary-light">Done For You Setup</p>
             <div className="mt-2 flex items-baseline gap-1">
-              <span className="font-display text-display-sm font-bold leading-none text-text-primary-light">Custom Quote</span>
+              <span className="font-display text-display-sm font-semibold leading-none text-text-primary-light">Custom Quote</span>
             </div>
             <p className="mt-3 text-caption md:text-body-sm leading-relaxed text-text-secondary-light">
               Our team of experts work hands-on with you to optimize your voice AI employees by developing custom prompts, workflows, and integrations tailored to your specific business needs.
@@ -292,9 +292,9 @@ export default function Pricing() {
           </article>
 
             <article className="relative flex h-full flex-col border border-surface-700/30 bg-white rounded-md p-6 lg:p-8 text-left">
-            <p className="font-bold text-body-md lg:text-body-lg text-text-primary-light">Nova Enterprise</p>
+            <p className="font-semibold text-body-md lg:text-body-lg text-text-primary-light">Nova Enterprise</p>
             <div className="mt-2 flex items-baseline gap-1">
-              <span className="font-display text-display-sm font-bold leading-none text-text-primary-light">Custom Quote</span>
+              <span className="font-display text-display-sm font-semibold leading-none text-text-primary-light">Custom Quote</span>
             </div>
             <p className="mt-3 text-caption md:text-body-sm leading-relaxed text-text-secondary-light">
               Enterprise-grade solution with volume discounts, custom development, dedicated support, and compliance features for large organizations.
