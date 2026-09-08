@@ -113,7 +113,7 @@ export default function Hero() {
 
           <div
             data-hero-item
-            className="order-3 mt-8 flex w-full flex-row items-center gap-4 lg:order-2"
+            className="order-3 mt-8 grid w-full grid-cols-2 gap-4 lg:order-2 lg:flex lg:w-auto lg:items-center"
           >
             <a
               href="#book-call"

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { List, X } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
+import { useNavMorph } from "@/hooks/useNavMorph";
 
 const links = [
   { label: "Platform", href: "#platform" },
@@ -28,10 +29,13 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
   const [shouldBlur, setShouldBlur] = useState(false);
+  const [isAtTop, setIsAtTop] = useState(false);
   const pathname = usePathname();
   const scrollTo = useSmoothScroll(OFFSET);
   const menuRef = useRef<HTMLElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
+  useNavMorph(barRef, isAtTop);
 
   useEffect(() => {
     if (pageLinks.has(pathname)) {
@@ -63,11 +67,18 @@ export default function Nav() {
   useEffect(() => {
     function check() {
       const hero = document.getElementById("hero");
-      if (!hero) return;
-      const pastHero = hero.getBoundingClientRect().bottom < 0;
       const footer = document.querySelector("footer");
       const atFooter = footer ? footer.getBoundingClientRect().top < window.innerHeight : false;
-      setShouldBlur(pastHero && !atFooter);
+      if (hero) {
+        const heroBottom = hero.getBoundingClientRect().bottom;
+        const next = hero.nextElementSibling;
+        const nextVisible = next ? next.getBoundingClientRect().top < window.innerHeight : false;
+        setIsAtTop(!nextVisible);
+        setShouldBlur(heroBottom < 0 && !atFooter);
+      } else {
+        setIsAtTop(false);
+        setShouldBlur(false);
+      }
     }
     check();
     window.addEventListener("scroll", check, { passive: true });
@@ -150,9 +161,13 @@ export default function Nav() {
   }
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-center px-4 py-3">
-      <div className={`relative flex w-full max-w-5xl rounded-xl shadow-sm border border-surface-200 transition-all duration-300 ${shouldBlur ? "bg-white/80 backdrop-blur-md" : "bg-white"}`}>
-        <div className="flex w-full items-center justify-between px-5 py-2.5">
+    <header className={`nav-header sticky top-0 z-50 flex items-center justify-center ${isAtTop ? "py-0" : "py-3"}`}>
+      <div ref={barRef} className={`nav-bar relative flex w-full px-4 lg:px-6 ${
+        isAtTop
+          ? "rounded-none border-0 shadow-none bg-white"
+          : `rounded-xl shadow-sm border border-surface-200 ${shouldBlur ? "nav-bar--blur bg-white/80" : "bg-white"}`
+      }`}>
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between py-2.5">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setOpen((prev) => !prev)}
@@ -162,16 +177,16 @@ export default function Nav() {
               {open ? <X size={22} weight="bold" /> : <List size={22} weight="bold" />}
             </button>
 
-            <a href="/" className="flex items-center gap-2.5">
+            <a href="/" className="flex items-center gap-3">
               <Image
                 src="/images/novaecho-logo.png"
                 alt="Nova Echo logo"
-                width={28}
-                height={28}
+                width={32}
+                height={32}
                 style={{ width: "auto", height: "auto" }}
                 priority
               />
-              <span className="hidden lg:inline font-display text-[15px] font-semibold tracking-tight text-text-primary-light">
+              <span className="hidden lg:inline font-display text-display-xs font-semibold tracking-tight text-text-primary-light">
                 Nova Echo
               </span>
             </a>

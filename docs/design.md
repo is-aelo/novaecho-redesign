@@ -106,6 +106,41 @@ Secondary — default: rgba(255,255,255,0.06) fill, 1px solid rgba(255,255,255,0
 Secondary — hover:    fill → rgba(255,255,255,0.12), border brightens to rgba(255,255,255,0.48)
 ```
 
+All buttons (.btn-primary / .btn-secondary): no fixed height — height is padding-driven.
+Vertical padding 12px (top/bottom) + 15px body text ≈ 48px tall, horizontal padding 24px.
+Nav CTA (.header-cta) matches at 12px vertical padding, reduced to 14px text.
+Nav lockup: novaecho-logo.png at 32px + font-display display-xs (18px) semibold
+tracking-tight, gap-3 — scales up to stay level with the taller header CTA.
+
+### Nav — hero flush-bar morph
+
+At the top of the homepage the nav bar spans the full viewport: flat flush
+bar, solid white, no corner radius, no border, no shadow, flush to the top
+and side edges (the temporary header overrides the page gutter to 0 so the
+bar's own background reaches the viewport edges). The bar always carries
+`px-4` / `lg:px-6` internal padding, so in the flush state the logo/links/CTA
+sit offset in from the edges like the hero's copy. Once the hero section
+scrolls past — or on any non-homepage — it morphs into the floating centered
+pill, width-matched to the sections' `max-w-6xl` content column (1152px; inset
+16 mobile / 24 desktop on smaller screens), `rounded-xl`, `border surface-200`,
+`shadow-sm`, `bg-white/80` + blur once scrolled; the same `px-4` / `lg:px-6`
+keeps the pill's content from touching its edges. At the footer the pill stays
+opaque white. The inner content row is always `mx-auto max-w-6xl`, so flush
+and pill keep the same left/right alignment as every section.
+
+Geometry (width + side margins) is tweened by GSAP (`useNavMorph`) between
+concrete pixel values — `max-width: 100vw → min(1152, 100vw − 2·gap)` with
+centering margins (gap 16 mobile / 24 desktop) — because CSS cannot
+interpolate `max-width` from `none` or `margin: auto` (those jump).
+Everything else (radius, border, shadow, bg, blur) stays a CSS transition on
+`--dur-nav` / `--ease-nav`. Pill blur uses `backdrop-filter: blur(--blur-nav)`
+(12px), starting from an explicit `blur(0px)` base so the blur transitions
+instead of popping. 500ms, `power2.inOut` in GSAP; disabled under
+`prefers-reduced-motion`.
+Trigger: the nav collapses to the pill as soon as the section following the
+hero (Trusted) starts entering the viewport — not when the (much taller) hero
+has fully scrolled past; rechecked on scroll.
+
 Only the primary CTA gets the hover ring + glow emphasis. Default state is solid on all buttons. No gradient default fills.
 
 ## Typography
@@ -287,7 +322,9 @@ Headline:      display-md → display-xl (34px/38px → 48px/50px), font-display
 Subhead:       body-md (16px / 24px), font-body, --text-secondary-on-dark
 CTA row:       primary (btn-primary, solid --surface-700) + secondary (btn-secondary,
                quiet outline, "Clients Wins" → #results Success Stories), gap-4
-               (hero value items removed — headline → subhead → CTAs only)
+               (hero value items removed — headline → subhead → CTAs only).
+               Mobile: grid-cols-2 so the pair collectively fills the row width;
+               lg: back to a content-width flex row.
 Live call:     the primary panel. Head row = "Live call" (panel head) on the left
                and a meta line on the right (mono caption tabular-nums,
                --text-secondary-on-light, aria-live polite) — agent label · mm:ss.
@@ -595,7 +632,11 @@ Address:          <address> not-italic, line breaks via <br>
 --dur-base:  300ms   standard transitions
 --dur-slow:  600ms   section reveals on scroll
 --dur-hero:  900ms   hero entrance, once per page load
+--dur-nav:   500ms   nav flush→pill morph
 ```
+CSS-only transitions (nav morph) use `--dur-nav` with `--ease-nav`
+`cubic-bezier(0.22, 1, 0.36, 1)` — a soft ease-out so width/radius/padding
+converge without snapping.
 
 ### Easing
 ```

@@ -41,6 +41,8 @@
   --radius-window: 12px;
   --radius-btn: 8px;
 
+  --blur-nav: 12px;
+
   --shadow-glow: 0 0 24px rgba(112, 0, 255, 0.18);
   --shadow-window: 0 32px 64px -24px rgba(0, 0, 0, 0.5);
   --hero-wave-background: #05070A;
@@ -49,6 +51,8 @@
   --dur-base: 300ms;
   --dur-slow: 600ms;
   --dur-hero: 900ms;
+  --dur-nav: 500ms;
+  --ease-nav: cubic-bezier(0.22, 1, 0.36, 1);
 
   --page-gutter: 16px;
 }
@@ -129,6 +133,29 @@ header.sticky {
   padding-right: var(--page-gutter);
 }
 
+header.nav-header {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.nav-header {
+  transition-property: padding;
+  transition-duration: var(--dur-nav);
+  transition-timing-function: var(--ease-nav);
+}
+
+.nav-bar {
+  transition-property: padding, border-radius, border-width, border-color,
+    box-shadow, background-color, backdrop-filter;
+  transition-duration: var(--dur-nav);
+  transition-timing-function: var(--ease-nav);
+  backdrop-filter: blur(0px);
+}
+
+.nav-bar--blur {
+  backdrop-filter: blur(var(--blur-nav));
+}
+
 a, button {
   transition-property: color, background-color, border-color, opacity, box-shadow;
   transition-duration: var(--dur-fast);
@@ -139,7 +166,7 @@ a, button {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 24px;
+  padding: 12px 24px;
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 500;
@@ -158,7 +185,7 @@ a, button {
 }
 
 .header-cta {
-  padding: 8px 20px;
+  padding: 12px 20px;
   font-size: 14px;
 }
 
@@ -171,7 +198,7 @@ a, button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 24px;
+  padding: 12px 24px;
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 500;
@@ -610,6 +637,11 @@ a, button {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .nav-header,
+  .nav-bar {
+    transition: none;
+  }
+
   .voice-row {
     transition: none;
   }
