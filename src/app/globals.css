@@ -19,7 +19,6 @@
   --surface-100: #F5F5F5;
   --surface-200: #E5E5E5;
 
-  --surface-glass: rgba(11, 11, 15, 0.66);
   --hairline-on-dark: rgba(255, 255, 255, 0.14);
   --hairline-neon: rgba(186, 15, 255, 0.22);
 
@@ -35,9 +34,19 @@
 
   --gradient-glow: radial-gradient(circle, rgba(112, 0, 255, 0.16) 0%, rgba(112, 0, 255, 0) 70%);
   --gradient-surface: linear-gradient(180deg, #0B0B0F 0%, #000000 100%);
+  --gradient-window:
+    radial-gradient(120% 90% at 0% 0%, rgba(30, 58, 138, 0.5) 0%, rgba(30, 58, 138, 0.12) 25%, rgba(30, 58, 138, 0) 50%),
+    radial-gradient(120% 90% at 100% 0%, rgba(16, 26, 51, 0.4) 0%, rgba(16, 26, 51, 0.08) 30%, rgba(16, 26, 51, 0) 55%),
+    radial-gradient(120% 90% at 100% 100%, rgba(30, 58, 138, 0.35) 0%, rgba(30, 58, 138, 0.08) 30%, rgba(30, 58, 138, 0) 55%),
+    radial-gradient(120% 90% at 0% 100%, rgba(16, 26, 51, 0.3) 0%, rgba(16, 26, 51, 0.06) 30%, rgba(16, 26, 51, 0) 55%);
+  --gradient-btn:
+    radial-gradient(120% 90% at 0% 0%, rgba(30, 58, 138, 0.28) 0%, rgba(30, 58, 138, 0.06) 25%, rgba(30, 58, 138, 0) 50%),
+    radial-gradient(120% 90% at 100% 0%, rgba(16, 26, 51, 0.24) 0%, rgba(16, 26, 51, 0.05) 30%, rgba(16, 26, 51, 0) 55%),
+    radial-gradient(120% 90% at 100% 100%, rgba(30, 58, 138, 0.32) 0%, rgba(30, 58, 138, 0.06) 30%, rgba(30, 58, 138, 0) 55%),
+    radial-gradient(120% 90% at 0% 100%, rgba(16, 26, 51, 0.2) 0%, rgba(16, 26, 51, 0.04) 30%, rgba(16, 26, 51, 0) 55%);
   --gradient-accent-ring: linear-gradient(135deg, rgba(112, 0, 255, 0.9), rgba(186, 15, 255, 0.9));
   --gradient-text-highlight: var(--gradient-accent-ring);
-  /* DEPRECATED: retired as default fill per docs/design.md L1 Solid rule. Solid --surface-700 is the primary default. */
+  /* DEPRECATED: retired as default fill. The primary default is now --gradient-btn. */
   --gradient-button-primary: linear-gradient(135deg, #E61EAD 0%, #BA0FFF 40%, #7000FF 65%, #2C259A 88%, #1E3A8A 100%);
   --hero-radial-overlay: radial-gradient(circle at center, color-mix(in srgb, var(--surface-950) 20%, transparent) 0%, color-mix(in srgb, var(--surface-950) 68%, transparent) 56%, color-mix(in srgb, var(--surface-950) 92%, transparent) 100%);
 
@@ -45,10 +54,9 @@
   --radius-md: 6px;
   --radius-lg: 10px;
   --radius-window: 12px;
-  --radius-btn: 8px;
+  --radius-btn: 12px;
 
   --blur-nav: 12px;
-  --blur-glass: 16px;
 
   --shadow-glow: 0 0 24px rgba(112, 0, 255, 0.18);
   --hero-wave-background: #05070A;
@@ -79,7 +87,6 @@
   --color-surface-50: var(--surface-50);
   --color-surface-100: var(--surface-100);
   --color-surface-200: var(--surface-200);
-  --color-surface-glass: var(--surface-glass);
   --color-hairline-on-dark: var(--hairline-on-dark);
 
   --color-text-primary: var(--text-primary-on-dark);
@@ -93,7 +100,7 @@
   --color-accent-hot-purple: var(--accent-hot-purple);
 
   --font-display: var(--font-manrope);
-  --font-body: var(--font-dm-sans);
+  --font-body: var(--font-inter);
   --font-mono: var(--font-geist-mono);
 
   --radius-window: var(--radius-window);
@@ -181,17 +188,25 @@ a, button {
   font-size: 15px;
   font-weight: 500;
   color: var(--white);
-  background: var(--surface-700);
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(30, 58, 138, 0.6) 0%, rgba(30, 58, 138, 0.16) 30%, rgba(30, 58, 138, 0) 55%) padding-box,
+    radial-gradient(120% 90% at 100% 0%, rgba(30, 58, 138, 0.5) 0%, rgba(30, 58, 138, 0.12) 30%, rgba(30, 58, 138, 0) 55%) padding-box,
+    radial-gradient(120% 90% at 100% 100%, rgba(30, 58, 138, 0.65) 0%, rgba(30, 58, 138, 0.18) 30%, rgba(30, 58, 138, 0) 55%) padding-box,
+    radial-gradient(120% 90% at 0% 100%, rgba(30, 58, 138, 0.5) 0%, rgba(30, 58, 138, 0.12) 30%, rgba(30, 58, 138, 0) 55%) padding-box,
+    linear-gradient(var(--surface-800), var(--surface-800)) padding-box,
+    var(--gradient-accent-ring) border-box;
   border: 1px solid transparent;
   border-radius: var(--radius-btn);
 }
 
 .btn-primary:hover {
-  border-color: transparent;
   background:
-    linear-gradient(var(--surface-700), var(--surface-700)) padding-box,
-    var(--gradient-accent-ring) border-box;
-  box-shadow: var(--shadow-glow);
+    radial-gradient(120% 90% at 0% 0%, rgba(30, 58, 138, 0.28) 0%, rgba(30, 58, 138, 0.06) 25%, rgba(30, 58, 138, 0) 50%) padding-box,
+    radial-gradient(120% 90% at 100% 0%, rgba(16, 26, 51, 0.24) 0%, rgba(16, 26, 51, 0.05) 30%, rgba(16, 26, 51, 0) 55%) padding-box,
+    radial-gradient(120% 90% at 100% 100%, rgba(30, 58, 138, 0.32) 0%, rgba(30, 58, 138, 0.06) 30%, rgba(30, 58, 138, 0) 55%) padding-box,
+    radial-gradient(120% 90% at 0% 100%, rgba(16, 26, 51, 0.2) 0%, rgba(16, 26, 51, 0.04) 30%, rgba(16, 26, 51, 0) 55%) padding-box,
+    linear-gradient(var(--surface-950), var(--surface-950)) padding-box,
+    linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)) border-box;
 }
 
 .header-cta {
@@ -202,6 +217,41 @@ a, button {
 .btn-primary:focus-visible {
   outline: 2px solid var(--accent-purple);
   outline-offset: 2px;
+}
+
+.nudge-vertical:hover svg {
+  animation: nudge-down 1s ease-in-out infinite;
+}
+
+.nudge-horizontal:hover svg {
+  animation: nudge-right 1s ease-in-out infinite;
+}
+
+@keyframes nudge-down {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+@keyframes nudge-right {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nudge-vertical:hover svg,
+  .nudge-horizontal:hover svg {
+    animation: none;
+  }
 }
 
 .btn-secondary {
@@ -568,9 +618,9 @@ a, button {
   animation: hero-live-pulse 2s ease-in-out infinite;
 }
 
-.hero-window-blur {
-  backdrop-filter: blur(var(--blur-glass));
-  -webkit-backdrop-filter: blur(var(--blur-glass));
+.hero-window-fill {
+  background-color: var(--surface-950);
+  background-image: var(--gradient-window);
 }
 
 .hero-window-neon {

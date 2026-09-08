@@ -1,7 +1,6 @@
 import Nav from "@/components/nav/Nav";
 import Hero from "@/components/hero/Hero";
 import Features from "@/components/features/Features";
-import Trusted from "@/components/trusted/Trusted";
 import Agents from "@/components/agents/Agents";
 import Benchmark from "@/components/benchmark/Benchmark";
 import Pricing from "@/components/pricing/Pricing";
@@ -16,7 +15,6 @@ export default function Home() {
     <RoiWrapper>
       <Nav />
       <Hero />
-      <Trusted />
       <Features />
       <Agents />
       <Benchmark />

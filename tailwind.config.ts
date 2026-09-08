@@ -28,10 +28,9 @@ export default {
           900: 'var(--surface-900)',
           800: 'var(--surface-800)',
           700: 'var(--surface-700)',
-          50: 'var(--surface-50)',
+50: 'var(--surface-50)',
           100: 'var(--surface-100)',
           200: 'var(--surface-200)',
-          glass: 'var(--surface-glass)',
         },
         hairline: {
           'on-dark': 'var(--hairline-on-dark)',

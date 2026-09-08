@@ -8,7 +8,7 @@ Read `docs/design.md` before writing or editing any component. It is the single 
 
 **Never hardcode a color, font size, spacing value, radius, shadow, or gradient directly in JSX, CSS, or Tailwind arbitrary values.** Every visual value must resolve through a Tailwind theme token or CSS variable that traces back to `docs/design.md`. If you need a value that isn't defined there, stop and flag it back to the user — do not invent one inline and do not approximate with an arbitrary value like `bg-[#0a0e1a]`.
 
-Gradients specifically: `docs/design.md` defines exactly where gradients are allowed (ambient background glow, hover-state rings) and where they are forbidden (any button default fill, headings outside the single hero phrase, section backgrounds, borders). Primary CTA default is solid `var(--surface-700)`. Follow that rule exactly — this is the direct fix for the site's original "harsh gradient CTA" problem, and reverting it defeats the point of the redesign.
+Gradients specifically: `docs/design.md` defines exactly where gradients are allowed (ambient background glow, hover-state rings, the primary CTA's navy-dominant default fill and black-dominant hover) and where they are forbidden (secondary buttons, headings outside the single hero phrase, section backgrounds, borders). Primary CTA default is navy-prominent: deep navy base (--surface-800) with brand-navy corner radials at ~0.50–0.65 (four-corner glow approach) and the --gradient-accent-ring purple border ring. On hover it flips to `--gradient-btn` — the AgentWindow's corner-glow approach: four soft radial glows over a pure black base (background-color var(--surface-950) + background-image var(--gradient-btn)), each dissolving to transparent before center so visible navy stays ≤10% of the button, with a 1px white stroke border. The solid-`--surface-700` rule was retired by the user in favor of this single button gradient; do not revert it and do not apply gradients to any other button type.
 
 Whenever a design decision changes — new gradient, color, spacing, radius, shadow, motion value, or any rule about where something is allowed/forbidden — update `docs/design.md` first (or in the same change). `docs/design.md` must never lag behind the implementation. If code uses a value or pattern that isn't documented there, that's a bug in the spec, not a reason to skip the doc.
 
@@ -67,5 +67,5 @@ Before treating any component as done, check it against this list. If it matches
 - [ ] No raw hex, px, or arbitrary Tailwind values in component files — everything resolves through a token
 - [ ] Responsive and unbroken at 375px, 768px, and 1280px
 - [ ] Motion respects `prefers-reduced-motion`
-- [ ] No gradient used as a default button fill — glow/ring on hover only, per docs/design.md (solid `var(--surface-700)` is the only allowed default fill)
+- [ ] No gradient used as a default button fill except the single primary CTA — `--gradient-btn` (black → navy tip) is the only allowed gradient default fill; secondary buttons use plain translucent fill (glow/ring on hover only, per docs/design.md)
 - [ ] No shadow harder than `--shadow-glow`

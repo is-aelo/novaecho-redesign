@@ -40,7 +40,7 @@ export default function RoiPreview({ call }: RoiPreviewProps) {
       <button
         type="button"
         onClick={() => openRoi(call.script.roiName)}
-        className="mt-3 inline-flex items-center gap-2 font-body text-body-sm font-medium text-text-primary transition-colors hover:text-accent-hot-purple"
+        className="nudge-horizontal mt-3 inline-flex items-center gap-2 font-body text-body-sm font-medium text-text-primary transition-colors hover:text-accent-hot-purple"
       >
         Calculate yours
         <ArrowRight size={16} weight="bold" aria-hidden="true" />

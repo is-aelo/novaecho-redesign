@@ -1,33 +1,10 @@
 "use client";
 
-import {
-  UserCircle,
-  Rocket,
-  Phone,
-  ArrowRight,
-} from "@phosphor-icons/react/ssr";
-import { useRoiModal } from "@/contexts/RoiContext";
-
-const agents = [
-  {
-    title: "Receptionist",
-    body: "Greet clients, answer questions, fill forms, and schedule appointments — all through natural conversation.",
-    icon: UserCircle,
-  },
-  {
-    title: "Speed-to-Lead",
-    body: "Call leads within 60 seconds, deliver a dynamic pitch, and instantly transfer hot prospects or book appointments.",
-    icon: Rocket,
-  },
-  {
-    title: "Mass Outbound Calling",
-    body: "Upload your opt-in leads and let your agent call every lead, pitch them, and hand off hot prospects.",
-    icon: Phone,
-  },
-];
+import AgentWindow from "@/components/hero/AgentWindow";
+import useVoiceCall from "@/components/hero/useVoiceCall";
 
 export default function Agents() {
-  const { openRoi } = useRoiModal();
+  const call = useVoiceCall();
 
   return (
     <section id="solutions" className="w-full px-6 py-16 bg-surface-50 scroll-mt-16">
@@ -41,34 +18,8 @@ export default function Agents() {
           </p>
         </div>
 
-        <div className="mt-5 grid grid-cols-1 gap-6 lg:mt-6 lg:grid-cols-3">
-          {agents.map((agent) => {
-            const Icon = agent.icon;
-
-            return (
-              <article
-                key={agent.title}
-                className="flex flex-col gap-3 border border-surface-200 bg-surface-100 rounded-md p-6 md:p-8 text-left min-h-45"
-              >
-                <div className="flex items-center justify-start">
-                  <Icon className="text-accent-purple" size={24} weight="duotone" />
-                </div>
-                <h3 className="font-semibold text-body-sm md:text-body-md text-text-primary-light">
-                  {agent.title}
-                </h3>
-                <p className="text-caption md:text-body-sm leading-relaxed text-text-secondary-light">
-                  {agent.body}
-                </p>
-                <button
-                  onClick={() => openRoi(agent.title)}
-                  className="mt-auto inline-flex items-center gap-2 text-caption md:text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-magenta"
-                >
-                  Calculate ROI
-                  <ArrowRight size={16} weight="bold" />
-                </button>
-              </article>
-            );
-          })}
+        <div className="relative z-0 mt-8 lg:mt-10">
+          <AgentWindow call={call} />
         </div>
       </div>
     </section>

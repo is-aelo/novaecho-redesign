@@ -22,27 +22,24 @@ export default function Trusted() {
   const { trackRef } = useTrustedMarquee();
 
   return (
-    <section className="w-full overflow-hidden bg-surface-50 px-6 py-16">
-      <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
-        <h2 className="font-display text-display-xs sm:whitespace-nowrap font-semibold leading-tight tracking-tight text-text-primary-light">
-          Trusted by Industry Leaders
-        </h2>
+    <div className="mx-auto flex max-w-6xl flex-col items-center justify-center py-2 lg:py-3">
+      <h2 className="font-display text-display-xs sm:whitespace-nowrap font-semibold leading-tight tracking-tight text-text-primary">
+        Trusted by Industry Leaders
+      </h2>
 
-        <div className="mt-6 w-full overflow-hidden">
-          <div ref={trackRef} className="flex w-max items-center gap-8 lg:gap-16">
-            {[...logos, ...logos].map((logo, i) => (
-              <div key={`${logo.alt}-${i}`} className="flex h-6 w-20 shrink-0 items-center justify-center lg:h-10 lg:w-32">
-                <img
-                  src={logo.src}
-                  alt={logo.alt}
-                  className="max-h-full max-w-full object-contain"
-                />
-              </div>
-            ))}
-          </div>
+      <div className="mt-8 w-full overflow-hidden">
+        <div ref={trackRef} className="flex w-max items-center gap-8 lg:gap-16">
+          {[...logos, ...logos].map((logo, i) => (
+            <div key={`${logo.alt}-${i}`} className="flex h-5 w-14 shrink-0 items-center justify-center lg:h-6 lg:w-24">
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                className="max-h-full max-w-full object-contain"
+              />
+            </div>
+          ))}
         </div>
-
       </div>
-    </section>
+    </div>
   );
 }
