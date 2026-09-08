@@ -31,6 +31,11 @@ export default {
           50: 'var(--surface-50)',
           100: 'var(--surface-100)',
           200: 'var(--surface-200)',
+          glass: 'var(--surface-glass)',
+        },
+        hairline: {
+          'on-dark': 'var(--hairline-on-dark)',
+          neon: 'var(--hairline-neon)',
         },
         text: {
           primary: 'var(--text-primary-on-dark)',
@@ -42,6 +47,8 @@ export default {
         accent: {
           purple: 'var(--accent-purple)',
           'hot-purple': 'var(--accent-hot-purple)',
+          cyan: 'var(--accent-cyan)',
+          blue: 'var(--accent-blue)',
           magenta: 'var(--magenta)',
         },
       },
@@ -71,7 +78,6 @@ export default {
       },
       boxShadow: {
         glow: 'var(--shadow-glow)',
-        window: 'var(--shadow-window)',
       },
     },
   },

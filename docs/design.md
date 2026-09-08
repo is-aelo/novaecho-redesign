@@ -9,8 +9,10 @@ Source of truth for every visual decision in this build. If a value isn't define
 --black:        #000000
 --white:        #FFFFFF
 --navy:         #1E3A8A
---cyan:         #00D1FF   (raw palette only — retired from all accent usage)
---sky:          #4FACFE   (raw palette only — retired from all accent usage)
+--cyan:         #00D1FF   (raw palette — reintroduced ONLY as --accent-cyan for the
+                           hero bottom wave's three-tone crest; retired everywhere else)
+--sky:          #4FACFE   (raw palette — reintroduced ONLY as --accent-blue for the
+                           hero bottom wave's four-tone crest; retired everywhere else)
 --magenta:      #E61EAD   (light-surface hover accent)
 --purple:       #7000FF
 --hot-purple:   #BA0FFF
@@ -27,6 +29,17 @@ Everything below is mathematically derived from the seven brand values above, fo
 --surface-50:   #FAFAFA   (light section background — features, stats, etc.)
 --surface-100:  #F5F5F5   (light card / panel background)
 --surface-200:  #E5E5E5   (light card border)
+
+Dark glass console window (derived — the hero's one translucent surface):
+--surface-glass:       rgba(11,11,15,0.66)   (hero console window fill — glass over
+                                               the hero atmosphere; must stay translucent,
+                                               never opaque)
+--hairline-on-dark:    rgba(255,255,255,0.14) (structural hairline under light-mode section
+                                               tokens; used for glass window borders/separators)
+--hairline-neon:       rgba(186,15,255,0.22)  (derived — subtle neon-purple hairline: the hero
+                                               window's outer border, its corner brackets, and
+                                               one interior divider. Accent only, never
+                                               structural bulk, never on light surfaces.)
 ```
 
 ### Text
@@ -44,6 +57,13 @@ Light surfaces (Features, stats, etc.) use `--text-primary-on-light` and `--text
 --accent-purple: #7000FF       (primary interactive accent — links, focus rings, active states)
 --accent-hot-purple: #BA0FFF   (secondary accent — light stop of the purple ramp,
                                 paired with purple only in glow/gradient contexts, never solid fills)
+--accent-cyan: #00D1FF         (wave-only accent — the hero bottom wave's cyan crest
+                                layer + ribbon top stop. The one blue note on the page,
+                                scoped solely to the wave's four-tone crest.
+                                Never used on buttons, text, borders, or light surfaces.)
+--accent-blue: #4FACFE         (wave-only accent — the hero bottom wave's blue layer
+                                (derived from brand sky). Same scope as --accent-cyan:
+                                this wave and nothing else.)
 --accent-magenta: #E61EAD      (light-surface hover/active accent — nav, footer, stories)
 ```
 
@@ -251,17 +271,23 @@ No shadow above a soft, low-opacity glow. No hard drop shadows anywhere — this
 ```
 --shadow-none: none
 --shadow-glow: 0 0 24px rgba(112,0,255,0.18)   (hover states only, see Buttons above)
---shadow-window: 0 32px 64px -24px rgba(0,0,0,0.5)   (the light console window on the dark hero — soft ambient, never on other elements)
+--blur-glass: 16px   (hero console window backdrop blur)
+--hero-wave-amp: 26px   (hero bottom audio wave amplitude maxima, per-layer)
 ```
+
+`--shadow-window` is retired: the glass console window no longer needs an ambient
+drop shadow to separate it from the background — depth comes from its translucent
+fill + backdrop blur reading over the hero's atmosphere.
 
 ## Hero — editorial voice composition
 
-Editorial hero on `--surface-950`: headline copy block on top, light console window
-below it with a clean gap (mt-8 → lg:mt-12). The window reads as a premium
-voice-agent dashboard — chrome header bar, three weighted panels, and structural
-hairlines. No ambient gradient blobs — depth comes from the wave layering, speaker
-chips, and the light-on-dark panel. Must look excellent with all effects removed
-(solid text, hairline borders, flat surfaces).
+Editorial hero on `--surface-950`: headline copy block on top, a translucent
+dark-glass console window below it with a clean gap (mt-8 → lg:mt-12). The window
+reads as a premium voice-agent dashboard — chrome header bar, three weighted
+panels, hairline separators, and a soft backdrop blur that lets the hero's
+atmosphere wash through faintly. No ambient gradient blobs — depth comes from
+the wave layering, speaker chips, and the glass-on-dark panel. Must look
+excellent with all effects removed (solid text, hairline borders, flat surfaces).
 
 ```
 Layout:        block flow (no grid). Copy block first, window below with a clear
@@ -269,45 +295,52 @@ Layout:        block flow (no grid). Copy block first, window below with a clear
                py-16 → lg:py-24.
   Message:     max-w-3xl, left-aligned, relative z-10 (headline, subhead, CTAs).
                Reads fully on the dark hero.
-Band:        light console window — solid light card bg-surface-100,
-                1px surface-200 border, radius-window (12px), shadow-window,
-                overflow-hidden. Relative z-0, mt-8 → lg:mt-12 beneath the copy.
-                Sits on the dark hero as the single light panel; no backdrop blur,
-                no nesting. No nested card chrome inside; hierarchy comes from
-                panel headers and weight.
-The Live workflow column sits on the whitest white — pure
-                #FFFFFF — at lg ONLY, so the payoff rail reads as the brightest
-                strip in the window on desktop. On mobile it shares the window's
-                bg-surface-100 so the stacked rows read as ONE continuous card
-                (no detached white block).
-  Chrome bar:  border-b surface-200, px-4 → lg:px-6, py-3. Left: three muted
-               app-window dots (.window-dot, 10px, rgba(0,0,0,0.12), gap-2)
-               + Radio duotone --text-secondary-on-light + "Nova Echo Console"
-               mono body-sm uppercase --text-primary-on-light. Right: live dot +
-               "Simulated call" mono caption --text-secondary-on-light. Chrome
+Band:        translucent dark-glass console window — fill --surface-glass
+                 (rgba(11,11,15,0.66)), 1px --hairline-neon border (subtle neon
+                 hairline — the hero's one neon "product face"), radius-window
+                 (12px), backdrop blur --blur-glass (16px), overflow-hidden, no
+                 drop shadow. Four L-shaped corner brackets (.hero-corner-tl/tr/
+                 bl/br, 16px arms, 1px --hairline-neon, inset 3px, absolutely
+                 positioned over the window corners, pointer-events-none)
+                 reinforce the corners. Relative z-0, mt-8 → lg:mt-12 beneath
+                 the copy. The hero's stage glow (hero-noise) stays
+                 behind it and shows through the glass — the fill must stay
+                 translucent, never opaque. No nested card chrome inside;
+                 hierarchy comes from panel headers and weight.
+Live workflow rail shares the window's glass fill at every breakpoint —
+                 no detached white strip at lg.
+  Chrome bar:  border-b --hairline-on-dark, px-4 → lg:px-6, py-3. Left: three muted
+               app-window dots (.window-dot, 10px, rgba(255,255,255,0.16), gap-2)
+               + Radio duotone --text-secondary-on-dark + "Nova Echo Console"
+               mono body-sm uppercase --text-primary-on-dark. Right: live dot +
+               "Simulated call" mono caption --text-secondary-on-dark. Chrome
                stays neutral — no accent color here.
                Mobile stacks flex-col items-start gap-2; lg flex-row justify-between.
   Body:        1 col mobile → 12 cols at lg — three panels, no gap, hairlines
                do the separation:
-               Agents (span 3)            border-r surface-200 at lg
-               Live call (span 6)         active waveform + transcript
-               Live workflow (span 3)     border-l surface-200 at lg
+               Agents (span 3)            border-r --hairline-neon at lg (the
+                                         Agents → Live call divider is the window's
+                                         ONE neon interior line)
+               Live call (span 6)         transcript + call intent
+               Live workflow (span 3)     border-l --hairline-on-dark at lg
 Panels px-4 py-4 → lg:px-6 lg:py-6. On mobile stacked panels join
-                with a single border-t surface-200; the Agents panel sits directly
-                under the chrome bar (no duplicate border). The Live call → Live
-                workflow join is tightened on mobile (pb-2 under the waveform,
-                pt-2 above the workflow head) so the payoff rail sits close to
-                the live call; the copy → agents join keeps the standard py.
+                 with a single border-t --hairline-on-dark; the Agents panel sits
+                 directly under the chrome bar (no duplicate border). The Live call → Live
+                 workflow join is tightened on mobile (pb-2 under the intent,
+                 pt-2 above the workflow head) so the payoff rail sits close to
+                 the live call; the copy → agents join keeps the standard py.
   Panel head:  .console-panel-head — mono caption uppercase tracking-wider,
-               --text-secondary-on-light (the single header treatment for all
+               --text-secondary-on-dark (the single header treatment for all
                three panels). mb-2 → lg:mb-3.
   Emphasis:    the window has exactly two loud moments — the call intent
                (display-xs headline + phase chip) and the Estimated ROI
-               (display-md --accent-purple total). Everything else sits a step
-               quiet: waveform is dimmed texture, checklist checks and chrome
-               icons are neutral, agent pills are flat. Accent purple is
-               reserved for the two focal points plus small functional state
-               (selected agent icon, live dot, AI speaker chips).
+               (display-md --accent-hot-purple total). Everything else sits a step
+               quiet: checklist checks and chrome icons are neutral, agent pills
+               are flat. Accent — hot-purple on the glass, so small accent text
+               keeps contrast on the dark surface — is reserved for the two focal
+               points plus small functional state (selected agent icon, live dot,
+               AI speaker chips). The full-bleed hero bottom waveform stays the
+               page's one wave motif; there is no waveform inside the console.
   Mobile order: copy → console window (chrome → agents → live call → workflow)
                 → CTA row. CTA buttons sit after the window in the DOM and are
                 reordered with order utilities (order-3 mobile, order-2 on lg)
@@ -327,43 +360,40 @@ CTA row:       primary (btn-primary, solid --surface-700) + secondary (btn-secon
                lg: back to a content-width flex row.
 Live call:     the primary panel. Head row = "Live call" (panel head) on the left
                and a meta line on the right (mono caption tabular-nums,
-               --text-secondary-on-light, aria-live polite) — agent label · mm:ss.
+               --text-secondary-on-dark, aria-live polite) — agent label · mm:ss.
                Mobile stacks flex-col items-start gap-2; lg flex-row justify-between.
-               Transcript → divider (mt-4 border-t surface-200 pt-4) → intent →
-               waveform
+               Transcript → divider (mt-4 border-t --hairline-on-dark pt-4) →
+               intent. No waveform in this panel.
   Intent:       appears after the conversation block. "Call intent"
-               caption + display-xs font-display weight 500 --text-primary-on-light
+               caption + display-xs font-display weight 500 --text-primary-on-dark
                headline (script.callIntent — the caller's goal, per-agent copy) and
-               a purple-tinted phase chip (.intent-phase-chip, mono caption uppercase,
-               --accent-purple on rgba(112,0,255,0.08)) showing the live stage
+               a hot-purple phase chip (.intent-phase-chip, mono caption uppercase,
+               --accent-hot-purple on rgba(186,15,255,0.14)) showing the live stage
                (Listening / Processing / Speaking / Taking action / Call completed).
                Revealed 800ms after the call completes (after every transcript row),
-               hidden via .reveal-block until then.
-Waveform:    full-width compact band (VoiceWaveform, energy-scaled per agent),
-                 height 112 (all breakpoints), edge-faded, grain at 0.07. Sits at
-                 the bottom of the Live call panel as quiet texture — opacities
-                 are dimmed so it frames the content above instead of competing
-                 with it. Never expanded to full height on mobile: a 240px band
-                 reads as a void between the stacked panel rows.
+hidden via .reveal-block until then.
+Waveform:    RETIRED from the console. No waveform inside the Live call panel —
+               the page's one wave motif is the full-bleed hero bottom wave
+               documented below.
   Transcript:  the panel's first block. Rows always in DOM, revealed by opacity
                (.voice-row), one line at a time in dialogue order — AI opener
                reveals at speaking, customer at action, AI closer (aiFollowUp)
                at complete, so the conversation always ends with the agent.
                Speaker chip: mono caption uppercase radius-sm, padding 2px 6px.
-               AI chip: --accent-purple text on rgba(112,0,255,0.12).
-               Caller chip: --text-secondary-on-light on surface-200.
+               AI chip: --accent-hot-purple text on rgba(186,15,255,0.16).
+               Caller chip: --text-secondary-on-dark on rgba(255,255,255,0.10).
   Workflow:    the secondary rail. "Live workflow" panel head + checklist of
-               body-sm --text-primary-on-light rows, CheckCircle fill
-               --text-secondary-on-light (neutral — completion is quiet), gap-2.
+               body-sm --text-primary-on-dark rows, CheckCircle fill
+               --text-secondary-on-dark (neutral — completion is quiet), gap-2.
 Revealed with .reveal-block at complete + 1300ms (500ms after intent) — the
                 checklist builds in as the whole block fades up.
                Row alignment: icon top-aligns to the first line
                (.hero-action-check, flex-start + 2px optical nudge) so the check
                sits level with the cap height of the text, not its 20px line box.
   Estimated ROI:is the rail's payoff block and the window's dominant accent —
-               border-t surface-200 pt-4. "Estimated ROI calculation" panel-head
-               label; monthly total in display-md --accent-purple tabular-nums +
-               "/mo"; annual impact as mono caption --text-secondary-on-light;
+               border-t --hairline-on-dark pt-4. "Estimated ROI calculation" panel-head
+               label; monthly total in display-md --accent-hot-purple tabular-nums +
+               "/mo"; annual impact as mono caption --text-secondary-on-dark;
                "Calculate yours" link → openRoi(roiName). Figures are computed via
                calcResults(script.roiExample) from /components/roi/calc — the
 same formula powering the ROI modal. Revealed with .reveal-block at
@@ -371,17 +401,17 @@ same formula powering the ROI modal. Revealed with .reveal-block at
   Selector:      compact vertical rail, no cards. Rows are px-3 py-2.5 rounded-sm
                (radius-btn) buttons with gap-3, flat inside the panel.
                Row = duotone icon (18px) + two-line label (name body-sm 500 +
-               tagline caption --text-secondary-on-light).
+               tagline caption --text-secondary-on-dark).
   Icons:       PhoneIncoming (Receptionist), Lightning (Speed-to-Lead),
                Megaphone (Mass Outbound).
-  Active:      rgba(0,0,0,0.08) pill + --text-primary-on-light medium text + icon
-               flips --accent-purple (text label always present — never color-alone)
-               + aria-pressed/aria-current.
-Hover:       rgba(0,0,0,0.05) pill, icon → --accent-purple, text → primary.
+  Active:      rgba(255,255,255,0.10) pill + --text-primary-on-dark medium text +
+               icon flips --accent-hot-purple (text label always present —
+               never color-alone) + aria-pressed/aria-current.
+Hover:       rgba(255,255,255,0.06) pill, icon → --accent-hot-purple, text → primary.
    Focus:       2px solid --accent-purple outline, offset 2px.
    Description: selected agent description (caption secondary — the scale's
                smallest size) sits below the selector list, separated by a hairline
-               (mt-4 border-t surface-200 pt-4), on the light panel background.
+               (mt-4 border-t --hairline-on-dark pt-4), on the glass panel background.
                No CTA below the console — the contextual ROI link lives in the
                right-rail Estimated ROI block (RoiPreview) only.
 ```
@@ -492,6 +522,46 @@ Implementation: static SVG filter (displacement + blur, rendered once),
 
 RETIRED: the full-bleed scrolling bar waveform, the multi-color sine paths, and the
 single ambient `--gradient-glow` blob are all removed.
+
+## Hero bottom audio wave — full-bleed live waveform
+
+The one full-bleed audio treatment on the page: a realistic, smooth waveform that
+sweeps along the very bottom edge of the hero, above the atmosphere but below the
+console window. It is grounded in the product (voice calls) and reads as a live
+"call energy" ribbon, not a decorative blob. It must look calm and premium — an
+audio meter, not an equalizer.
+
+```
+Placement:     full-bleed block spanning the hero's entire width, edge to edge —
+               a direct section child placed after the content column and offset
+               against the section padding with negative margins (-mx-4 /
+               lg:-mx-6) so it reaches the viewport edges. mt-12 → lg:mt-16 gap
+               below the CTA row. Reads clearly on the dark hero below the console
+               — never hidden behind the console glass. overflow-hidden wrapper,
+               ~96px tall on desktop (72px mobile).
+Layers:        4 flowing curves (mirrored envelope so the wave stays symmetric),
+                four-tone crest — back accent-purple 2.5px @0.35, accent-blue
+                3px @0.45, accent-cyan 3.5px @0.55, front white
+                (--text-primary-on-dark) 4px @0.7, so the wave reads purple at the
+                rear, blue, cyan, and white at the crest. Plus a soft mirrored area
+                fill beneath the front path (accent-cyan → hot-purple, ≤0.35 fading
+                to 0.08) so the wave reads as a ribbon rising from the edge, not a
+                thin line. Blue and cyan appear ONLY in this wave — the rest of the
+                hero stays purple/neutral. It is the page's one wave motif and the
+                hero's dominant bottom visual.
+Motion:        continuous calibration-waveform flow. Amplitudes drift via layered
+               smoothstep noise (per-cluster, interconnected so motion propagates
+               left→right like real audio). 60fps RAFA loop, ~2.8s travel across the
+               width, amplitude coefficient ~0.5 so peaks swell and relax naturally.
+               Slight phase offset between layers (back leads, front follows) for
+               depth. No sudden jumps — always smooth.
+Reduced motion: the wave is a single static idle frame; no loop.
+Accessibility: aria-hidden, decorative only — the real live-call status lives in the
+               console's aria-live region, not here.
+```
+
+This is the ONLY waveform on the hero and the only full-bleed one on the page.
+The console has no waveform of its own.
 
 ## Pricing section
 

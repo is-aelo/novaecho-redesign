@@ -1,0 +1,59 @@
+
+> novaecho-redesign@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.10 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.3:3000
+✓ Ready in 1537ms
+
+○ Compiling / ...
+ GET / 200 in 11.0s (next.js: 8.8s, application-code: 2.2s)
+[browser] Image with src "/images/novaecho-logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+ GET / 200 in 356ms (next.js: 22ms, application-code: 335ms)
+ GET / 200 in 500ms (next.js: 15ms, application-code: 485ms)
+[browser] Image with src "/images/novaecho-logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+ GET / 200 in 484ms (next.js: 17ms, application-code: 467ms)
+[browser] Image with src "/images/novaecho-logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+ GET / 200 in 504ms (next.js: 18ms, application-code: 486ms)
+[browser] Image with src "/images/novaecho-logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+✓ Compiled in 660ms
+ GET / 200 in 471ms (next.js: 219ms, application-code: 253ms)
+ GET / 200 in 874ms (next.js: 16ms, application-code: 858ms)
+[browser] Image with src "/images/novaecho-logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+ GET / 200 in 549ms (next.js: 15ms, application-code: 534ms)
+[browser] Image with src "/images/novaecho-logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+✓ Compiled in 151ms
+ GET / 200 in 166ms (next.js: 92ms, application-code: 74ms)
+ GET / 200 in 276ms (next.js: 8ms, application-code: 268ms)
+[browser] Image with src "/images/novaecho-logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+ GET / 200 in 243ms (next.js: 9ms, application-code: 234ms)
+[browser] Image with src "/images/novaecho-logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+ GET / 200 in 305ms (next.js: 14ms, application-code: 292ms)
+[browser] Image with src "/images/novaecho-logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+✓ Compiled in 801ms
+✓ Compiled in 313ms
+ GET / 200 in 457ms (next.js: 278ms, application-code: 179ms)
+✓ Compiled in 212ms
+ GET / 200 in 402ms (next.js: 235ms, application-code: 166ms)
+ GET / 200 in 819ms (next.js: 16ms, application-code: 803ms)
+[browser] Image with src "/images/novaecho-logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+ GET / 200 in 501ms (next.js: 15ms, application-code: 486ms)
+[browser] Image with src "/images/novaecho-logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+✓ Compiled in 478ms
+✓ Compiled in 306ms
+ GET / 200 in 376ms (next.js: 170ms, application-code: 207ms)
+ GET / 200 in 773ms (next.js: 15ms, application-code: 758ms)
+[browser] Image with src "/images/novaecho-logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+✓ Compiled in 299ms
+ GET / 200 in 478ms (next.js: 272ms, application-code: 206ms)
+✓ Compiled in 262ms
+ GET / 200 in 335ms (next.js: 197ms, application-code: 138ms)
+✓ Compiled in 236ms
+ GET / 200 in 530ms (next.js: 220ms, application-code: 310ms)
+✓ Compiled in 234ms
+ GET / 200 in 365ms (next.js: 194ms, application-code: 171ms)
+✓ Compiled in 139ms
+ GET / 200 in 200ms (next.js: 101ms, application-code: 100ms)
+✓ Compiled in 152ms
+ GET / 200 in 175ms (next.js: 91ms, application-code: 84ms)

@@ -24,9 +24,9 @@ export default function WorkflowPreview({ call }: WorkflowPreviewProps) {
               size={16}
               weight="fill"
               aria-hidden="true"
-              className="hero-action-check text-text-secondary-light"
+              className="hero-action-check text-text-secondary"
             />
-            <span className="font-body text-body-sm text-text-primary-light">{action}</span>
+            <span className="font-body text-body-sm text-text-primary">{action}</span>
           </li>
         ))}
       </ul>
