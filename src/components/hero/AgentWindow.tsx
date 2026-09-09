@@ -10,24 +10,17 @@ import type { VoiceCall } from "./useVoiceCall";
 export default function AgentWindow({ call }: { call: VoiceCall }) {
   return (
     <>
-      <div className="overflow-hidden rounded-window border hero-window-neon hero-window-fill">
-        <div className="flex flex-col items-start gap-2 border-b border-hairline-on-dark px-4 py-3 lg:flex-row lg:items-center lg:justify-between lg:gap-4 lg:px-6">
-          <div className="flex items-center gap-2">
-            <span className="window-dot" aria-hidden="true" />
-            <span className="window-dot" aria-hidden="true" />
-            <span className="window-dot" aria-hidden="true" />
-            <p className="font-mono text-body-sm font-medium uppercase tracking-wider text-text-primary">
-              Nova Echo Console
-            </p>
-          </div>
-          <p className="flex items-center gap-2 font-mono text-caption uppercase tracking-wider text-text-secondary">
-            <span className="hero-live-dot" data-active="true" aria-hidden="true" />
-            Simulated call
-          </p>
+      <div className="overflow-hidden rounded-window border border-hairline-on-dark bg-surface-900">
+        <div className="flex items-center gap-2 border-b border-hairline-on-dark px-4 py-3">
+          <span className="window-dot" aria-hidden="true" />
+          <span className="window-dot" aria-hidden="true" />
+          <span className="window-dot" aria-hidden="true" />
+          <p className="console-panel-head">Nova Echo Console</p>
+          <span className="hero-live-dot ml-auto" data-active="true" aria-hidden="true" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12">
-          <div className="px-4 pt-3 pb-4 lg:col-span-3 lg:border-r hero-divider-neon lg:px-6 lg:pt-4 lg:pb-6">
+          <div className="px-4 pt-3 pb-4 lg:col-span-3 lg:border-r lg:border-hairline-on-dark lg:px-6 lg:pt-4 lg:pb-6">
             <p className="console-panel-head mb-2 lg:mb-3">Agents</p>
             <AgentSelector
               activeId={call.script.id}
@@ -43,7 +36,7 @@ export default function AgentWindow({ call }: { call: VoiceCall }) {
 
           <div className="border-t border-hairline-on-dark px-4 pt-3 pb-2 lg:col-span-6 lg:border-t-0 lg:px-6 lg:pt-4 lg:pb-6">
             <div className="mb-2 flex flex-col items-start gap-2 lg:mb-3 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
-              <p className="console-panel-head">Live call</p>
+              <p className="console-panel-head">Call transcription</p>
               <p
                 className="font-mono text-caption tabular-nums text-text-secondary"
                 aria-live="polite"
@@ -66,11 +59,6 @@ export default function AgentWindow({ call }: { call: VoiceCall }) {
           </div>
         </div>
       </div>
-
-      <span className="hero-corner-tl" aria-hidden="true" />
-      <span className="hero-corner-tr" aria-hidden="true" />
-      <span className="hero-corner-bl" aria-hidden="true" />
-      <span className="hero-corner-br" aria-hidden="true" />
     </>
   );
 }

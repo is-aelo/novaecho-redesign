@@ -188,7 +188,7 @@ export default function Demo() {
             </label>
 
             <button type="submit" className="btn-primary w-full">
-              Request a Demo Call
+              Receive a Call
             </button>
           </form>
         </div>

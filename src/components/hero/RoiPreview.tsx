@@ -29,7 +29,7 @@ export default function RoiPreview({ call }: RoiPreviewProps) {
     >
       <p className="console-panel-head mb-2">Estimated ROI calculation</p>
       <p className="flex items-baseline gap-1">
-        <span className="font-display text-display-md font-medium tabular-nums text-accent-hot-purple">
+        <span className="font-display text-display-md font-bold tabular-nums text-accent-purple-soft">
           {money(estimate.total)}
         </span>
         <span className="font-mono text-caption text-text-secondary">/mo</span>
@@ -40,7 +40,7 @@ export default function RoiPreview({ call }: RoiPreviewProps) {
       <button
         type="button"
         onClick={() => openRoi(call.script.roiName)}
-        className="nudge-horizontal mt-3 inline-flex items-center gap-2 font-body text-body-sm font-medium text-text-primary transition-colors hover:text-accent-hot-purple"
+        className="nudge-horizontal mt-3 inline-flex items-center gap-2 font-body text-body-sm font-medium text-text-primary transition-colors hover:text-accent-purple-soft"
       >
         Calculate yours
         <ArrowRight size={16} weight="bold" aria-hidden="true" />
