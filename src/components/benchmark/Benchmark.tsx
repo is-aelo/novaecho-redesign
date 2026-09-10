@@ -1,246 +1,136 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { CaretDown } from "@phosphor-icons/react/ssr";
-import gsap from "gsap";
+import { useRef, useState, type ComponentType } from "react";
+import { ArrowRight } from "@phosphor-icons/react/ssr";
+import {
+  benchmarkModules,
+  type BenchmarkModule,
+} from "./benchmarkData";
+import BenchMatrix from "./BenchMatrix";
+import BenchVoiceVisual from "./BenchVoiceVisual";
+import BenchResponseVisual from "./BenchResponseVisual";
+import BenchCallFlowVisual from "./BenchCallFlowVisual";
+import BenchIntegrationsVisual from "./BenchIntegrationsVisual";
+import BenchTimelineVisual from "./BenchTimelineVisual";
+import { useBenchReveal } from "./useBenchReveal";
 
-const rows = [
-  {
-    feature: "Voice Quality",
-    nova: "Hyper human-like",
-    comp: "Human-like (less natural)",
-    human: "Human",
-  },
-  {
-    feature: "Latency (Phone Calls)",
-    nova: "Sub-1500ms",
-    comp: "2000–3000ms",
-    human: "Varies; human reaction time",
-  },
-  {
-    feature: "Voice Customization",
-    nova: "Extensive tone & speed control",
-    comp: "Basic options only",
-    human: "None",
-  },
-  {
-    feature: "Support",
-    nova: "24/7 White-Glove + Slack",
-    comp: "9–5 email support",
-    human: "N/A",
-  },
-  {
-    feature: "Calling Capacity",
-    nova: "1500+ calls/minute",
-    comp: "10–60 calls/minute",
-    human: "1 call/minute",
-  },
-  {
-    feature: "Ease of Use",
-    nova: "Simple, intuitive",
-    comp: "Often overly complex",
-    human: "N/A",
-  },
-  {
-    feature: "Accuracy & Consistency",
-    nova: "Highly consistent",
-    comp: "Frequent script errors",
-    human: "Prone to mistakes",
-  },
-  {
-    feature: "Data & Insights",
-    nova: "Full analytics & reporting",
-    comp: "Limited dashboards",
-    human: "Minimal recall",
-  },
-  {
-    feature: "Integrations",
-    nova: "10+ native, 3000+ third-party",
-    comp: "Third-party only",
-    human: "Limited by learning curve",
-  },
-  {
-    feature: "Pricing Transparency",
-    nova: "Fully transparent",
-    comp: "Hidden fees common",
-    human: "N/A",
-  },
-  {
-    feature: "Speed-to-Lead Time",
-    nova: "< 1 minute",
-    comp: "< 1 minute",
-    human: "5–120 minutes",
-  },
-  {
-    feature: "Implementation Speed",
-    nova: "48 hours",
-    comp: "2–4 weeks",
-    human: "3–6 weeks",
-  },
-  {
-    feature: "Languages Supported",
-    nova: "35+",
-    comp: "35+",
-    human: "1–2",
-  },
-];
-
-const colHeaders = ["Feature", "Nova Echo AI", "Competitors", "Humans"];
-
-const INITIAL_VISIBLE = 4;
+const visuals: Record<BenchmarkModule["visual"], ComponentType> = {
+  voice: BenchVoiceVisual,
+  response: BenchResponseVisual,
+  calls: BenchCallFlowVisual,
+  integrations: BenchIntegrationsVisual,
+  timeline: BenchTimelineVisual,
+};
 
 export default function Benchmark() {
-  const [showAll, setShowAll] = useState(false);
-  const initialized = useRef(false);
-
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-      if (!window.matchMedia("(min-width: 1024px)").matches) {
-        gsap.set("[data-bench-toggle]", {
-          opacity: 0,
-          height: 0,
-          overflow: "hidden",
-          paddingTop: 0,
-          paddingBottom: 0,
-          marginTop: 0,
-          marginBottom: 0,
-        });
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (window.matchMedia("(min-width: 1024px)").matches) return;
-    const toggles = document.querySelectorAll<HTMLElement>("[data-bench-toggle]");
-    if (showAll) {
-      gsap.to(toggles, {
-        opacity: 1,
-        height: "auto",
-        paddingTop: "",
-        paddingBottom: "",
-        marginTop: "",
-        marginBottom: "",
-        duration: 0.4,
-        stagger: 0.04,
-        ease: "power3.out",
-        clearProps: "overflow",
-      });
-    } else {
-      gsap.to(toggles, {
-        opacity: 0,
-        height: 0,
-        overflow: "hidden",
-        paddingTop: 0,
-        paddingBottom: 0,
-        marginTop: 0,
-        marginBottom: 0,
-        duration: 0.25,
-        ease: "power2.in",
-      });
-    }
-  }, [showAll]);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  useBenchReveal(sectionRef);
 
   return (
-    <section id="benchmarks" className="w-full bg-surface-50 px-6 py-16 scroll-mt-16">
-      <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12">
+    <section
+      id="benchmarks"
+      ref={sectionRef}
+      className="w-full scroll-mt-16 bg-surface-50 py-16"
+    >
+      <div
+        className="mx-auto flex max-w-6xl flex-col"
+        data-parallax
+        data-parallax-y="12"
+      >
         <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
-          <h2 className="font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
+          <p className="font-mono text-caption font-medium uppercase tracking-wider text-accent-purple">
             Precision Benchmark
+          </p>
+          <h2 className="mt-3 font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
+            See how Nova Echo stacks up.
           </h2>
           <p className="mt-3 max-w-2xl text-body-sm lg:text-body-md leading-relaxed text-text-secondary-light">
-            Comparing Nova Echo AI against the legacy industry standards.
+            Compare the capabilities that matter most — from conversation quality
+            and response time to scale, integrations, and implementation.
           </p>
         </div>
 
-        <div className="mt-5 w-full lg:mt-6">
-          <table className="hidden w-full border-collapse lg:table">
-            <thead>
-              <tr>
-                {colHeaders.map((header, i) => (
-                  <th
-                    key={header}
-                    className={`px-4 py-4 text-left text-body-sm font-semibold tracking-wider uppercase ${
-                      i === 0 || i === 1
-                        ? "text-text-primary-light border-b-2"
-                        : "text-text-secondary-light/60 border-b border-surface-200"
-                    } ${i === 1 ? "benchmark-nova-header" : ""}`}
-                  >
-                    {header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.feature} className="border-b border-surface-200/80">
-                  <td className="px-4 py-4 text-body-sm font-medium text-text-primary-light">
-                    {row.feature}
-                  </td>
-                  <td className="px-4 py-4 text-body-sm font-medium tabular-nums text-accent-purple bg-accent-hot-purple/6">
-                    {row.nova}
-                  </td>
-                  <td className="px-4 py-4 text-body-sm text-text-secondary-light/80">
-                    {row.comp}
-                  </td>
-                  <td className="px-4 py-4 text-body-sm text-text-secondary-light/80">
-                    {row.human}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <div className="flex flex-col divide-y divide-surface-200/80 lg:hidden">
-            {rows.map((row, i) => (
-              <div key={row.feature} {...(i >= INITIAL_VISIBLE ? { "data-bench-toggle": "" } : {})} className="py-4">
-                <p className="text-caption font-semibold uppercase tracking-wider text-text-primary-light">
-                  {row.feature}
-                </p>
-                <div className="mt-2 flex flex-col gap-1.5">
-                  <div className="flex items-baseline justify-between gap-2 -mx-4 px-4 py-1.5 bg-accent-hot-purple/6">
-                    <span className="text-caption font-medium text-text-primary-light shrink-0">
-                      Nova Echo AI
-                    </span>
-                    <span className="text-body-sm font-medium tabular-nums text-accent-purple text-right">
-                      {row.nova}
-                    </span>
-                  </div>
-                  <div className="flex items-baseline justify-between gap-2">
-                    <span className="text-caption font-medium text-text-secondary-light/60 shrink-0">
-                      Competitors
-                    </span>
-                    <span className="text-body-sm text-text-secondary-light/80 text-right">
-                      {row.comp}
-                    </span>
-                  </div>
-                  <div className="flex items-baseline justify-between gap-2">
-                    <span className="text-caption font-medium text-text-secondary-light/60 shrink-0">
-                      Humans
-                    </span>
-                    <span className="text-body-sm text-text-secondary-light/80 text-right">
-                      {row.human}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-            {rows.length > INITIAL_VISIBLE && (
-              <button
-                onClick={() => setShowAll(!showAll)}
-                className="flex items-center justify-center gap-2 py-4 text-caption md:text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-magenta"
-              >
-                {showAll ? "Show less" : `Show all (${rows.length} comparisons)`}
-                <CaretDown
-                  size={14}
-                  weight="bold"
-                  className={`transition-transform ${showAll ? "rotate-180" : ""}`}
-                />
-              </button>
-            )}
-          </div>
+        <div className="mt-10 grid grid-cols-1 lg:mt-12 lg:grid-cols-2">
+          {benchmarkModules.map((module) => (
+            <BenchModule key={module.index} module={module} />
+          ))}
         </div>
+
+        <div className="mt-8 flex flex-col items-center pb-6 text-center lg:mt-12 lg:pt-4">
+          <h3 className="font-display text-display-sm font-semibold tracking-tight text-text-primary-light">
+            Want the full comparison?
+          </h3>
+          <p className="mt-2 max-w-md text-body-sm leading-relaxed text-text-secondary-light">
+            Explore every benchmark across voice, scale, operations,
+            integrations, pricing, and more.
+          </p>
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="bench-matrix"
+            className="mt-6 inline-flex items-center gap-2 rounded-btn border border-surface-700/30 px-6 py-3 font-body text-body-sm font-medium text-text-primary-light transition-colors hover:border-surface-700/60 hover:text-accent-purple"
+          >
+            View Full Benchmark
+            <ArrowRight
+              size={16}
+              weight="bold"
+              className={`transition-transform ${
+                open ? "rotate-90" : ""
+              }`}
+            />
+          </button>
+        </div>
+
+        <BenchMatrix open={open} />
       </div>
     </section>
+  );
+}
+
+function BenchModule({ module }: { module: BenchmarkModule }) {
+  const Visual = visuals[module.visual];
+  const isRightColumn = module.index === "02" || module.index === "04";
+  const spansFull = module.index === "05";
+
+  return (
+    <article
+      data-bench-module
+      className={`border-t border-surface-200 p-6 pb-8 lg:px-8 lg:py-8 ${
+        isRightColumn ? "lg:border-l" : ""
+      } ${spansFull ? "lg:col-span-2" : ""}`}
+    >
+      <p
+        data-bench-reveal
+        data-order="0"
+        className="flex items-center gap-3 font-mono text-caption font-medium tracking-wider text-text-secondary-light"
+      >
+        <span className="text-accent-purple">{module.index}</span>
+        <span aria-hidden="true" className="h-px w-5 bg-surface-700/25" />
+        <span>{module.name.toUpperCase()}</span>
+      </p>
+      <h3
+        data-bench-reveal
+        data-order="1"
+        className="mt-4 font-display text-display-sm font-semibold tracking-tight tabular-nums text-text-primary-light lg:text-display-md"
+      >
+        {module.metric}
+      </h3>
+      <div
+        data-bench-reveal
+        data-order="2"
+        className="relative mt-6 w-full overflow-hidden"
+      >
+        <Visual />
+      </div>
+      <p
+        data-bench-reveal
+        data-order="3"
+        className="mt-4 max-w-md text-body-sm leading-relaxed text-text-secondary-light"
+      >
+        {module.support}
+      </p>
+    </article>
   );
 }

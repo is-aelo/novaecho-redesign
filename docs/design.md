@@ -740,20 +740,87 @@ Gap subtext:      mt-5 / lg:mt-6 (per section pattern)
 Card padding:     p-8 (side), py-10 px-8 lg:py-12 (center)
 ```
 
-## Benchmark section
+## Benchmark section — progressive-disclosure comparison
 
-Light comparison table on `--surface-50` background. 4-column matrix comparing Nova Echo AI vs Competitors vs Humans across 13 metrics. The "Nova Echo AI" column header has a solid `--accent-purple` 2px bottom border; values under it use `--accent-purple` for visual emphasis.
+Light section on `--surface-50`. Distinct editorial/data identity — NOT the "Why Nova Echo" card system. No cards, no rounded containers, no icons: hairline grid, large numerical metrics, mono technical labels, SVG data visuals with subtle grain. Five primary benchmark modules lead; the full 13-row comparison (4 groups) is gated behind a "View Full Benchmark" disclosure so the most important claims scan in seconds on every viewport.
 
 ```
-Background:       --surface-50
-Header labels:    body-sm, semibold, uppercase, tracking-wider
-  Nova Echo AI:   text-primary-light, solid 2px bottom border --accent-purple
-  Others:         text-secondary-light at 60% opacity, solid border using surface-200
-Feature column:   text-body-sm, medium weight, --text-secondary-light
-Nova Echo values: text-body-sm, medium weight, --accent-purple
-Other values:     text-body-sm, --text-secondary-light at 60% opacity
-Row divider:      thin line, --surface-200 at 80% opacity
-Scroll:           horizontal scroll on mobile (min-w-[640px])
+Header:
+  Eyebrow:      "Precision Benchmark" — font-mono caption (12px/16px) medium,
+                uppercase, tracking-wider, --accent-purple. Headline "See how
+                Nova Echo stacks up." (display-md → display-lg, font-display,
+                semibold, tracking-tight, --text-primary-light) + subtext body-sm
+                → body-md --text-secondary-light. Same centered-at-lg master
+                pattern as every other section.
+
+Module grid:    mt-10 → lg:mt-12, grid-cols-1 → lg:grid-cols-2, gap 0. Modules
+                flanked by hairlines only — border-t --surface-200 on every
+                module (the grid's top rule), lg:border-l on the right-column
+                modules (02, 04) so the two columns read as a data grid. The
+                fifth module (Implementation) spans lg:col-span-2 and breaks the
+                grid. Module padding p-6 pb-8 → lg:px-8 lg:py-8 (no bg, no
+                radius, no border all around — whitespace, not cards).
+Module content: label row (font-mono caption medium uppercase tracking-wider,
+                --text-secondary-light; mono index in --accent-purple + a 20px
+                1px tick at --surface-700/25 + name) → metric (font-display
+                text-display-sm → lg:text-display-md semibold tracking-tight
+                tabular-nums --text-primary-light) → visual (relative mt-6,
+                w-full) → supporting copy (mt-4 body-sm --text-secondary-light,
+                max-w-md). Metric stays solid black — purple is reserved for
+                the index numerals and the Nova column of the matrix.
+
+Module visuals: five inline SVGs, viewBox 480×96, w-full h-auto, calm
+                architectural data lines (1–1.5px hairlines, --accent-purple +
+                --text-secondary-on-light at low opacity, solid flat fills only
+                — no gradients, no bars, no neon):
+  01 Voice Quality    calm conversational waveform — two sine phase layers
+                      (purple 0.50/0.18 + soft area fills 0.05/0.03) over a
+                      faint baseline. Not an equalizer.
+  02 Response Time    horizontal latency scale 0ms–3000ms with tick + mono
+                      labels, a muted competitor band (2000–3000ms) and a
+                      --accent-purple marker at ≤1500ms with "Nova Echo" label.
+  03 Calling Capacity 3 incoming call dots converging through a solid purple
+                      system node, fanning to 5 distributed output dots.
+  04 Integrations     purple "Nova Echo" square at center, hairline spokes to
+                      mono-labeled dots CRM / SMS / EMAIL / CALENDAR / OTHER
+                      TOOLS (labels short-side anchored).
+  05 Implementation   3-stage timeline BUILD → TEST → LAUNCH — hairline rail,
+                      neutral dot/dot/purple dot, chevrons between stages.
+Grain:          each visual carries a static feTurbulence rect (fractalNoise,
+                baseFrequency 0.9, numOctaves 2, stitchTiles) with an feColorMatrix
+                alpha at ~0.07 — black speckle on the light surface, inside the
+                visual container only, never over text (BenchGrain).
+
+Disclosure:     after the grid — mt-8 → lg:mt-12, centered, generous whitespace,
+                no hairline. "Want the full comparison?" (font-display
+                text-display-sm semibold) + body-sm supporting copy + a bordered
+                CTA button: rounded-btn, 1px border --surface-700/30,
+                --text-primary-light, hover border-surface-700/60 +
+                hover:text-accent-purple (matches pricing side-card CTA).
+                Label "View Full Benchmark" with a 16px ArrowRight that rotates
+                90° when open; aria-expanded + aria-controls. Toggles the
+                matrix wrapper (height 0→auto / opacity 0→1, 0.5s power3.out,
+                collapse 0.35s power2.in; reduced-motion sets height directly).
+                Matrix wrapper is inert while collapsed.
+
+Full matrix:    id="bench-matrix", width-matched framing. Desktop (lg): a
+                bordered table (rounded-md, 1px --surface-200) with the 4
+                columns Metric / Nova Echo AI / Competitors / Humans. Nova
+                column keeps its 2px solid --accent-purple bottom border
+                (.benchmark-nova-header), --accent-purple values on a
+                bg-accent-hot-purple/6 tint; competitors/humans sit secondary.
+                13 rows grouped into 4 category bands — VOICE, SCALE,
+                OPERATIONS, BUSINESS (mono caption uppercase --accent-purple
+                separator rows on a border-t hairline); row dividers
+                border-b --surface-200/80. Mobile: stacked collapsible category
+                accordions (VOICE+/SCALE+/…), each border-t --surface-200;
+                tapping a header (mono caption uppercase label + rotating
+                CaretDown, aria-expanded/aria-controls) expands only that
+                category via GSAP height 0→auto (0.45s power3.out / 0.3s
+                power2.in; reduced-motion jumps). Inside each expanded category:
+                per metric, "Nova Echo AI" value on the bg-accent-hot-purple/6
+                tinted row first, then Competitors and Humans rows secondary —
+                the same emphasis as the desktop column, never a wall of text.
 ```
 
 ## Partners section
@@ -873,6 +940,14 @@ scroll-reveal:    opacity 0→1, translateY 24px→0, stagger 80ms per child, tr
 hero-entrance:     headline words stagger in, --dur-hero, ease-out-standard, runs once on load
 cta-hover:         scale 1→1.02, glow opacity 0→1, --dur-fast
 call-trace-bars:   waveform bars grow from 0 height on scroll into view, stagger 40ms
+bench-module:      per module, opacity 0→1 + translateY 24→0, duration 0.5s power2.out,
+                   stagger 80ms in data-order (index → metric → visual → supporting),
+                   ScrollTrigger start "top 82%", per-module trigger; disabled under
+                   prefers-reduced-motion (content stays fully visible). Located in
+                   /components/benchmark/useBenchReveal.
+bench-disclosure:  matrix wrapper height 0→auto + opacity, 0.5s power3.out (open) /
+                   0.35s power2.in (close); category accordions 0.45s / 0.3s. GSAP,
+                   reduced-motion jumps to final state without tweening.
 ```
 
 ## ROI Calculator Modal
