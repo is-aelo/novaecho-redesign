@@ -769,27 +769,76 @@ Module content: label row (font-mono caption medium uppercase tracking-wider,
                 max-w-md). Metric stays solid black — purple is reserved for
                 the index numerals and the Nova column of the matrix.
 
-Module visuals: five inline SVGs, viewBox 480×96, w-full h-auto, calm
-                architectural data lines (1–1.5px hairlines, --accent-purple +
-                --text-secondary-on-light at low opacity, solid flat fills only
-                — no gradients, no bars, no neon):
-  01 Voice Quality    calm conversational waveform — two sine phase layers
-                      (purple 0.50/0.18 + soft area fills 0.05/0.03) over a
-                      faint baseline. Not an equalizer.
-  02 Response Time    horizontal latency scale 0ms–3000ms with tick + mono
-                      labels, a muted competitor band (2000–3000ms) and a
-                      --accent-purple marker at ≤1500ms with "Nova Echo" label.
-  03 Calling Capacity 3 incoming call dots converging through a solid purple
-                      system node, fanning to 5 distributed output dots.
-  04 Integrations     purple "Nova Echo" square at center, hairline spokes to
-                      mono-labeled dots CRM / SMS / EMAIL / CALENDAR / OTHER
-                      TOOLS (labels short-side anchored).
-  05 Implementation   3-stage timeline BUILD → TEST → LAUNCH — hairline rail,
-                      neutral dot/dot/purple dot, chevrons between stages.
-Grain:          each visual carries a static feTurbulence rect (fractalNoise,
-                baseFrequency 0.9, numOctaves 2, stitchTiles) with an feColorMatrix
-                alpha at ~0.07 — black speckle on the light surface, inside the
-                visual container only, never over text (BenchGrain).
+Module visuals: five inline SVGs, viewBox 480×112, w-full h-auto, framed as calm
+                instrument/telemetry readouts — NOT logos or doodles. Every visual
+                shares a BenchGrid frame: faint horizontal gridlines
+                (--text-secondary-on-light at 0.04), 12px crop-marks at the four
+                corners, plus a grain overlay (fractalNoise, baseFrequency 0.9,
+                alpha ~0.07 — black speckle on the light surface, container-only,
+                never over text). Lines are 1–1.5px hairlines in --accent-purple +
+                --text-secondary-on-light at low opacity; flat solid fills only
+                (no gradients, no bars, no neon, no arrows/waves for decoration).
+
+Module type — Geist Mono only, three rungs of emphasis (never two focal
+                annotations in one visual — exactly one 16px payoff, everything
+                else steps down hard):
+                  16px / 500 — the focal annotation: GO LIVE, the P95 tag,
+                    "≈1.5k / min", "Nova Echo" — metric payoff in
+                    --accent-purple
+                  10px / 400 — headers + labels + steps: "DAY 1 · 0–24H",
+                    axis major values, integration node names, step labels —
+                    0.6–0.8
+                   8px / 400 — fine print: caption lines, footers, scale
+                    ticks — 0.45–0.55
+  01 Voice Quality    conversational waveform — 7 speech-like syllabic bursts
+                      grouped into 3 phrase clusters (brief pauses between
+                      phrases), each with an ASYMMETRIC envelope (fast attack,
+                      slower release — real syllabic energy), sampled at ~2px
+                      for smooth curves and modulated over three mixed carriers
+                      (no test-tone sine); dashed RMS envelope overlay, left
+                      amplitude ruler, bottom time ruler with 0s–7s mono labels
+                      ("voice · natural prosody" caption at 8px). Reads like a
+                      real utterance, not an equalizer. No text payoff — the
+                      waveform is the focal detail.
+  02 Response Time    latency distributions on a 0–3000ms axis (major values
+                      at 10px + minor ticks, labeled): a tight Nova Echo
+                      gaussian (~1385ms P50, sd ~58ms → P95 ≈ 1480ms, exactly
+                      the sub-1500 claim) in --accent-purple with a "P95
+                      1480 ms" tag hanging off the dropline — the visual's ONE
+                      focal annotation at 16px/500 — and a broad right-shifted
+                      competitor curve (2000–3000ms, gray) labeled "2000–3000
+                      ms" at its peak. Bands removed — the curves themselves
+                      are the story ("latency · response" caption at 8px).
+  03 Calling Capacity throughput flow — 4 inbound lanes (with a trailing ghost
+                      dot each) converging through smooth cubics into the solid
+                      purple system node, fanning to 5 evenly spaced output dots
+                      with small arrowheads at the termini; "≈1.5k / min" is the
+                      focal annotation (16px/500, purple) beside the node, with
+                      "inbound / distributed" captions at 8px. Symmetric fan,
+                      every label clear of lines.
+  04 Integrations     system map — solid purple Nova Echo square under a mono
+                      "Nova Echo" label (the visual's ONE focal annotation at
+                      16px/500), straight hairline spokes (no ring, no
+                      arrowheads, no node rings, no legend) to 5 connected-tool
+                      dots in a balanced star: CRM + SMS left, EMAIL + CALENDAR
+                      right, OTHER TOOLS bottom-center (node labels at 10px).
+                      Every label sits on the OUTER side of its dot so no spoke
+                      ever crosses text. Footer note "5 shown · 3,000+
+                      available" at 8px — a sample of the catalog, not the
+                      whole map. Least decorated visual.
+  05 Implementation   2-day sprint board — two three-step stacks, "DAY 1 ·
+                      0–24H" and "DAY 2 · 24–48H" (day headers at 10px with
+                      the step labels) — each a vertical dot rail. Completion state
+                      reads at a glance: done items are filled dots with a
+                      hairline checkmark, the pending "Human QA pass" stays
+                      an open ring — a human gate before cutover. Day columns
+                      join by a chevron handoff at mid-height, then a DASHED
+                      segment (manual cutover, only after QA signs off) into a
+                      solid --accent-purple square flagged "GO LIVE" — the
+                      visual's ONE focal annotation at 16px/500. A bottom
+                      hour ruler (0h / 24h / 48h ticks + 8px labels, spanning
+                      the board) gives the sprint an absolute elapsed-time
+                      scale ("implementation · sprint board" caption at 8px).
 
 Disclosure:     after the grid — mt-8 → lg:mt-12, centered, generous whitespace,
                 no hairline. "Want the full comparison?" (font-display

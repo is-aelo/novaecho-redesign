@@ -1,26 +1,40 @@
 "use client";
 
 import BenchGrain from "./BenchGrain";
+import BenchGrid from "./BenchGrid";
 
 const W = 480;
-const H = 96;
+const H = 112;
 
-type Node = { x: number; y: number; label: string; anchor: "start" | "end" };
-
-const nodes: Node[] = [
-  { x: 114, y: 34, label: "CRM", anchor: "start" },
-  { x: 114, y: 70, label: "SMS", anchor: "start" },
-  { x: 366, y: 34, label: "EMAIL", anchor: "end" },
-  { x: 366, y: 52, label: "CALENDAR", anchor: "end" },
-  { x: 342, y: 78, label: "OTHER TOOLS", anchor: "end" },
+const nodes = [
+  { d: [110, 34], t: [96, 39], anchor: "end" as const, label: "CRM" },
+  { d: [110, 62], t: [96, 67], anchor: "end" as const, label: "SMS" },
+  { d: [370, 34], t: [382, 39], anchor: "start" as const, label: "EMAIL" },
+  { d: [370, 62], t: [382, 67], anchor: "start" as const, label: "CALENDAR" },
+  { d: [240, 80], t: [240, 96], anchor: "middle" as const, label: "OTHER TOOLS" },
 ];
 
-const spokes: Array<[string, number, number]> = [
-  ["M 229,44 C 160,44 150,34 116,34", 114, 34],
-  ["M 229,52 C 160,52 152,70 116,70", 114, 70],
-  ["M 251,44 C 320,44 322,34 362,34", 366, 34],
-  ["M 251,52 C 322,52 324,52 362,52", 366, 52],
-  ["M 251,60 C 306,60 318,76 340,78", 342, 78],
+const spokes: Array<Array<[number, number]>> = [
+  [
+    [234, 43],
+    [116, 34],
+  ],
+  [
+    [234, 53],
+    [116, 62],
+  ],
+  [
+    [246, 43],
+    [364, 34],
+  ],
+  [
+    [246, 53],
+    [364, 62],
+  ],
+  [
+    [240, 59],
+    [240, 77],
+  ],
 ];
 
 export default function BenchIntegrationsVisual() {
@@ -31,31 +45,34 @@ export default function BenchIntegrationsVisual() {
         className="block h-auto w-full"
         aria-hidden="true"
       >
-        {spokes.map(([d]) => (
-          <path
-            key={d}
-            d={d}
-            fill="none"
+        <BenchGrid />
+        <text
+          x="40"
+          y="28"
+          className="font-mono"
+          fontSize="8"
+          fill="var(--text-secondary-on-light)"
+          fillOpacity="0.5"
+        >
+          integrations · api
+        </text>
+        {spokes.map(([[x1, y1], [x2, y2]]) => (
+          <line
+            key={`${x1}-${y1}-${x2}-${y2}`}
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
             stroke="var(--text-secondary-on-light)"
             strokeOpacity="0.28"
           />
         ))}
-        {nodes.map((node) => (
-          <circle
-            key={node.label}
-            cx={node.x}
-            cy={node.y}
-            r="3"
-            fill="var(--text-secondary-on-light)"
-            fillOpacity="0.55"
-          />
-        ))}
         <text
           x="240"
-          y="28"
+          y="30"
           textAnchor="middle"
-          className="font-mono"
-          fontSize="11"
+          className="font-mono font-medium"
+          fontSize="16"
           fill="var(--accent-purple)"
         >
           Nova Echo
@@ -69,18 +86,38 @@ export default function BenchIntegrationsVisual() {
           fill="var(--accent-purple)"
         />
         {nodes.map((node) => (
-          <text
-            key={node.label}
-            x={node.anchor === "start" ? node.x + 12 : node.x - 14}
-            y={node.anchor === "start" ? node.y + 5 : node.y + 5}
-            textAnchor={node.anchor}
-            className="font-mono"
-            fontSize="12"
-            fill="var(--text-secondary-on-light)"
-          >
-            {node.label}
-          </text>
+          <g key={node.label}>
+            <circle
+              cx={node.d[0]}
+              cy={node.d[1]}
+              r="3"
+              fill="var(--text-secondary-on-light)"
+              fillOpacity="0.55"
+            />
+            <text
+              x={node.t[0]}
+              y={node.t[1]}
+              textAnchor={node.anchor}
+              className="font-mono"
+              fontSize="10"
+              fill="var(--text-secondary-on-light)"
+              fillOpacity="0.8"
+            >
+              {node.label}
+            </text>
+          </g>
         ))}
+        <text
+          x="460"
+          y="110"
+          textAnchor="end"
+          className="font-mono"
+          fontSize="8"
+          fill="var(--text-secondary-on-light)"
+          fillOpacity="0.45"
+        >
+          5 shown · 3,000+ available
+        </text>
       </svg>
       <BenchGrain />
     </div>
