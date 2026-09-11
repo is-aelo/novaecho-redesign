@@ -1,7 +1,9 @@
 "use client";
 
+import { useRef } from "react";
 import BenchGrain from "./BenchGrain";
 import BenchGrid from "./BenchGrid";
+import { useBenchCurveReveal } from "./useBenchCurveReveal";
 
 const W = 480;
 const H = 112;
@@ -68,22 +70,26 @@ const AMP_TICKS = [44, 66, 88];
 
 export default function BenchVoiceVisual() {
   const { wave, rms } = build();
+  const svgRef = useRef<SVGSVGElement>(null);
+  useBenchCurveReveal(svgRef);
 
   return (
-    <div className="relative w-full">
+    <div className="overflow-hidden rounded-window border border-hairline-on-dark bg-surface-900 px-4 py-4">
+      <div className="relative w-full">
       <svg
+        ref={svgRef}
         viewBox={`0 0 ${W} ${H}`}
         className="block h-auto w-full"
         aria-hidden="true"
       >
-        <BenchGrid />
+        <BenchGrid dark />
         <text
           x="40"
           y="28"
           className="font-mono"
           fontSize="8"
-          fill="var(--text-secondary-on-light)"
-          fillOpacity="0.5"
+          fill="var(--text-secondary-on-dark)"
+          fillOpacity="0.75"
         >
           voice · natural prosody
         </text>
@@ -94,19 +100,19 @@ export default function BenchVoiceVisual() {
             y1={y}
             x2={X0 + 8}
             y2={y}
-            stroke="var(--text-secondary-on-light)"
+            stroke="var(--text-secondary-on-dark)"
             strokeOpacity="0.15"
           />
         ))}
         <path
           d={area(wave)}
-          fill="var(--accent-purple)"
+          fill="var(--accent-purple-soft)"
           fillOpacity="0.04"
         />
         <polyline
           points={line(rms)}
           fill="none"
-          stroke="var(--accent-purple)"
+          stroke="var(--accent-purple-soft)"
           strokeOpacity="0.2"
           strokeWidth="1"
           strokeDasharray="3 5"
@@ -114,17 +120,19 @@ export default function BenchVoiceVisual() {
         <polyline
           points={line(wave)}
           fill="none"
-          stroke="var(--accent-purple)"
+          stroke="var(--accent-purple-soft)"
           strokeOpacity="0.5"
           strokeWidth="1.25"
           strokeLinejoin="round"
+          pathLength="1"
+          data-curve
         />
         <line
           x1={X0}
           y1="100"
           x2={X1}
           y2="100"
-          stroke="var(--text-secondary-on-light)"
+          stroke="var(--text-secondary-on-dark)"
           strokeOpacity="0.2"
         />
         {TIME_TICKS.map((x) => (
@@ -134,7 +142,7 @@ export default function BenchVoiceVisual() {
             y1="100"
             x2={x}
             y2="104"
-            stroke="var(--text-secondary-on-light)"
+            stroke="var(--text-secondary-on-dark)"
             strokeOpacity="0.3"
           />
         ))}
@@ -145,14 +153,15 @@ export default function BenchVoiceVisual() {
             y="108"
             className="font-mono"
             fontSize="8"
-            fill="var(--text-secondary-on-light)"
-            fillOpacity="0.45"
+            fill="var(--text-secondary-on-dark)"
+            fillOpacity="0.7"
           >
             {i}s
           </text>
         ))}
       </svg>
       <BenchGrain />
+      </div>
     </div>
   );
 }

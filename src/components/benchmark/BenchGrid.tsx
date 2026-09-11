@@ -7,7 +7,15 @@ const CORNERS = [
   "M 464 100 V 88 M 464 100 H 452",
 ];
 
-export default function BenchGrid() {
+type BenchGridProps = {
+  dark?: boolean;
+};
+
+export default function BenchGrid({ dark }: BenchGridProps) {
+  const stroke = dark
+    ? "var(--text-secondary-on-dark)"
+    : "var(--text-secondary-on-light)";
+
   return (
     <g aria-hidden="true">
       {[28, 56, 84].map((y) => (
@@ -17,7 +25,7 @@ export default function BenchGrid() {
           y1={y}
           x2="464"
           y2={y}
-          stroke="var(--text-secondary-on-light)"
+          stroke={stroke}
           strokeOpacity="0.04"
         />
       ))}
@@ -26,7 +34,7 @@ export default function BenchGrid() {
           key={d}
           d={d}
           fill="none"
-          stroke="var(--text-secondary-on-light)"
+          stroke={stroke}
           strokeOpacity="0.18"
         />
       ))}

@@ -1,8 +1,9 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useRef } from "react";
 import BenchGrain from "./BenchGrain";
 import BenchGrid from "./BenchGrid";
+import { useBenchCurveReveal } from "./useBenchCurveReveal";
 
 const W = 480;
 const H = 112;
@@ -23,10 +24,14 @@ const outgoing: Array<[number, number]> = [
 
 export default function BenchCallFlowVisual() {
   const arrowId = useId();
+  const svgRef = useRef<SVGSVGElement>(null);
+  useBenchCurveReveal(svgRef);
 
   return (
-    <div className="relative w-full">
+    <div className="overflow-hidden rounded-window border border-hairline-on-dark bg-surface-900 px-4 py-4">
+      <div className="relative w-full">
       <svg
+        ref={svgRef}
         viewBox={`0 0 ${W} ${H}`}
         className="block h-auto w-full"
         aria-hidden="true"
@@ -42,19 +47,19 @@ export default function BenchCallFlowVisual() {
           >
             <path
               d="M0,0 L6,3 L0,6 Z"
-              fill="var(--accent-purple)"
+              fill="var(--accent-purple-soft)"
               fillOpacity="0.5"
             />
           </marker>
         </defs>
-        <BenchGrid />
+        <BenchGrid dark />
         <text
           x="40"
           y="24"
           className="font-mono"
           fontSize="8"
-          fill="var(--text-secondary-on-light)"
-          fillOpacity="0.55"
+          fill="var(--text-secondary-on-dark)"
+          fillOpacity="0.75"
         >
           inbound
         </text>
@@ -64,7 +69,7 @@ export default function BenchCallFlowVisual() {
             cx={x - 14}
             cy={y}
             r="1.5"
-            fill="var(--text-secondary-on-light)"
+            fill="var(--text-secondary-on-dark)"
             fillOpacity="0.3"
           />
         ))}
@@ -73,8 +78,10 @@ export default function BenchCallFlowVisual() {
             key={`${x}-${y}`}
             d={`M ${x + 8},${y} C 110,${y} 178,${y} 207,48`}
             fill="none"
-            stroke="var(--text-secondary-on-light)"
+            stroke="var(--text-secondary-on-dark)"
             strokeOpacity="0.3"
+            pathLength="1"
+            data-curve
           />
         ))}
         {incoming.map(([x, y]) => (
@@ -83,7 +90,7 @@ export default function BenchCallFlowVisual() {
             cx={x}
             cy={y}
             r="3"
-            fill="var(--text-secondary-on-light)"
+            fill="var(--text-secondary-on-dark)"
             fillOpacity="0.5"
           />
         ))}
@@ -93,14 +100,14 @@ export default function BenchCallFlowVisual() {
           width="16"
           height="16"
           rx="3"
-          fill="var(--accent-purple)"
+          fill="var(--accent-purple-soft)"
         />
         <text
           x="236"
           y="34"
           className="font-mono font-medium"
           fontSize="16"
-          fill="var(--accent-purple)"
+          fill="var(--accent-purple-soft)"
         >
           ≈1.5k / min
         </text>
@@ -109,9 +116,11 @@ export default function BenchCallFlowVisual() {
             key={`${x}-${y}`}
             d={`M 221,48 C 268,48 296,${y} ${x - 7},${y}`}
             fill="none"
-            stroke="var(--text-secondary-on-light)"
+            stroke="var(--text-secondary-on-dark)"
             strokeOpacity="0.3"
             markerEnd={`url(#${arrowId})`}
+            pathLength="1"
+            data-curve
           />
         ))}
         {outgoing.map(([x, y]) => (
@@ -120,7 +129,7 @@ export default function BenchCallFlowVisual() {
             cx={x}
             cy={y}
             r="2.5"
-            fill="var(--accent-purple)"
+            fill="var(--accent-purple-soft)"
             fillOpacity="0.6"
           />
         ))}
@@ -130,13 +139,14 @@ export default function BenchCallFlowVisual() {
           textAnchor="middle"
           className="font-mono"
           fontSize="8"
-          fill="var(--text-secondary-on-light)"
-          fillOpacity="0.55"
+          fill="var(--text-secondary-on-dark)"
+          fillOpacity="0.75"
         >
           distributed
         </text>
       </svg>
       <BenchGrain />
+      </div>
     </div>
   );
 }

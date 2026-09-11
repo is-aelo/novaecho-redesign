@@ -14,7 +14,7 @@ export default function HeroTrusted() {
   return (
     <div
       data-hero-item
-      className="order-5 mx-auto mt-4 w-full"
+      className="order-5 mx-auto mt-20 w-full sm:mt-4"
     >
       <p className="text-center font-body text-caption text-text-secondary">Trusted by</p>
       <div className="mt-1 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
@@ -24,7 +24,7 @@ export default function HeroTrusted() {
               src={brand.src}
               alt=""
               aria-hidden="true"
-              className="h-8 w-auto object-contain"
+              className="h-5 w-auto object-contain"
             />
             <span className="font-body text-body-md font-medium tracking-tight text-text-primary">
               {brand.alt}

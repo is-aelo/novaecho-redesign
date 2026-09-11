@@ -1,28 +1,38 @@
-import StoryCard from "@/components/shared/StoryCard";
-import type { StoryData } from "@/components/shared/StoryCard";
+import SuccessStoryCard, { type SuccessStoryCardData } from "@/components/shared/SuccessStoryCard";
 
-const stories: StoryData[] = [
+const stories: SuccessStoryCardData[] = [
   {
     author: "Paul Suha",
-    role: "Mayflower AI",
-    industry: "Agency",
-    photo: "/images/testimonials/imgi_3_Paul Suha.jpg",
-    story: "Nova Echo is legendary. The whole team goes an extra mile to make sure you succeed. It ran by itself today without needing me at all. They asked me to turn it off because they couldn't handle the volume.",
-    results: ["8 qualified transfers in 20 minutes", "6,500+ calls with zero transfer failures", "Ran fully autonomously with no human intervention"],
+    company: "Mayflower AI",
+    industries: ["Agency"],
+    avatar: "/images/testimonials/imgi_3_Paul Suha.jpg",
+    impacts: [
+      { icon: "transfer", text: "8 qualified transfers in 20 minutes" },
+      { icon: "phone", text: "6,500+ calls handled" },
+      { icon: "reliability", text: "0 transfer failures" },
+    ],
+    review:
+      "Nova Echo Is Legendary. Genuinely such a pleasure to work with a company like this. Team is insanely helpful, literally treat you like family.",
   },
   {
     author: "Stephanie Garzon",
-    role: "The Content Well",
-    industry: "Healthcare",
-    photo: "/images/testimonials/imgi_6_stephanie_garzon_2.jpg",
-    story: "Nova Echo delivered exactly what my chiropractic agency needed. With Nova Echo, our clients can focus more on crafting an exceptional patient experience and less on constantly being tied to the phone.",
-    results: ["Frees up hours each week for staff", "Streamlined inbound reception and outbound lead nurturing", "Allowed front desk teams to focus on patient experience"],
+    company: "The Content Well",
+    industries: ["Healthcare", "Agency"],
+    avatar: "/images/testimonials/imgi_6_stephanie_garzon_2.jpg",
+    impacts: [
+      { icon: "patient", text: "More time for patient experience" },
+      { icon: "time", text: "Hours freed for staff" },
+      { icon: "workflow", text: "Inbound and outbound workflows streamlined" },
+      { icon: "focus", text: "Front desk focused on patient experience" },
+    ],
+    review:
+      "Our clients can focus more on crafting an exceptional patient experience and less on constantly being tied to the phone.",
   },
 ];
 
 export default function Stories() {
   return (
-    <section id="results" className="w-full bg-surface-50 px-6 py-16">
+    <section className="w-full bg-surface-50 py-16">
       <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12">
         <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
           <h2 className="font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
@@ -33,10 +43,11 @@ export default function Stories() {
           </p>
         </div>
 
-        <div className="mt-5 grid grid-cols-1 gap-6 lg:mt-6 lg:grid-cols-2 lg:gap-8">
-          {stories.map((s) => (
-            <StoryCard key={s.author} story={s} />
-          ))}
+        <div className="mt-5 grid grid-cols-1 gap-6 lg:mt-6 lg:grid-cols-3 lg:gap-8">
+          <SuccessStoryCard key="paul-suha" story={stories[0]} />
+          <div className="lg:col-span-2">
+            <SuccessStoryCard key="stephanie-garzon" story={stories[1]} />
+          </div>
         </div>
 
         <a

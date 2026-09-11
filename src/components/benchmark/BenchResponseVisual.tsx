@@ -1,7 +1,9 @@
 "use client";
 
+import { useRef } from "react";
 import BenchGrain from "./BenchGrain";
 import BenchGrid from "./BenchGrid";
+import { useBenchCurveReveal } from "./useBenchCurveReveal";
 
 const W = 480;
 const H = 112;
@@ -40,51 +42,59 @@ const MAJOR = [0, 500, 1000, 1500, 2000, 2500, 3000];
 
 export default function BenchResponseVisual() {
   const { nova, comp } = buildPoints();
+  const svgRef = useRef<SVGSVGElement>(null);
   const p95x = toMsX(NOVA_P95);
+  useBenchCurveReveal(svgRef);
 
   return (
-    <div className="relative w-full">
+    <div className="overflow-hidden rounded-window border border-hairline-on-dark bg-surface-900 px-4 py-4">
+      <div className="relative w-full">
       <svg
+        ref={svgRef}
         viewBox={`0 0 ${W} ${H}`}
         className="block h-auto w-full"
         aria-hidden="true"
       >
-        <BenchGrid />
+        <BenchGrid dark />
         <text
           x="40"
           y="28"
           className="font-mono"
           fontSize="8"
-          fill="var(--text-secondary-on-light)"
-          fillOpacity="0.5"
+          fill="var(--text-secondary-on-dark)"
+          fillOpacity="0.75"
         >
           latency · response
         </text>
 
         <path
           d={`M ${nova[0][0].toFixed(1)},${AXIS_Y} L ${pts(nova)} L ${nova[nova.length - 1][0].toFixed(1)},${AXIS_Y} Z`}
-          fill="var(--accent-purple)"
+          fill="var(--accent-purple-soft)"
           fillOpacity="0.05"
         />
         <path
           d={`M ${comp[0][0].toFixed(1)},${AXIS_Y} L ${pts(comp)} L ${comp[comp.length - 1][0].toFixed(1)},${AXIS_Y} Z`}
-          fill="var(--text-secondary-on-light)"
+          fill="var(--text-secondary-on-dark)"
           fillOpacity="0.04"
         />
         <polyline
           points={pts(comp)}
           fill="none"
-          stroke="var(--text-secondary-on-light)"
+          stroke="var(--text-secondary-on-dark)"
           strokeOpacity="0.4"
           strokeWidth="1"
+          pathLength="1"
+          data-curve
         />
         <polyline
           points={pts(nova)}
           fill="none"
-          stroke="var(--accent-purple)"
+          stroke="var(--accent-purple-soft)"
           strokeOpacity="0.55"
           strokeWidth="1.25"
           strokeLinejoin="round"
+          pathLength="1"
+          data-curve
         />
 
         <text
@@ -92,7 +102,7 @@ export default function BenchResponseVisual() {
           y="50"
           className="font-mono font-medium"
           fontSize="16"
-          fill="var(--accent-purple)"
+          fill="var(--accent-purple-soft)"
         >
           P95 1480 ms
         </text>
@@ -101,18 +111,18 @@ export default function BenchResponseVisual() {
           y1={novaY(NOVA_P95) + 2.5}
           x2={p95x}
           y2={AXIS_Y}
-          stroke="var(--accent-purple)"
+          stroke="var(--accent-purple-soft)"
           strokeOpacity="0.35"
         />
-        <circle cx={p95x} cy={novaY(NOVA_P95)} r="2.5" fill="var(--accent-purple)" />
+        <circle cx={p95x} cy={novaY(NOVA_P95)} r="2.5" fill="var(--accent-purple-soft)" />
         <text
           x={toMsX(COMP_MEAN)}
           y="25"
           textAnchor="middle"
           className="font-mono"
           fontSize="10"
-          fill="var(--text-secondary-on-light)"
-          fillOpacity="0.65"
+          fill="var(--text-secondary-on-dark)"
+          fillOpacity="0.85"
         >
           2000–3000 ms
         </text>
@@ -122,7 +132,7 @@ export default function BenchResponseVisual() {
           y1={AXIS_Y}
           x2={X1}
           y2={AXIS_Y}
-          stroke="var(--text-secondary-on-light)"
+          stroke="var(--text-secondary-on-dark)"
           strokeOpacity="0.35"
         />
         {MINOR.map((ms) => (
@@ -132,7 +142,7 @@ export default function BenchResponseVisual() {
             y1={AXIS_Y}
             x2={toMsX(ms)}
             y2={AXIS_Y + 4}
-            stroke="var(--text-secondary-on-light)"
+            stroke="var(--text-secondary-on-dark)"
             strokeOpacity="0.2"
           />
         ))}
@@ -143,7 +153,7 @@ export default function BenchResponseVisual() {
             y1={AXIS_Y}
             x2={toMsX(ms)}
             y2={AXIS_Y + 10}
-            stroke="var(--text-secondary-on-light)"
+            stroke="var(--text-secondary-on-dark)"
             strokeOpacity="0.4"
           />
         ))}
@@ -155,8 +165,8 @@ export default function BenchResponseVisual() {
             textAnchor="middle"
             className="font-mono"
             fontSize="10"
-            fill="var(--text-secondary-on-light)"
-            fillOpacity="0.6"
+            fill="var(--text-secondary-on-dark)"
+            fillOpacity="0.8"
           >
             {ms}
           </text>
@@ -167,13 +177,14 @@ export default function BenchResponseVisual() {
           textAnchor="end"
           className="font-mono"
           fontSize="8"
-          fill="var(--text-secondary-on-light)"
-          fillOpacity="0.45"
+          fill="var(--text-secondary-on-dark)"
+          fillOpacity="0.7"
         >
           latency · ms
         </text>
       </svg>
       <BenchGrain />
+      </div>
     </div>
   );
 }

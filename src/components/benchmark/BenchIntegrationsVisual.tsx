@@ -1,7 +1,9 @@
 "use client";
 
+import { useRef } from "react";
 import BenchGrain from "./BenchGrain";
 import BenchGrid from "./BenchGrid";
+import { useBenchCurveReveal } from "./useBenchCurveReveal";
 
 const W = 480;
 const H = 112;
@@ -38,21 +40,26 @@ const spokes: Array<Array<[number, number]>> = [
 ];
 
 export default function BenchIntegrationsVisual() {
+  const svgRef = useRef<SVGSVGElement>(null);
+  useBenchCurveReveal(svgRef);
+
   return (
-    <div className="relative w-full">
+    <div className="overflow-hidden rounded-window border border-hairline-on-dark bg-surface-900 px-4 py-4">
+      <div className="relative w-full">
       <svg
+        ref={svgRef}
         viewBox={`0 0 ${W} ${H}`}
         className="block h-auto w-full"
         aria-hidden="true"
       >
-        <BenchGrid />
+        <BenchGrid dark />
         <text
           x="40"
           y="28"
           className="font-mono"
           fontSize="8"
-          fill="var(--text-secondary-on-light)"
-          fillOpacity="0.5"
+          fill="var(--text-secondary-on-dark)"
+          fillOpacity="0.75"
         >
           integrations · api
         </text>
@@ -63,8 +70,10 @@ export default function BenchIntegrationsVisual() {
             y1={y1}
             x2={x2}
             y2={y2}
-            stroke="var(--text-secondary-on-light)"
+            stroke="var(--text-secondary-on-dark)"
             strokeOpacity="0.28"
+            pathLength="1"
+            data-curve
           />
         ))}
         <text
@@ -73,7 +82,7 @@ export default function BenchIntegrationsVisual() {
           textAnchor="middle"
           className="font-mono font-medium"
           fontSize="16"
-          fill="var(--accent-purple)"
+          fill="var(--accent-purple-soft)"
         >
           Nova Echo
         </text>
@@ -83,7 +92,7 @@ export default function BenchIntegrationsVisual() {
           width="22"
           height="22"
           rx="4"
-          fill="var(--accent-purple)"
+          fill="var(--accent-purple-soft)"
         />
         {nodes.map((node) => (
           <g key={node.label}>
@@ -91,7 +100,7 @@ export default function BenchIntegrationsVisual() {
               cx={node.d[0]}
               cy={node.d[1]}
               r="3"
-              fill="var(--text-secondary-on-light)"
+              fill="var(--text-secondary-on-dark)"
               fillOpacity="0.55"
             />
             <text
@@ -100,8 +109,8 @@ export default function BenchIntegrationsVisual() {
               textAnchor={node.anchor}
               className="font-mono"
               fontSize="10"
-              fill="var(--text-secondary-on-light)"
-              fillOpacity="0.8"
+              fill="var(--text-secondary-on-dark)"
+              fillOpacity="0.9"
             >
               {node.label}
             </text>
@@ -113,13 +122,14 @@ export default function BenchIntegrationsVisual() {
           textAnchor="end"
           className="font-mono"
           fontSize="8"
-          fill="var(--text-secondary-on-light)"
-          fillOpacity="0.45"
+          fill="var(--text-secondary-on-dark)"
+          fillOpacity="0.7"
         >
           5 shown · 3,000+ available
         </text>
       </svg>
       <BenchGrain />
+      </div>
     </div>
   );
 }

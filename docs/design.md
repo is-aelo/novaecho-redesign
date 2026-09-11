@@ -64,12 +64,14 @@ Light surfaces (Features, stats, etc.) use `--text-primary-on-light` and `--text
 ```
 --accent-purple: #7000FF       (primary interactive accent — links, focus rings, active states)
 --accent-hot-purple: #BA0FFF   (secondary accent — light stop of the purple ramp,
---accent-purple-soft: #C9A1FF  (AgentWindow accent ONLY — the light lavender-violet
-                                used for the AgentWindow's LED, AI speaker chip,
-                                phase chip, ROI total, and hover states. Flat
-                                lighter purple so the window reads airier than the
-                                hero. Never on light surfaces, never outside the
-                                AgentWindow.)
+--accent-purple-soft: #C9A1FF  (dark-surface accent — the single accent for every
+                                black/console surface: hero terminal, AgentWindow,
+                                ROI rail, and all five benchmark window readouts
+                                (curves, GO LIVE, P95 tag, ≈1.5k/min, Nova Echo,
+                                spokes). The light lavender-violet reads brightest
+                                on near-black. Never on light surfaces — those use
+                                --accent-purple. Only --status-green shares dark
+                                surfaces, and only for done/completed states.)
                                 paired with purple only in glow/gradient contexts, never solid fills)
 --accent-cyan: #00D1FF         (scoped accent — the hero glow's cyan stop + the hero
                                 bottom wave's cyan crest layer + ribbon top stop.
@@ -282,6 +284,9 @@ Small uppercase labels: tracking-wider (0.05em) — never tracking-widest
 
 ### Scale
 ```
+display-2xl: 72px / 76px line-height  — featured success-story metric ONLY
+                                        (single numeric outcome, e.g. "8");
+                                        never on headings or text outcomes
 display-xl:  48px / 50px line-height   — hero headline (desktop)
 display-lg:  44px / 48px               — section headlines (desktop), major pricing values
 display-md:  34px / 38px               — hero headline (mobile), section headlines (mobile)
@@ -343,7 +348,7 @@ No shadow above a soft, low-opacity glow. No hard drop shadows anywhere — this
 
 ```
 --shadow-none: none
---shadow-glow: 0 0 24px rgba(112,0,255,0.18)   (hover states only, see Buttons above)
+--shadow-glow: 0 0 24px rgba(201,161,255,0.18) (lavender — matches the dark-surface accent; hover states only, see Buttons above)
 --hero-wave-amp: 26px   (hero bottom audio wave amplitude maxima, per-layer)
 ```
 
@@ -523,7 +528,9 @@ Use Phosphor Icons only for interface and feature icons in this project.
 Library: @phosphor-icons/react
 Style: duotone or regular, consistent weight
 Usage: small feature highlights, support metrics, and inline UI icons only
-Color: use --accent-purple for icon emphasis; keep surrounding text in --text-primary-on-dark
+Color: use --accent-purple for icon emphasis on light surfaces; use
+       --accent-purple-soft on dark surfaces (keep surrounding text in
+       --text-primary-on-dark)
 ```
 
 ## Agents section
@@ -715,29 +722,109 @@ Accessibility: aria-hidden, decorative only — the real live-call status lives 
 This is the ONLY waveform on the hero and the only full-bleed one on the page.
 The console has no waveform of its own.
 
-## Pricing section
+## Pricing section — decision journey (START → SCALE → EXPAND → CUSTOM)
 
-Light section on `--surface-50` with a 3-column card grid. The center "Recommended" card uses `--surface-950` (pure black) with a purple glow border (`shadow-glow`) and extra vertical padding to stand out against the light side cards. Side cards use `--surface-100` (light gray) matching the Features/Agents card style.
+Light section on `--surface-50`. NOT a 3-card SaaS grid and not five equal blocks. Two
+parts: (1) three core plans as one bounded progression rail, and (2) two horizontal
+editorial "custom solutions" rows separated by a transition heading. Strong price
+hierarchy, thin hairlines, mono technical labels, restrained accent, generous
+whitespace. No glassmorphism, no neon, no big "MOST POPULAR" badge, no heavy shadows,
+no fake discount badges/savings percentages, no price countdowns, no decorative charts.
+
+Information order per plan follows the decision journey: stage → name → price → users →
+best-for → call rates → differentiators → View all features → CTA.
 
 ```
-Background:       --surface-50
-Side card fill:   --surface-100
-Side card border: --surface-200
-Center card fill: --surface-950 + shadow-glow
-Center border:    --accent-purple/30
-Center padding:   py-10 px-8 (lg: py-12) — taller than side cards (p-8)
-Headline:         display-md → display-lg, font-display, --text-primary-light
-Subtext:          body-sm → body-md, --text-secondary-light
-Tier label:       caption, uppercase, tracking-widest, --accent-purple
-Plan name:        body-md, font-display, semibold, --text-primary-light (side) / --text-primary (center)
-Price:            display-lg, font-display, bold, --text-primary-light (side) / --text-primary (center)
-Feature icon:     CheckCircle, --accent-purple, weight=fill
-Feature text:     body-sm, --text-secondary-light (side) / --text-secondary (center)
-Side CTA:         1px border surface-700/30, text-primary-light, hover border surface-700/60
-Center CTA:       btn-primary class (same as hero CTA), --gradient-button-primary, white text, hover shadow-glow
-Grid:             1 col mobile → 3 cols at lg, gap-6 → gap-8
-Gap subtext:      mt-5 / lg:mt-6 (per section pattern)
-Card padding:     p-8 (side), py-10 px-8 lg:py-12 (center)
+Intro:
+  Eyebrow:      "PRICING" — font-mono caption (12px/16px) medium, uppercase,
+                tracking-wider, --accent-purple. Headline "Start with AI. Scale
+                without limits." display-md → lg, font-display, semibold;
+                subtext body-sm → md, --text-secondary-light.
+
+Part 1 — core plans (desktop ≥1024px):
+  Framing:      three separate columns via lg:grid-cols-3 lg:items-start lg:gap-6.
+                Light and Hyper are a MATCHED PAIR: identical rounded-md, 1px
+                border-surface-200, p-8, transparent bg (hover bg-surface-100/40 lift),
+                same font-semibold price (display-md). They visually recede together.
+                Super is ELEVATED center: bg-white, 1px border-accent-purple/30,
+                py-12 px-8, lg:-my-6 (pokes symmetrically above and below the side
+                panels), display-lg BOLD price, name font-semibold, RECOMMENDED chip,
+                btn-primary CTA. The height offset + weight change make Super the
+                unmistakable focus; sides stay perfectly aligned with each other.
+  Stage row:    stage label left, RECOMMENDED chip right on the recommended column.
+  Users:        font-mono caption uppercase secondary-light/70 ("1 USER" / "3 USERS" /
+                "UNLIMITED USERS") under the price.
+  Best-for:     body-sm leading-relaxed secondary-light, one sentence.
+  Call rates:   OWN compact treatment directly under the price block (never inside the
+                checklist): border-t hairline, "CALL RATES" caption label, then
+                label:value rows — body-sm labels secondary-light, values font-mono
+                body-sm SEMIBOLD tabular-nums primary-light. No charts, no percentage
+                visualizations, no bars.
+  Differentiators: border-t hairline; Light = "Core AI capabilities" line only; Super =
+                "Everything in Light, plus:" then THAT plan's 4 additions; Hyper =
+                "Everything in Super, plus:" then its 3 additions. CheckCircle 14px,
+                weight=fill, --accent-purple (light surface). Full feature lists are
+                NOT shown by default.
+  View all features: caption link --accent-purple + ArrowRight 12px (rotates ↓ when
+                open), aria-expanded/aria-controls. Expands the FULL verbatim plan
+                feature list via .collapsible-grid — CSS grid-template-rows 0fr↔1fr,
+                var(--dur-base) ease-out (smooth height, no page nav). Data preserved.
+  CTA:          recommended → btn-primary (see Buttons; navy-prominent default, black-
+                dominant hover). Others → 1px border-surface-700/30, text-primary-light,
+                hover border-surface-700/60, rounded-btn, full width, whitespace-nowrap.
+
+Part 1 — mobile (<1024px):
+  Selector:     segmented control — 1px border-surface-200 rounded-sm bg-white p-1,
+                three equal segments LIGHT / SUPER / HYPER (font-mono caption uppercase
+                semibold). Active segment inverts to bg-surface-950 + white text
+                (aria-pressed). SUPER tab carries a 4px accent-purple dot as the
+                recommended marker.
+  Panel:        ONE detail block below the selector (never five stacked cards), keyed by
+                selection so a switch replays .price-panel-in (opacity 0→1, y 8px,
+                var(--dur-base), no page reload). Call-rate values replay .price-rate-in
+                with a per-row 60ms stagger. Shows the selected plan's stage label,
+                RECOMMENDED chip, name, price, users, best-for, call rates,
+                differentiators, View all features, and plan-specific CTA.
+
+Part 2 — custom solutions (both breakpoints):
+  Frame:        the whole Part-2 block sits in ONE light card frame —
+                rounded-md, 1px --surface-200, bg-surface-100, p-6 → p-8,
+                mt-16 / lg:mt-24 from the plan rail. The rows inside remain
+                editorial hairlines — they are NOT individual cards.
+  Transition:   "NEED MORE THAN A STANDARD PLAN?" — font-mono caption uppercase
+                --accent-purple, left-aligned (editorial, not centered; contrast to the
+                centered intro). Copy: "Get hands-on implementation or a custom
+                enterprise setup built around your specific requirements." body-sm → md.
+  Rows:         two horizontal EDITORIAL panels — NOT cards. Each row: 1px border-t
+                hairline, pt-6/pt-8; left rail (lg:w-44): label font-mono caption
+                uppercase secondary-light/70 + price "Custom Quote" display-sm SEMIBOLD;
+                right column: headline display-xs font-display semibold, description
+                body-sm, capability tags, CTA + expandable details.
+  Tags:         four mono caption uppercase chips — 1px border-surface-200, bg-white,
+                rounded-sm, secondary-light. Functional capability groupings, not
+                decorative pills. Setup: PROMPT ENGINEERING / WORKFLOW DESIGN /
+                CRM INTEGRATION / AUTOMATION SETUP. Enterprise: CUSTOM DEVELOPMENT /
+                DEDICATED SUPPORT / VOLUME PRICING / AI GOVERNANCE.
+  CTA:          inline --accent-purple link + ArrowRight 14px, .nudge-horizontal arrow
+                bob on hover. "Talk to an Expert →" (href "#") and "Contact Enterprise
+                Sales →" (booking URL, target=_blank).
+  Details:      "View setup details" / "View enterprise details" caption toggle
+                (CaretDown 12px, rotates 180° open) → .collapsible-grid expansion of the
+                full preserved verbatim detail lists.
+
+Motion (see also Motion & reduced motion):
+  .price-panel-in / .price-rate-in  micro entry for the mobile plan switch only;
+                                    var(--dur-base), ease-out, disabled under reduced motion.
+  .collapsible-grid                 0fr↔1fr height expand for View all features and the
+                                    custom-solution details; var(--dur-base) ease-out,
+                                    transition disabled under reduced motion.
+  Columns hover                     bg-surface-100/40 lift (recommended /90). Restrained —
+                                    no glow, no animated gradients, no scroll-triggered
+                                    price countdowns.
+
+Grid/spacing: section pattern mt-5 / lg:mt-6 between the intro subtext and the plan
+  rail. Part 2 separated by mt-16 / lg:mt-24 (64/96px). Custom rows ribbed by 1px
+  border-t hairlines; between-rows gap default spacing scale (mt-8 / lg:mt-10).
 ```
 
 ## Benchmark section — progressive-disclosure comparison
@@ -771,20 +858,35 @@ Module content: label row (font-mono caption medium uppercase tracking-wider,
 
 Module visuals: five inline SVGs, viewBox 480×112, w-full h-auto, framed as calm
                 instrument/telemetry readouts — NOT logos or doodles. Every visual
-                shares a BenchGrid frame: faint horizontal gridlines
-                (--text-secondary-on-light at 0.04), 12px crop-marks at the four
-                corners, plus a grain overlay (fractalNoise, baseFrequency 0.9,
-                alpha ~0.07 — black speckle on the light surface, container-only,
-                never over text). Lines are 1–1.5px hairlines in --accent-purple +
-                --text-secondary-on-light at low opacity; flat solid fills only
-                (no gradients, no bars, no neon, no arrows/waves for decoration).
+                now sits in the same dark window treatment as the Implementation
+                board: overflow-hidden rounded-window border border-hairline-on-dark
+                bg-surface-900 with px-4 py-4 body padding (the benchmark module
+                readouts are dark on the light section — one shared console voice
+                across all five, the AgentWindow/hero-terminal fill reused). The
+                implementation board alone adds the dots + title chrome bar.
+                Every visual shares a BenchGrid frame with its dark variant:
+                faint horizontal gridlines (--text-secondary-on-dark at 0.04),
+                12px crop-marks at the four corners, plus a grain overlay
+                (fractalNoise, baseFrequency 0.9, alpha ~0.07 — container-only,
+                never over text). Lines are 1–1.5px
+                hairlines in --accent-purple-soft + --text-secondary-on-dark at low
+                opacity; flat solid fills only (no gradients, no bars, no neon,
+                no arrows/waves for decoration). On scroll into view (once per
+                page load, never looping), the primary curves draw on via a
+                normalized stroke-dash sweep (useBenchCurveReveal: pathLength=1
+                + stroke-dashoffset 1→0, 1.1s power2.inOut, 0.1s stagger across
+                each visual's curves — voice waveform, both latency curves,
+                call-flow lanes, integration spokes; starts only once the
+                benchmark section itself is on screen (trigger is the section,
+                start "top 75%", toggleActions play-none). Disabled
+                under prefers-reduced-motion — curves render fully static.
 
 Module type — Geist Mono only, three rungs of emphasis (never two focal
                 annotations in one visual — exactly one 16px payoff, everything
                 else steps down hard):
                   16px / 500 — the focal annotation: GO LIVE, the P95 tag,
                     "≈1.5k / min", "Nova Echo" — metric payoff in
-                    --accent-purple
+                    --accent-purple-soft
                   10px / 400 — headers + labels + steps: "DAY 1 · 0–24H",
                     axis major values, integration node names, step labels —
                     0.6–0.8
@@ -803,7 +905,7 @@ Module type — Geist Mono only, three rungs of emphasis (never two focal
   02 Response Time    latency distributions on a 0–3000ms axis (major values
                       at 10px + minor ticks, labeled): a tight Nova Echo
                       gaussian (~1385ms P50, sd ~58ms → P95 ≈ 1480ms, exactly
-                      the sub-1500 claim) in --accent-purple with a "P95
+                       the sub-1500 claim) in --accent-purple-soft with a "P95
                       1480 ms" tag hanging off the dropline — the visual's ONE
                       focal annotation at 16px/500 — and a broad right-shifted
                       competitor curve (2000–3000ms, gray) labeled "2000–3000
@@ -834,11 +936,23 @@ Module type — Geist Mono only, three rungs of emphasis (never two focal
                       an open ring — a human gate before cutover. Day columns
                       join by a chevron handoff at mid-height, then a DASHED
                       segment (manual cutover, only after QA signs off) into a
-                      solid --accent-purple square flagged "GO LIVE" — the
-                      visual's ONE focal annotation at 16px/500. A bottom
-                      hour ruler (0h / 24h / 48h ticks + 8px labels, spanning
-                      the board) gives the sprint an absolute elapsed-time
-                      scale ("implementation · sprint board" caption at 8px).
+                      solid --accent-purple-soft square flagged "GO LIVE" — the
+                      visual's ONE focal annotation at 16px/500. Steps reveal
+                      one by one (1.8s each) exactly once per page load — the
+                      sequence reaches all six steps, lights GO LIVE, and does
+                      NOT loop; only a refresh replays it (reduced-motion
+                      renders all six static immediately). Once the board is
+                      complete, the dashed segment carries a marching-dash
+                      send animation (.bench-send-line, dashoffset 0 → −5,
+                      0.6s linear loop, opacity 0.32 → 1) and the GO LIVE
+                      square + label light up (.bench-go-live: opacity pulse
+                      every 2s + --glow-go-live drop-shadow on both). During
+                      the reveal cycle the dash stays static dim and GO LIVE
+                      stays flat. All of it is disabled under
+                      prefers-reduced-motion (static, full opacity).
+                      A bottom hour ruler (0h / 24h / 48h ticks + 8px labels,
+                      spanning the board) gives the sprint an absolute
+                      elapsed-time scale.
 
 Disclosure:     after the grid — mt-8 → lg:mt-12, centered, generous whitespace,
                 no hairline. "Want the full comparison?" (font-display
@@ -892,55 +1006,249 @@ Card padding:     p-8
 Icons:            Buildings, Handshake, ShareNetwork (Phosphor duotone)
 ```
 
-## Stories section
+## Stories section — result-first Success Story system
 
-Light section on `--surface-50` with a 3-column testimonial card grid. Each card features a large faded quote icon, a blockquote, and an author credit with a thin top border.
+Light sections on `--surface-50`. Two surfaces share one type system but use
+different containers. The homepage is an editorial, frame-free layout; the
+Results ("All Success Stories") page is a uniform card grid. On every card the
+hierarchy reads: WHO IS THIS? → WHAT DID NOVA ECHO CHANGE? → WHAT DID THE
+CUSTOMER SAY? — CUSTOMER identity (credibility) → IMPACT (one uniform,
+equal-weight group of outcomes) → CLIENT REVIEW (supporting proof). The three
+layers are always separated by thin 1px dividers and never mixed: results
+never carry the review, the review never reads as another result. No
+checkmarks, no quote icons, no dashboard widgets, no colored result boxes —
+impact comes from typography, scale, whitespace, alignment, contrast, and
+editorial composition only. The homepage uses `/components/shared/
+StoryResult.tsx` (numeric/qualitative auto-scaling) for its result blocks; the
+Results page cards do NOT — every impact there renders as the same
+mono-uppercase row, and no single impact is ever the "boldest".
+
+### StoryResult component system
+
+```
+StoryResultData:
+  value:      a measurable figure — "8", "6,500+", "0" (→ NUMERIC rendering)
+  label:      compact supporting caption for the figure
+  statement:  a non-measurable outcome — "More time for patient experience"
+              (→ QUALITATIVE rendering)
+  If value is set → numeric; else statement → qualitative. Never invent
+  numbers — qualitative stories use the statement tier.
+
+Numeric result:
+  value:  font-display BOLD tracking-tight leading-none tabular-nums,
+          solid --text-primary-light. Sizes:
+            xl = display-2xl (72px) · lg = display-xl (48px)
+            md = display-md (34px) · sm = display-sm (22px)
+  label:  font-mono caption medium uppercase tracking-wider,
+          --text-secondary-light. One line or fewer — compact, quiet.
+
+Qualitative outcome:
+  statement: font-display leading-tight tracking-tight --text-primary-light.
+             Sizes: xl = display-lg (44px) · lg = display-md (34px)
+             md = display-sm (22px) · sm = body-md (16px).
+             Weight: bold for xl/lg, semibold for md/sm.
+  The statement is the visual stand-in for a metric — strong type, never a
+  fabricated figure.
+
+Both block types are plain top-aligned text columns (flex-col gap-1.5) with
+zero decoration — scale and contrast carry the hierarchy. Results are the
+only shared element across every success-story surface.
+
+Reveal motion (`/components/shared/useStoryResultReveal.ts`):
+  Numeric:   count value 0 → target once (0.9s power2.out, ~ target
+             reformatted with toLocaleString + suffix) as the block enters
+             at "top 85%"; label fades in +6px after. tabular-nums keeps the
+             digit column stable.
+  Qualitative: block fades up (opacity 0→1, y 16→0, 0.6s power2.out).
+  Restrained — no dashboard animation, no glow. Disabled entirely under
+  prefers-reduced-motion (final values render statically).
+```
+
+### Results page — uniform success-story card grid
+
+`/components/results/Results.tsx` + `/components/shared/SuccessStoryCard.tsx`.
+The All Stories page renders every customer story as ONE self-contained,
+internally-consistent card in a single 2-column grid — all stories visually
+uniform, no featured/lead/compact sizing and no impact-grouping anywhere on
+this page. One reusable component (`SuccessStoryCard`); each story supplies
+only data (author, company, industries, avatar, impacts, review) and never a
+custom layout.
+
+```
+Card anatomy (identical in every card):
+  1. Customer identity — 40px avatar (rounded-full, 1px --surface-200 ring,
+     optional) + author/company row (author font-display semibold, company
+     inline secondary) + industry row ("HEALTHCARE · AGENCY" — font-mono
+     caption uppercase, middle-dot joined, --text-secondary-light; never
+     chips, never colored pills). No "CUSTOMER" label — the avatar + name
+     reads as identity on its own.
+  2. Business impact — "IMPACT" mono caption eyebrow in --accent-purple (the
+     card's one accent spring — hierarchy only, nothing else is accented).
+     One hairline, then ALL impacts as a single uniform band of equal-weight
+     rows in --text-secondary-light. Every row is a 16px duotone
+     --accent-purple Phosphor icon + mono caption uppercase label, one per
+     row, vertically stacked (flex-col, gap-3, items-center, gap-2.5). Icons
+     are functional / semantic per impact (not decorative emoji) and drawn
+     from a keyed map inside the component. Data is a list of
+     `{ icon: string, text: string }` pairs; numbers are folded into the
+     wording ("8 QUALIFIED TRANSFERS IN 20 MINUTES", "6,500+ CALLS
+     HANDLED"). Every card's band is typographically identical regardless
+     of whether the underlying data was numeric or qualitative.
+  3. Client review — hairline + "CLIENT REVIEW" mono caption eyebrow,
+     restrained italic body-sm review (full text, never truncated). The
+     author/company NEVER repeat here — identity lives in the top Customer
+     block once per card; the review is pure supporting text. When a story
+     supplies a longer `reviewFull`, a "Read full review →" mono caption
+     --accent-purple toggle (ArrowRight, .nudge-horizontal bob,
+     aria-expanded) swaps it in. With the current copy no story needs it.
+
+Card chrome: 1px --surface-200 border, radius-md, flat bg-surface-100,
+p-6 → md:p-8, internal 1px dividers between the three sections
+(border-t --surface-200, mt-8, pt-8). h-full so cards stretch to their grid
+row. No shadows, no glass, no gradients, no nested cards, no hover lift.
+
+Grid/page: section header (heading + subtext) → mt-5 / lg:mt-6 → uniform
+grid-cols-1 → lg:grid-cols-2 with gap-6 → lg:gap-8. Every breakpoint keeps
+the same CUSTOMER → IMPACT → CLIENT REVIEW order, Impact is the first section
+after identity with all rows equal-weight, and results stack cleanly on mobile.
+
+Motion: none on this page — impact rows render statically (the homepage's
+count-up / fade lives in `useStoryResultReveal`, not used by the cards).
+```
+
+### Homepage stories
+
+`/components/stories/Stories.tsx` + `/components/shared/SuccessStoryCard.tsx`
+— the same uniform card system as the Results page (identical data shape and
+`impacts` ASCII pad rendering). No workflow visualization, no featured /
+secondary type scaling.
+
+```
+Layout:   grid-cols-1 → lg:grid-cols-3 with gap-6 → lg:gap-8. One card is
+          INTENTIONALLY wider — Stephanie Garzon spans two columns
+          (lg:col-span-2, right side) and Paul Suha fills the remaining
+          one (left). All-cards-equal-width is the rule for the Results
+          page; this single-width-away variant is a homepage-only device to
+          signal one story is primary.
+Order:    identical CUSTOMER → IMPACT → CLIENT REVIEW anatomy as /results.
+Cards:    same chrome (1px --surface-200, radius-md, bg-surface-100,
+          p-6 → p-8, internal border-t dividers), so the wider card is
+          just a wider frame — no type or treatment change inside.
+
+Section pattern:  subtext → content mt-5 / lg:mt-6. Homepage keeps the
+  "Show all stories" ghost link (magenta hover) → /results.
+```
+
+## Demo / Build-your-Agent section
+
+Light section (`--surface-50`), final step of the page and of the product
+narrative (Hero → Agents → Success Stories → here → "Put your AI employee to
+work."). A balanced two-column conversion experience, NOT a generic contact
+form: left = headline + copy + a live product visual (an AI employee console),
+right = a compact progressive-disclosure "Build your agent" interface. Keeps
+the same light-section tokens as Stories; the visual is a DARK console window
+on the light section — the done "dark readout on light" motif shared with the
+benchmark section. `id="book-call"` is preserved (nav → #book-call).
 
 ```
 Background:       --surface-50
-Card fill:        --surface-100
-Card border:      --surface-200
-Quote icon:       Quotes, 28px, weight=fill, --accent-purple at 60% opacity
-Quote text:       body-sm, --text-secondary-light, wrapped in curly quotes
-Author name:      font-bold, body-sm, --text-primary-light
-Author role:      caption, --text-secondary-light at 60% opacity
-Divider:          border-t, --surface-200
-Grid:             1 col mobile → 3 cols at lg, gap-6 → gap-8
-Gap subtext:      mt-5 / lg:mt-6 (per section pattern)
-Card padding:     p-8
-```
+Layout:           flex-col gap-12 → lg:flex-row lg:items-start lg:gap-16.
+                  Left column flex-1; right column w-full → lg:max-w-md.
+                  Mobile order: headline → copy → AI employee → Build Agent
+                  interface (CTA lives inside it). data-parallax y=12.
+Eyebrow:          "THE FINAL STEP" — mono caption uppercase --accent-purple.
+Headline:         "Put your AI employee to work." display-md → display-lg,
+                  font-display bold, --text-primary-light. No gradient text.
+Subtext:          "See what Nova Echo can do for your business. Tell us what
+                  you need handled, and we'll help you build the right agent."
+                  body-sm → md, max-w-lg, --text-secondary-light.
 
-## Demo / Book-a-Call section
+AI employee visual (left) — AgentProfile, a dark console window reusing the
+AgentWindow console voice (the benchmark "dark readout on light" motif):
+  Frame:          rounded-window, 1px border-hairline-on-dark, bg-surface-900,
+                  overflow-hidden. No shadow, no glass.
+  Header:         three window-dots + "YOUR AI EMPLOYEE" (console-panel-head)
+                  + right LED tag: hero-live-dot (active) + "READY" caption.
+  Body:           ROLE caption → agent role name (display-sm font-display
+                  semibold, --text-primary) + mono caption tagline; border-t
+                  hairline → HANDLES caption + mono caption rows, each a 14px
+                  duotone --accent-purple-soft icon + text (the story-card
+                  handle row language, in dark-surface colors); border-t
+                  hairline → STATUS row: green hero-status-dot + "STATUS ·
+                  READY TO DEPLOY" (--status-green is permitted here: a
+                  done/completed state on a dark console surface) with a 5-bar
+                  miniature waveform (--accent-purple-soft/60) as the subtle
+                  live-activity cue.
+  Data:           role/tagline/handles come from `/components/demo/agents.ts`
+                  (mirrors agentScripts + pricing custom-solution capabilities);
+                  the profile updates live when the visitor picks an agent in
+                  the builder. No invented stats, no fake voice/player.
+  Motion:         role + tagline remount with .demo-step-in on agent change;
+                  waveform bars .demo-wave-bar (scaleY stagger). Both disabled
+                  under prefers-reduced-motion.
 
-Light section (`--surface-50`) with a two-column responsive layout. Placed last on the page. Left column has the headline and subtext; right column has a form card on a light surface with thin, sharp borders.
+Build-your-agent interface (right) — progressive disclosure, one step visible:
+  Panel:          rounded-md, 1px border-surface-200, bg-surface-100,
+                  p-6 → p-8 (same light product-panel chrome as the pricing
+                  custom-solutions frame and story cards).
+  Header:         "BUILD YOUR AGENT" (mono caption semibold uppercase
+                  --text-primary-light) + step counter "01 / 03" (mono caption
+                  tabular-nums, aria-live) + supporting line "Tell us a little
+                  about what you need. We'll take it from there."
+  Progress:       2px hairline (h-0.5 bg-surface-200) with an --accent-purple
+                  fill segment whose width is step/3, transition 300ms ease-out.
+  Step 01 — agent:  "WHAT SHOULD YOUR AI AGENT DO?" → 2×2 grid of selectable
+                  cards (Receptionist · Speed-to-Lead · Mass Outbound ·
+                  Something else). Card: rounded-md, border-surface-200,
+                  bg-white, p-4, display font body-md label + mono caption
+                  blurb; selected → border-accent-purple. Selecting advances
+                  to step 02 (auto).
+  Step 02 — business: FULL NAME, EMAIL, COMPANY, PHONE (OPTIONAL marker on
+                  label). Inputs: rounded-sm, 1px border-surface-200, bg-white,
+                  body-sm, px-3 py-2.5, focus:border-accent-purple,
+                  placeholder --text-secondary-light/30. Continue button →
+                  step 03.
+  Step 03 — configure:  First block "CHOOSE YOUR AGENT'S VOICE" — a later
+                  configuration step (never first interaction). Dropdown, NOT
+                  the first field and NOT one before business info: trigger is
+                  input-style (rounded-sm, 1px border-surface-200, bg-white,
+                  px-3 py-2.5), chevron rotates open, panel is absolute listbox
+                  (mt-1, 1px border-surface-200, bg-white, rounded-sm) with
+                  Check marker on the selected voice + hover bg-surface-100,
+                  closes on outside click. Voices are the real Nova Echo voice
+                  names (Margarita (F) · Troy (M) · Chelsea (F) · Mateo (M) ·
+                  Valeria (F) · Margarita (F - Spanish)). NO play buttons / NO
+                  fake audio players — previews only ever appear if real
+                  samples exist. Then a border-t hairline and the "WHAT SHOULD
+                  YOUR AGENT HANDLE?" block: compact 3-row textarea (same input
+                  chrome, resize-none) + helper "You don't need to write a
+                  perfect prompt. Just describe what you want your agent to
+                  do."
+  Step bar:       border-t hairline row: "BACK" caption link (secondary-light,
+                  hover primary) + next action. Step 02 next = Continue
+                  (rounded-btn, 1px border-surface-700/30, body-sm, transparent
+                  fill — the pricing secondary-button language). Step 03 next
+                  = the PRIMARY CTA.
+  Primary CTA:    "Build My Agent" + ArrowRight 16 bold, .btn-primary (.nudge-
+                  horizontal), flex-1. Sanctioned: it uses the single allowed
+                  gradient default fill. It completes the builder flow and
+                  reveals the confirmation state — it does not POST anywhere
+                  (no backend; the brief's condition is met: it triggers the
+                  existing flow).
+  Done:           confirmation (aria-live): "AGENT BUILD RECEIVED" caption in
+                  --accent-purple → "{Role} — ready when you are." display-sm
+                  → follow-up line (echoes role, chosen voice label, and email
+                  if provided) → "START OVER" caption link resets.
+  No fake voice:  no play buttons or audio players — voice names are selectable
+                  text only. If real samples ever exist, they'd become inline
+                  previews in this same dropdown step, never before it.
 
-```
-Background:       --surface-50
-Layout:           flex-col → lg:flex-row, gap-12 → lg:gap-16
-Headline:         display-md → display-lg, font-display, bold, --text-primary-light
-Subtext:          body-sm → body-md, max-w-lg, --text-secondary-light
-Gap subtext:      mt-4
-
-Form card:
-  Fill:           --surface-100
-  Border:         1px solid --surface-200
-  Padding:        p-6 → lg:p-8
-  Width:          full → lg:max-w-lg
-
-Form label:       caption, uppercase, tracking-wider, --text-secondary-light at 60% opacity
-Input border:     1px solid --surface-200, focus-within transitions to --accent-purple
-Input fill:       transparent
-Input text:       body-sm, font-mono, --text-primary-light
-Input placeholder:--text-secondary-light at 30% opacity
-Input padding:    px-3 py-2.5
-
-Voice dropdown:
-  Trigger:        same border/typography as inputs, chevron icon rotates on open
-  Panel:          absolute, top-full, mt-1, --surface-100, 1px --surface-200 border
-  Item:           px-3 py-2.5, hover --surface-200, selected item shows Check icon in --accent-purple
-  Outside click:  closes via mousedown listener
-
-Submit CTA:       btn-primary class, full width on mobile (w-full)
+Motion (see Motion):
+  .demo-step-in    step body entry on change — opacity 0 → 1 / translateY(6px)
+                   → 0, var(--dur-base) ease-out; used by builder step body and
+                   the profile role/tagline swap. No scroll-triggered motion.
+  .demo-wave-bar   restrained waveform activity, scaleY ~0.45↔1 stagger.
+  All reduced-motion disabled.
 ```
 
 ## Footer
