@@ -1,67 +1,59 @@
-import {
-  Lightning,
-  Headphones,
-  ChatCircleDots,
-  SquaresFour,
-} from "@phosphor-icons/react/ssr";
-
-const features = [
-  {
-    title: "Low Latency",
-    body: "Near-instant voice responses powered by state-of-the-art infrastructure, delivering conversations that feel completely natural.",
-    icon: Lightning,
-  },
-  {
-    title: "High Call Capacity",
-    body: "Each Echo handles 10,000+ calls per day, so your business never misses a lead or opportunity.",
-    icon: Headphones,
-  },
-  {
-    title: "Priority Support",
-    body: "Expert support team with years of voice AI experience, ready to help you get the most out of your Echos.",
-    icon: ChatCircleDots,
-  },
-  {
-    title: "All-in-One CRM",
-    body: "AI calls, human calls, texts, emails, and social media — all in one platform for multi-channel support and sales.",
-    icon: SquaresFour,
-  },
-];
+import LatencyPanel from "./LatencyPanel";
+import LedgerCard from "./LedgerCard";
 
 export default function Features() {
   return (
-    <section id="platform" className="w-full px-6 py-16 bg-surface-50 scroll-mt-16">
-      <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12">
-        <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
-          <h2 className="font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
-            Why Nova Echo Leads the <span className="hero-text-highlight">Voice AI Platform</span>
+    <section id="platform" className="w-full bg-surface-50 px-6 py-16 scroll-mt-16">
+      <div
+        className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16"
+        data-parallax
+        data-parallax-y="12"
+      >
+        <div className="flex flex-col lg:col-span-4">
+          <h2 className="mt-3 font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
+            Why Nova Echo Leads the Voice AI Platform
           </h2>
-          <p className="mt-3 max-w-2xl text-body-sm lg:text-body-md leading-relaxed text-text-secondary-light">
-            Pioneer of conversational intelligence since 2023, delivering human-like voice employees at scale.
+          <p className="mt-4 max-w-md text-body-sm md:text-body-md leading-relaxed text-text-secondary-light">
+            Pioneer of conversational intelligence since 2023, delivering human-like voice
+            employees at scale.
           </p>
         </div>
 
-        <div className="mt-5 grid grid-cols-1 gap-8 md:grid-cols-2 lg:mt-6">
-          {features.map((feature) => {
-            const Icon = feature.icon;
+        <div className="flex flex-col gap-6 lg:col-span-8">
+          <LatencyPanel />
+        </div>
 
-            return (
-              <article
-                key={feature.title}
-                className="border border-surface-200 bg-surface-100 rounded-md p-6 md:p-8 flex flex-col gap-3 min-h-45 text-left"
-              >
-                <div className="flex items-center justify-start">
-                  <Icon className="text-accent-purple" size={24} weight="duotone" />
-                </div>
-                <h3 className="font-semibold text-body-sm md:text-body-md text-text-primary-light">
-                  {feature.title}
-                </h3>
-                <p className="text-caption md:text-body-sm leading-relaxed text-text-secondary-light">
-                  {feature.body}
-                </p>
-              </article>
-            );
-          })}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:col-span-12">
+          <LedgerCard
+            eyebrow="High call capacity"
+            heading={
+              <p className="font-display text-display-xs font-semibold tracking-tight text-text-primary-light">
+                10,000+ calls a day per Echo
+              </p>
+            }
+            body="Capacity to answer every single call at once — no extra headcount needed to keep up."
+            footer="Never misses a lead"
+          />
+          <LedgerCard
+            eyebrow="Priority support"
+            heading={
+              <p className="font-display text-display-xs font-semibold tracking-tight text-text-primary-light">
+                Not &ldquo;set-it-and-forget-it&rdquo; voice AI
+              </p>
+            }
+            body="Hands-on support from a team experienced in building and optimizing voice AI employees."
+            footer="A team, not a queue"
+          />
+          <LedgerCard
+            eyebrow="All-in-one CRM"
+            heading={
+              <p className="font-display text-display-xs font-semibold tracking-tight text-text-primary-light">
+                One platform for every conversation
+              </p>
+            }
+            body="Every follow-up and sales activity stays connected instead of living in separate tools."
+            footer="No separate tools"
+          />
         </div>
       </div>
     </section>

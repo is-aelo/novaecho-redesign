@@ -132,6 +132,9 @@ function BuildAgentPanel({ builder }: { builder: BuildAgentState }) {
       <div key={builder.step} className="demo-step-in mt-6">
         {builder.step === 1 && (
           <>
+            <div className="pb-5">
+              <VoiceSelect builder={builder} />
+            </div>
             <FieldLabel>What should your AI agent do?</FieldLabel>
             <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
               {AGENTS.map((agent) => (
@@ -175,22 +178,19 @@ function BuildAgentPanel({ builder }: { builder: BuildAgentState }) {
 
         {builder.step === 3 && (
           <>
-            <VoiceSelect builder={builder} />
-            <div className="mt-5 border-t border-surface-200 pt-5">
-              <FieldLabel>What should your agent handle?</FieldLabel>
-              <label className="mt-4 flex flex-col gap-2">
-                <textarea
-                  rows={3}
-                  value={builder.instructions}
-                  onChange={(e) => builder.updateField("instructions", e.target.value)}
-                  placeholder="Describe the calls, questions, or tasks you want your agent to handle."
-                  className={`${inputClass} resize-none`}
-                />
-              </label>
-              <p className="mt-2 font-body text-caption leading-relaxed text-text-secondary-light/60">
-                You don&apos;t need to write a perfect prompt. Just describe what you want your agent to do.
-              </p>
-            </div>
+            <FieldLabel>What should your agent handle?</FieldLabel>
+            <label className="mt-4 flex flex-col gap-2">
+              <textarea
+                rows={8}
+                value={builder.instructions}
+                onChange={(e) => builder.updateField("instructions", e.target.value)}
+                placeholder="Describe the calls, questions, or tasks you want your agent to handle."
+                className={`${inputClass} resize-none`}
+              />
+            </label>
+            <p className="mt-2 font-body text-caption leading-relaxed text-text-secondary-light/60">
+              You don&apos;t need to write a perfect prompt. Just describe what you want your agent to do.
+            </p>
           </>
         )}
 

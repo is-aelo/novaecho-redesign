@@ -829,7 +829,7 @@ Grid/spacing: section pattern mt-5 / lg:mt-6 between the intro subtext and the p
 
 ## Benchmark section — progressive-disclosure comparison
 
-Light section on `--surface-50`. Distinct editorial/data identity — NOT the "Why Nova Echo" card system. No cards, no rounded containers, no icons: hairline grid, large numerical metrics, mono technical labels, SVG data visuals with subtle grain. Five primary benchmark modules lead; the full 13-row comparison (4 groups) is gated behind a "View Full Benchmark" disclosure so the most important claims scan in seconds on every viewport.
+Light section on `--surface-50`. Distinct editorial/data identity — NOT the "Why Nova Echo" product-argument layout. No cards, no rounded containers, no icons: hairline grid, large numerical metrics, mono technical labels, SVG data visuals with subtle grain. Five primary benchmark modules lead; the full 13-row comparison (4 groups) is gated behind a "View Full Benchmark" disclosure so the most important claims scan in seconds on every viewport.
 
 ```
 Header:
@@ -986,9 +986,110 @@ Full matrix:    id="bench-matrix", width-matched framing. Desktop (lg): a
                 the same emphasis as the desktop column, never a wall of text.
 ```
 
+## Why Nova Echo section — product argument
+
+The section right after the hero (`/components/features/Features.tsx`, `id="platform"`).
+Replaces the old 4-card grid (silent 2×2 card rows) with a product-argument layout: one
+strong intro + one large primary proof + three supporting capabilities, ordered as a
+narrative — WHY NOVA ECHO → REAL-TIME CONVERSATIONS → SCALE → HUMAN SUPPORT → ONE
+CONNECTED PLATFORM. NOT four equal cards, no icon-above-title treatment, no
+`data-*` reordering hack.
+
+```
+Background: --surface-50.
+Frame:      12-col grid at lg (mx-auto max-w-6xl, lg:grid-cols-12 lg:gap-16,
+            gap-12 on mobile; data-parallax y=12). Left rail lg:col-span-4,
+            LATENCY console right stack lg:col-span-8, then the three-card strip
+            FULL-WIDTH below it (lg:col-span-12).
+
+Left rail (all breakpoints — stacks above the proof on mobile):
+  Headline:  "Why Nova Echo Leads the Voice AI Platform" display-md → display-lg,
+             font-display semibold, tracking-tight, --text-primary-light. Solid.
+             The rail starts at the headline — no eyebrow label above it.
+  Subtext:   "Pioneer of conversational intelligence since 2023, delivering
+             human-like voice employees at scale." body-sm → md,
+             --text-secondary-light, max-w-md. No detail block — the rail ends
+             after the subtext.
+
+Right stack (lg:col-span-8) — the LOW LATENCY primary panel only.
+
+Three-card strip (lg:col-span-12, full section width) — ONE even 3-column
+grid (lg:grid-cols-3 gap-6, stacked on mobile) with the three supporting blocks.
+Supporting blocks are EQUAL height (grid stretch), top-anchored content, and each
+ends in a bottom-pinned footer line (`mt-auto` + border-t hairline) so their
+baselines line up — a ledger rhythm, not a mosaic. Mobile order: LOW LATENCY →
+HIGH CALL CAPACITY → PRIORITY SUPPORT → ALL-IN-ONE CRM.
+
+1) LOW LATENCY — the primary proof, a DARK console (the "dark readout on light"
+motif: rounded-window, 1px border-hairline-on-dark, bg-surface-900, overflow-hidden,
+no shadow/no glass). It is the section's single focal moment, visually heavier than the
+three supporting blocks.
+  Chrome:    window-dot ×3 + console-panel-head "LIVE CALL · NOVA ECHO"; right:
+             hero-live-dot (data-active) + "LOW LATENCY" mono caption uppercase
+             --accent-purple-soft.
+  Body:      12-col split inside the window: LEFT (5) "Low Latency" display-xs
+             font-display semibold + one-line support (body-sm --text-secondary);
+             RIGHT (7) the simulated exchange, joined to the left block by a
+             border-t hairline (mobile) / border-l hairline (lg):
+             CALLER chip + "Can you book me for Friday?" → the waveform → AI chip
+             + "Absolutely. I have 9:30 a.m. available." → intent-phase-chip status
+             ("RESPONDING" → flips to "BOOKED" at the end).
+  Waveform:  a two-segment SVG speech readout (viewBox 480×80, preserveAspectRatio none)
+             with three faint horizontal hairlines (stroke-white/5) like an instrument
+             grid. Caller utterance "Can you book me for Friday?" draws left→right as a
+             closed asymmetrical envelope (buildLatencySegment, pathLength 1,
+             non-scaling 1.5px stroke + /10 soft fill, --accent-purple-soft/70), then a
+             silent gap strips the width, then the AI reply "Absolutely. I have 9:30 a.m.
+             available." draws the same way — the gap IS the response time. — NOT an
+             equalizer of many animated bars. Draws in contour-sequential
+             (stroke-dashoffset 1→0) then breathes very gently (whole svg opacity
+             1→0.82 yoyo). aria-hidden, decorative. This is the call-trace motif,
+             grounded in the product, and the section's ONLY motion loop.
+  Motion:    useLatencyProof — one-shot sequence on scroll (start "top 80%", play
+             none): caller line fades up → caller curve draws in → "RESPONDING" chip
+             fades in → gap, then the AI curve draws in → AI reply fades up → chip
+             crossfades to "BOOKED" → wave breathing starts. Disabled under
+             prefers-reduced-motion (everything static, chip reads "BOOKED").
+  Access:    spoken text is real text; waveform aria-hidden; chip aria-live.
+
+2) HIGH CALL CAPACITY → 3) PRIORITY SUPPORT → 4) ALL-IN-ONE CRM — three EQUAL
+text-only ledger cards (rounded-md, 1px border-surface-200, bg-surface-100, p-6 →
+p-8) via one shared component `LedgerCard` (/components/features/LedgerCard.tsx).
+No diagrams, no ticks, no chips, no funnel, no status dots — typography only. Each:
+  Docker:    mono caption eyebrow (--text-secondary-light/70) → display heading →
+             body-sm support line (--text-secondary-light) → bottom-pinned footer
+             (mt-auto, border-t surface-200, pt-4, same mono caption as eyebrow).
+             Equal height (grid stretch), all footers align on one baseline — the
+             ledger rhythm.
+  Card 2:    eyebrow "HIGH CALL CAPACITY" → "10,000+ calls a day per Echo" display-xs
+             semibold → "Capacity to answer every single call at once — no extra
+             headcount needed to keep up." → "NEVER MISSES A LEAD".
+  Card 3:    eyebrow "PRIORITY SUPPORT" → "Not "set-it-and-forget-it" voice AI"
+             display-xs semibold → "Hands-on support from a team experienced in
+             building and optimizing voice AI employees." → "A TEAM, NOT A QUEUE".
+  Card 4:    eyebrow "ALL-IN-ONE CRM" → "One platform for every conversation" display-xs
+             semibold → "Every follow-up and sales activity stays connected instead of
+             living in separate tools." → "NO SEPARATE TOOLS".
+  Motion:    none per card (section-level parallax only). No per-card hooks, no CSS
+             animation.
+  Parity:    every card is IDENTICALLY structured — eyebrow (1 line) → heading (display-
+             xs, wraps to exactly 2 lines) → body (wraps to exactly 4 lines) → footer
+             (1 line, border-t, mt-auto). Character counts are balanced to keep wraps
+             equal: headings 28/33/35, bodies 84/87/87, footers 19/19/17 chars. Because
+             structure and line counts match, the three cards hold perfect top-to-bottom
+             alignment at every breakpoint, and the mt-auto footer pins baselines even if
+             they ever differ.
+
+Accent discipline: the section's accent goes to the low-latency console
+(waveform + status chip). The left rail and the three text cards stay neutral —
+the 10,000+ figure is white-kept (no colored number). No gradient on any element,
+no glow shadows, most typography neutral.
+```
+
 ## Partners section
 
-Light section on `--surface-50` with a 3-column card grid. Cards match the Features card style (`--surface-100` fill, `--surface-200` border). Three partner program types with icons.
+Light section on `--surface-50` with a 3-column card grid. Cards match the standard light
+product-panel chrome (`--surface-100` fill, `--surface-200` border). Three partner program types with icons.
 
 ```
 Background:       --surface-50
