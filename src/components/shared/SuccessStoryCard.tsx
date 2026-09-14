@@ -27,7 +27,6 @@ import {
   UserFocus,
   WaveSine,
 } from "@phosphor-icons/react";
-import { ArrowRight } from "@phosphor-icons/react";
 
 export interface SuccessStoryCardImpact {
   icon: string;
@@ -147,11 +146,10 @@ export default function SuccessStoryCard({ story }: { story: SuccessStoryCardDat
             type="button"
             onClick={() => setReviewExpanded((value) => !value)}
             aria-expanded={reviewExpanded}
-            className="nudge-horizontal mt-4 inline-flex items-center gap-1.5 font-mono text-caption font-medium uppercase tracking-wider text-accent-purple"
+            className="mt-4 inline-flex items-center gap-1.5 font-mono text-caption font-medium uppercase tracking-wider text-accent-purple"
           >
             {reviewExpanded ? "Show less" : "Read full review"}
-            <ArrowRight size={12} weight="bold" />
-          </button>
+            </button>
         )}
       </section>
     </article>

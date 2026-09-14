@@ -6,11 +6,11 @@ import BenchGrid from "./BenchGrid";
 import { useBenchCurveReveal } from "./useBenchCurveReveal";
 
 const W = 480;
-const H = 112;
+const H = 280;
 const X0 = 20;
 const X1 = 460;
-const BASE_Y = 66;
-const AMP = 24;
+const BASE_Y = 190;
+const AMP = 42;
 
 type Burst = {
   c: number;
@@ -66,7 +66,7 @@ const area = (pts: Array<[number, number]>) =>
   `M ${X0},${BASE_Y} L ${line(pts)} L ${X1},${BASE_Y} Z`;
 
 const TIME_TICKS = [20, 80, 140, 200, 260, 320, 380, 440];
-const AMP_TICKS = [44, 66, 88];
+const AMP_TICKS = [148, 190, 232];
 
 export default function BenchVoiceVisual() {
   const { wave, rms } = build();
@@ -74,93 +74,91 @@ export default function BenchVoiceVisual() {
   useBenchCurveReveal(svgRef);
 
   return (
-    <div className="overflow-hidden rounded-window border border-hairline-on-dark bg-surface-900 px-4 py-4">
+    <div className="overflow-hidden rounded-window border border-hairline-on-dark bg-surface-900 px-4 py-5">
       <div className="relative w-full">
-      <svg
-        ref={svgRef}
-        viewBox={`0 0 ${W} ${H}`}
-        className="block h-auto w-full"
-        aria-hidden="true"
-      >
-        <BenchGrid dark />
-        <text
-          x="40"
-          y="28"
-          className="font-mono"
-          fontSize="8"
-          fill="var(--text-secondary-on-dark)"
-          fillOpacity="0.75"
+        <svg
+          ref={svgRef}
+          viewBox={`0 0 ${W} ${H}`}
+          className="block h-auto w-full"
+          aria-hidden="true"
         >
-          voice · natural prosody
-        </text>
-        {AMP_TICKS.map((y) => (
-          <line
-            key={y}
-            x1={X0}
-            y1={y}
-            x2={X0 + 8}
-            y2={y}
-            stroke="var(--text-secondary-on-dark)"
-            strokeOpacity="0.15"
-          />
-        ))}
-        <path
-          d={area(wave)}
-          fill="var(--accent-purple-soft)"
-          fillOpacity="0.04"
-        />
-        <polyline
-          points={line(rms)}
-          fill="none"
-          stroke="var(--accent-purple-soft)"
-          strokeOpacity="0.2"
-          strokeWidth="1"
-          strokeDasharray="3 5"
-        />
-        <polyline
-          points={line(wave)}
-          fill="none"
-          stroke="var(--accent-purple-soft)"
-          strokeOpacity="0.5"
-          strokeWidth="1.25"
-          strokeLinejoin="round"
-          pathLength="1"
-          data-curve
-        />
-        <line
-          x1={X0}
-          y1="100"
-          x2={X1}
-          y2="100"
-          stroke="var(--text-secondary-on-dark)"
-          strokeOpacity="0.2"
-        />
-        {TIME_TICKS.map((x) => (
-          <line
-            key={x}
-            x1={x}
-            y1="100"
-            x2={x}
-            y2="104"
-            stroke="var(--text-secondary-on-dark)"
-            strokeOpacity="0.3"
-          />
-        ))}
-        {TIME_TICKS.map((x, i) => (
+          <BenchGrid dark />
           <text
-            key={x}
-            x={x}
-            y="108"
-            className="font-mono"
-            fontSize="8"
+            x="40"
+            y="36"
+            className="bench-t2 font-mono"
             fill="var(--text-secondary-on-dark)"
-            fillOpacity="0.7"
+            fillOpacity="0.9"
           >
-            {i}s
+            voice · natural prosody
           </text>
-        ))}
-      </svg>
-      <BenchGrain />
+          {AMP_TICKS.map((y) => (
+            <line
+              key={y}
+              x1={X0}
+              y1={y}
+              x2={X0 + 8}
+              y2={y}
+              stroke="var(--text-secondary-on-dark)"
+              strokeOpacity="0.25"
+            />
+          ))}
+          <path
+            d={area(wave)}
+            fill="var(--accent-purple-soft)"
+            fillOpacity="0.08"
+          />
+          <polyline
+            points={line(rms)}
+            fill="none"
+            stroke="var(--accent-purple-soft)"
+            strokeOpacity="0.35"
+            strokeWidth="1"
+            strokeDasharray="3 5"
+          />
+          <polyline
+            points={line(wave)}
+            fill="none"
+            stroke="var(--accent-purple-soft)"
+            strokeOpacity="0.65"
+            strokeWidth="1.25"
+            strokeLinejoin="round"
+            pathLength="1"
+            data-curve
+          />
+          <line
+            x1={X0}
+            y1="244"
+            x2={X1}
+            y2="244"
+            stroke="var(--text-secondary-on-dark)"
+            strokeOpacity="0.35"
+          />
+          {TIME_TICKS.map((x) => (
+            <line
+              key={x}
+              x1={x}
+              y1="244"
+              x2={x}
+              y2="249"
+              stroke="var(--text-secondary-on-dark)"
+              strokeOpacity="0.45"
+            />
+          ))}
+          {TIME_TICKS.map((x, i) => (
+            <text
+              key={x}
+              x={x}
+              y="262"
+              className="bench-t2 font-mono"
+              fill="var(--text-secondary-on-dark)"
+              fillOpacity="0.85"
+            >
+              {i}s
+            </text>
+          ))}
+        </svg>
+        <BenchGrain />
       </div>
     </div>
   );

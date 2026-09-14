@@ -5,17 +5,17 @@ import BenchGrid from "./BenchGrid";
 import useTimelineReveal, { TOTAL_STEPS } from "./useTimelineReveal";
 
 const W = 480;
-const H = 112;
-const HEADER_Y = 24;
-const FLOW_Y = 62;
-const ROW_Y = [46, 62, 78];
-const RULER_Y = 88;
-const RULER_LABEL_Y = 97;
+const H = 280;
+const HEADER_Y = 36;
+const FLOW_Y = 132;
+const ROW_Y = [88, 132, 176];
+const RULER_Y = 236;
+const RULER_LABEL_Y = 256;
 
 const COLUMNS = [
   {
-    dotX: 120,
-    labX: 132,
+    dotX: 62,
+    labX: 76,
     anchor: "start" as const,
     header: "DAY 1 · 0–24H",
     steps: [
@@ -26,7 +26,7 @@ const COLUMNS = [
   },
   {
     dotX: 360,
-    labX: 348,
+    labX: 344,
     anchor: "end" as const,
     header: "DAY 2 · 24–48H",
     steps: [
@@ -58,7 +58,7 @@ export default function BenchTimelineVisual() {
         <p className="console-panel-head">Implementation Sprint</p>
       </div>
 
-      <div className="flex items-center justify-center px-4 py-6">
+      <div className="flex items-center justify-center px-4 py-7">
         <svg
           viewBox={`0 0 ${W} ${H}`}
           className="block h-auto w-full"
@@ -71,10 +71,9 @@ export default function BenchTimelineVisual() {
                 x={col.labX}
                 y={HEADER_Y}
                 textAnchor={col.anchor}
-                className="font-mono"
-                fontSize="7"
+                className="bench-t3 font-mono"
                 fill="var(--text-secondary-on-dark)"
-                fillOpacity="0.9"
+                fillOpacity="0.95"
               >
                 {col.header}
               </text>
@@ -84,7 +83,7 @@ export default function BenchTimelineVisual() {
                 x2={col.dotX}
                 y2={ROW_Y[ROW_Y.length - 1] - 3}
                 stroke="var(--text-secondary-on-dark)"
-                strokeOpacity="0.3"
+                strokeOpacity="0.45"
               />
               {col.steps.map((step, i) => {
                 const stepIndex = globalStep;
@@ -95,7 +94,7 @@ export default function BenchTimelineVisual() {
                 return (
                   <g
                     key={step.label}
-                    opacity={revealed ? (isActive ? 1 : 0.5) : 0}
+                    opacity={revealed ? (isActive ? 1 : 0.6) : 0}
                   >
                     <g transform={`translate(${col.dotX}, ${ROW_Y[i]})`}>
                       {step.done ? (
@@ -103,13 +102,13 @@ export default function BenchTimelineVisual() {
                           <circle
                             cx="0"
                             cy="0"
-                            r="3"
+                            r="3.5"
                             fill={
                               isComplete
                                 ? "var(--status-green)"
                                 : "var(--text-secondary-on-dark)"
                             }
-                            fillOpacity={isComplete ? "0.85" : "0.5"}
+                            fillOpacity={isComplete ? "0.95" : "0.65"}
                           />
                           <polyline
                             points="-1.5,0.4 -0.4,1.5 1.8,-1.2"
@@ -129,10 +128,10 @@ export default function BenchTimelineVisual() {
                         <circle
                           cx="0"
                           cy="0"
-                          r="3"
+                          r="3.5"
                           fill="none"
                           stroke="var(--accent-purple-soft)"
-                          strokeOpacity="0.6"
+                          strokeOpacity="0.75"
                         />
                       )}
                     </g>
@@ -140,8 +139,7 @@ export default function BenchTimelineVisual() {
                       x={col.labX}
                       y={ROW_Y[i] + 4}
                       textAnchor={col.anchor}
-                      className="font-mono"
-                      fontSize="7"
+                      className="bench-t2 font-mono"
                       fill={
                         isActive
                           ? "var(--accent-purple-soft)"
@@ -149,7 +147,7 @@ export default function BenchTimelineVisual() {
                             ? "var(--status-green)"
                             : "var(--text-secondary-on-dark)"
                       }
-                      fillOpacity={isActive ? "1" : isComplete ? "0.8" : "0.5"}
+                      fillOpacity={isActive ? "1" : isComplete ? "0.9" : "0.6"}
                     >
                       {isActive && (
                         <tspan
@@ -168,53 +166,45 @@ export default function BenchTimelineVisual() {
           ))}
 
           <line
-            x1="212"
+            x1="204"
             y1={FLOW_Y}
-            x2="232"
+            x2="216"
             y2={FLOW_Y}
             stroke="var(--text-secondary-on-dark)"
-            strokeOpacity="0.32"
+            strokeOpacity="0.45"
           />
           <polyline
-            points="232,56 240,62 232,68"
+            points="216,126 224,132 216,138"
             fill="none"
             stroke="var(--text-secondary-on-dark)"
-            strokeOpacity="0.4"
+            strokeOpacity="0.55"
           />
           <line
-            x1="240"
-            y1={FLOW_Y}
-            x2="268"
-            y2={FLOW_Y}
-            stroke="var(--text-secondary-on-dark)"
-            strokeOpacity="0.32"
-          />
-          <line
-            x1="368"
-            y1={FLOW_Y}
-            x2="384"
-            y2={FLOW_Y}
+            x1="338"
+            y1="120"
+            x2="417"
+            y2="120"
             className="bench-send-line"
             data-send={sending}
             stroke="var(--text-secondary-on-dark)"
-            strokeOpacity="0.32"
+            strokeOpacity="0.45"
             strokeDasharray="2 3"
           />
 
           <g className="bench-go-live" data-live={sending}>
             <rect
-              x="388"
-              y="54"
-              width="16"
-              height="16"
-              rx="3"
+              x="421"
+              y="108"
+              width="22"
+              height="22"
+              rx="4"
               fill="var(--accent-purple-soft)"
             />
             <text
-              x="412"
-              y="66"
-              className="font-mono font-medium"
-              fontSize="9"
+              x="432"
+              y="96"
+              textAnchor="middle"
+              className="bench-t4 font-mono font-medium"
               fill="var(--accent-purple-soft)"
             >
               GO LIVE
@@ -222,12 +212,12 @@ export default function BenchTimelineVisual() {
           </g>
 
           <line
-            x1="100"
+            x1="88"
             y1={RULER_Y}
-            x2="380"
+            x2="400"
             y2={RULER_Y}
             stroke="var(--text-secondary-on-dark)"
-            strokeOpacity="0.2"
+            strokeOpacity="0.35"
           />
           {RULER.map((t) => (
             <line
@@ -235,9 +225,9 @@ export default function BenchTimelineVisual() {
               x1={t.x}
               y1={RULER_Y}
               x2={t.x}
-              y2={RULER_Y + 5}
+              y2={RULER_Y + 7}
               stroke="var(--text-secondary-on-dark)"
-              strokeOpacity="0.3"
+              strokeOpacity="0.45"
             />
           ))}
           {RULER.map((t) => (
@@ -246,10 +236,9 @@ export default function BenchTimelineVisual() {
               x={t.x}
               y={RULER_LABEL_Y}
               textAnchor="middle"
-              className="font-mono"
-              fontSize="7"
+              className="bench-t2 font-mono"
               fill="var(--text-secondary-on-dark)"
-              fillOpacity="0.7"
+              fillOpacity="0.85"
             >
               {t.label}
             </text>

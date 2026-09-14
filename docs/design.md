@@ -194,9 +194,17 @@ Hero primary (.btn-hero-primary):
 
 Secondary — default: rgba(255,255,255,0.06) fill, 1px solid rgba(255,255,255,0.24) border, white text
 Secondary — hover:    fill → rgba(255,255,255,0.12), border brightens to rgba(255,255,255,0.48)
+
+Outline light (.btn-outline-light):
+  default:  transparent fill, 1px border color-mix(30% --surface-700, transparent),
+            --text-primary-light text, body-sm, font-medium, radius-btn
+  hover:    border brightens to 60% --surface-700, text → --accent-purple
+  focus:    2px solid --accent-purple outline, offset 2px
+            Used for bordered CTAs on light surfaces: Benchmark disclosure,
+            Why-Nova Echo transcript disclosure, Stories section tail.
 ```
 
-All buttons (.btn-primary / .btn-secondary): no fixed height — height is padding-driven.
+All buttons (.btn-primary / .btn-secondary / .btn-outline-light): no fixed height — height is padding-driven.
 Vertical padding 12px (top/bottom) + 15px body text ≈ 48px tall, horizontal padding 24px.
 Nav CTA (.header-cta) matches at 12px vertical padding, reduced to 14px text.
 
@@ -204,6 +212,14 @@ Arrow icons in CTAs and inline links (nudge-vertical / nudge-horizontal): on hov
 icon gently bobs in the arrow's direction — .nudge-vertical nudges down (translateY 3px),
 .nudge-horizontal nudges right (translateX 3px), 1s ease-in-out infinite. Respects
 prefers-reduced-motion (animation disabled).
+
+Mini disclosure toggles (All features / Setup details / Enterprise details,
+matrix category headers) and story card link CTAs (Read the full story, Read
+full review) are text-only — no arrow or caret icons; hover signals on card
+links are text-color flips, not icon nudges. The main .btn-outline-light CTAs
+(Full Benchmark, Full Transcripts, All Stories) carry a 16px ArrowRight (bold)
+that rotates 90° when open on the two disclosure CTAs.
+
 Nav lockup: novaecho-logo.png at 32px + font-display display-xs (18px) semibold
 tracking-tight, gap-3 — scales up to stay level with the taller header CTA.
 
@@ -748,7 +764,7 @@ whitespace. No glassmorphism, no neon, no big "MOST POPULAR" badge, no heavy sha
 no fake discount badges/savings percentages, no price countdowns, no decorative charts.
 
 Information order per plan follows the decision journey: stage → name → price → users →
-best-for → call rates → differentiators → View all features → CTA.
+best-for → call rates → differentiators → All features → CTA.
 
 ```
 Intro:
@@ -758,18 +774,17 @@ Intro:
                 subtext body-sm → md, --text-secondary-light.
 
 Part 1 — core plans (desktop ≥1024px):
-  Framing:      three separate columns via lg:grid-cols-3 lg:items-start lg:gap-6,
-                rail gap from subtext mt-5 → lg:mt-12. The elevated center card's
-                lg:-my-6 pokes 24px above the rail, so the extra rail margin keeps a
-                standard ~24px visual gap between the intro and the card's top edge.
-                Light and Hyper are a MATCHED PAIR: identical rounded-md, 1px
-                border-surface-200, p-8, transparent bg (hover bg-surface-100/40 lift),
-                same font-semibold price (display-md). They visually recede together.
-                Super is ELEVATED center: bg-white, 1px border-accent-purple/30,
-                py-12 px-8, lg:-my-6 (pokes symmetrically above and below the side
-                panels), display-lg BOLD price, name font-semibold, RECOMMENDED chip,
-                btn-primary CTA. The height offset + weight change make Super the
-                unmistakable focus; sides stay perfectly aligned with each other.
+  Framing:      three equal-height columns via lg:grid-cols-3 lg:items-stretch
+                lg:gap-6 (all cards aligned, same p-8 padding, buttons on
+                mt-auto so CTAs sit on one baseline). Light and Hyper are a
+                MATCHED PAIR: identical rounded-md, 1px border-surface-200,
+                transparent bg (hover bg-surface-100/40 lift), same
+                font-semibold price (display-md). They visually recede together.
+                Super is the emphasis WITHOUT elevation: bg-white, 1px
+                border-accent-purple/40, display-lg BOLD price, name
+                font-semibold, RECOMMENDED chip, btn-primary CTA — the white
+                fill + purple border + type weight mark it as the focus while
+                all three cards stay top/bottom aligned.
   Stage row:    stage label left, RECOMMENDED chip right on the recommended column.
   Users:        font-mono caption uppercase secondary-light/70 ("1 USER" / "3 USERS" /
                 "UNLIMITED USERS") under the price.
@@ -784,8 +799,8 @@ Part 1 — core plans (desktop ≥1024px):
                 "Everything in Super, plus:" then its 3 additions. CheckCircle 14px,
                 weight=fill, --accent-purple (light surface). Full feature lists are
                 NOT shown by default.
-  View all features: caption link --accent-purple + ArrowRight 12px (rotates ↓ when
-                open), aria-expanded/aria-controls. Expands the FULL verbatim plan
+  All features: caption link --accent-purple, aria-expanded/aria-controls.
+                Expands the FULL verbatim plan
                 feature list via .collapsible-grid — CSS grid-template-rows 0fr↔1fr,
                 var(--dur-base) ease-out (smooth height, no page nav). Data preserved.
   CTA:          recommended → btn-primary (see Buttons; navy-prominent default, black-
@@ -803,7 +818,7 @@ Part 1 — mobile (<1024px):
                 var(--dur-base), no page reload). Call-rate values replay .price-rate-in
                 with a per-row 60ms stagger. Shows the selected plan's stage label,
                 RECOMMENDED chip, name, price, users, best-for, call rates,
-                differentiators, View all features, and plan-specific CTA.
+                differentiators, All features, and plan-specific CTA.
 
 Part 2 — custom solutions (both breakpoints):
   Frame:        the whole Part-2 block sits in ONE light card frame —
@@ -825,16 +840,15 @@ Part 2 — custom solutions (both breakpoints):
                 CRM INTEGRATION / AUTOMATION SETUP. Enterprise: CUSTOM DEVELOPMENT /
                 DEDICATED SUPPORT / VOLUME PRICING / AI GOVERNANCE.
   CTA:          inline --accent-purple link + ArrowRight 14px, .nudge-horizontal arrow
-                bob on hover. "Talk to an Expert →" (href "#") and "Contact Enterprise
+                bob on hover. "Contact Sales →" (href "#") and "Contact
                 Sales →" (booking URL, target=_blank).
-  Details:      "View setup details" / "View enterprise details" caption toggle
-                (CaretDown 12px, rotates 180° open) → .collapsible-grid expansion of the
+  Details:      "Setup details" / "Enterprise details" caption toggle → .collapsible-grid expansion of the
                 full preserved verbatim detail lists.
 
 Motion (see also Motion & reduced motion):
   .price-panel-in / .price-rate-in  micro entry for the mobile plan switch only;
                                     var(--dur-base), ease-out, disabled under reduced motion.
-  .collapsible-grid                 0fr↔1fr height expand for View all features and the
+  .collapsible-grid                 0fr↔1fr height expand for All features and the
                                     custom-solution details; var(--dur-base) ease-out,
                                     transition disabled under reduced motion.
   Columns hover                     bg-surface-100/40 lift (recommended /90). Restrained —
@@ -848,7 +862,7 @@ Grid/spacing: section pattern mt-5 / lg:mt-6 between the intro subtext and the p
 
 ## Benchmark section — progressive-disclosure comparison
 
-Light section on `--surface-50`. Distinct editorial/data identity — NOT the "Why Nova Echo" product-argument layout. No cards, no rounded containers, no icons: hairline grid, large numerical metrics, mono technical labels, SVG data visuals with subtle grain. Five primary benchmark modules lead; the full 13-row comparison (4 groups) is gated behind a "View Full Benchmark" disclosure so the most important claims scan in seconds on every viewport.
+Light section on `--surface-50`. Distinct editorial/data identity — NOT the "Why Nova Echo" product-argument layout. No cards, no rounded containers, no icons: hairline grid, large numerical metrics, mono technical labels, SVG data visuals with subtle grain. Five primary benchmark modules lead; the full 13-row comparison (4 groups) is gated behind a "Full Benchmark" disclosure so the most important claims scan in seconds on every viewport.
 
 ```
 Header:
@@ -875,22 +889,31 @@ Module content: label row (font-mono caption medium uppercase tracking-wider,
                 max-w-md). Metric stays solid black — purple is reserved for
                 the index numerals and the Nova column of the matrix.
 
-Module visuals: five inline SVGs, viewBox 480×112, w-full h-auto, framed as calm
-                instrument/telemetry readouts — NOT logos or doodles. Every visual
+Module visuals: five inline SVGs, viewBox 480×280, w-full h-auto, framed as calm
+                instrument/telemetry readouts — NOT logos or doodles. The taller
+                coordinate canvas gives every visual's labels, axes, and annotations
+                real breathing room — vertical gaps between layers are generous
+                (rows ≥40 units apart, axis offset from the curve bed), and the
+                same w-full scaling means on narrow single-column panels the
+                readouts read as a real instrument instead of a squashed strip.
+                Every visual
                 now sits in the same dark window treatment as the Implementation
                 board: overflow-hidden rounded-window border border-hairline-on-dark
-                bg-surface-900 with px-4 py-4 body padding (the benchmark module
+                bg-surface-900 with px-4 py-5 body padding (the benchmark module
                 readouts are dark on the light section — one shared console voice
                 across all five, the AgentWindow/hero-terminal fill reused). The
-                implementation board alone adds the dots + title chrome bar.
+                implementation board alone adds the dots + title chrome bar,
+                and its canvas sits in px-4 py-7.
                 Every visual shares a BenchGrid frame with its dark variant:
-                faint horizontal gridlines (--text-secondary-on-dark at 0.04),
-                12px crop-marks at the four corners, plus a grain overlay
+                faint horizontal gridlines (--text-secondary-on-dark at 0.06),
+                12px crop-marks at the four corners (0.22), plus a grain overlay
                 (fractalNoise, baseFrequency 0.9, alpha ~0.07 — container-only,
                 never over text). Lines are 1–1.5px
-                hairlines in --accent-purple-soft + --text-secondary-on-dark at low
-                opacity; flat solid fills only (no gradients, no bars, no neon,
-                no arrows/waves for decoration). On scroll into view (once per
+                hairlines in --accent-purple-soft + --text-secondary-on-dark at
+                legible opacity — layers run 0.25–0.45, focal strokes 0.5–0.7,
+                annotations/tags full-strength: ghost layers read as faint but
+                never invisible. Flat solid fills only (no gradients, no bars,
+                no neon, no arrows/waves for decoration). On scroll into view (once per
                 page load, never looping), the primary curves draw on via a
                 normalized stroke-dash sweep (useBenchCurveReveal: pathLength=1
                 + stroke-dashoffset 1→0, 1.1s power2.inOut, 0.1s stagger across
@@ -908,9 +931,19 @@ Module type — Geist Mono only, three rungs of emphasis (never two focal
                     --accent-purple-soft
                   10px / 400 — headers + labels + steps: "DAY 1 · 0–24H",
                     axis major values, integration node names, step labels —
-                    0.6–0.8
+                    0.85–0.95
                    8px / 400 — fine print: caption lines, footers, scale
-                    ticks — 0.45–0.55
+                    ticks — 0.7–0.85
+  Mobile legibility (< lg, max-width 1023.98px): the three rungs scale up
+                ~×2 in coordinate units so they survive the narrow
+                single-column panel (text renders ~11.4 / 14.3 / 18.6px instead
+                of 4.4 / 5.5 / 8.8px on a 343 × 200px SVG — the taller 280-unit
+                canvas paired with larger mobile coordinate text keeps every
+                label comfortably readable). Implemented as the
+                .bench-t2 / .bench-t3 / .bench-t4 utilities in globals.css:
+                desktop 8 / 10 / 16 → mobile 16 / 20 / 26. The emphasis
+                hierarchy and the "exactly one payoff" rule carry over
+                unchanged — only sizes move.
   01 Voice Quality    conversational waveform — 7 speech-like syllabic bursts
                       grouped into 3 phrase clusters (brief pauses between
                       phrases), each with an ASYMMETRIC envelope (fast attack,
@@ -948,8 +981,11 @@ Module type — Geist Mono only, three rungs of emphasis (never two focal
                       available" at 8px — a sample of the catalog, not the
                       whole map. Least decorated visual.
   05 Implementation   2-day sprint board — two three-step stacks, "DAY 1 ·
-                      0–24H" and "DAY 2 · 24–48H" (day headers at 10px with
-                      the step labels) — each a vertical dot rail. Completion state
+                      0–24H" and "DAY 2 · 24–48H" (day headers stay on the
+                      label rung at 10px; step labels sit on the fine-print
+                      rung at 8px — the original compact board's proportion,
+                      scaled up under lg like every other rung). Each a vertical
+                      dot rail. Completion state
                       reads at a glance: done items are filled dots with a
                       hairline checkmark, the pending "Human QA pass" stays
                       an open ring — a human gate before cutover. Day columns
@@ -963,7 +999,7 @@ Module type — Geist Mono only, three rungs of emphasis (never two focal
                       renders all six static immediately). Once the board is
                       complete, the dashed segment carries a marching-dash
                       send animation (.bench-send-line, dashoffset 0 → −5,
-                      0.6s linear loop, opacity 0.32 → 1) and the GO LIVE
+                      0.6s linear loop, opacity 0.45 → 1) and the GO LIVE
                       square + label light up (.bench-go-live: opacity pulse
                       every 2s + --glow-go-live drop-shadow on both). During
                       the reveal cycle the dash stays static dim and GO LIVE
@@ -979,7 +1015,7 @@ Disclosure:     after the grid — mt-8 → lg:mt-10, centered, generous whitesp
                 CTA button: rounded-btn, 1px border --surface-700/30,
                 --text-primary-light, hover border-surface-700/60 +
                 hover:text-accent-purple (matches pricing side-card CTA).
-                Label "View Full Benchmark" with a 16px ArrowRight that rotates
+                Label "Full Benchmark" with a 16px ArrowRight that rotates
                 90° when open; aria-expanded + aria-controls. Toggles the
                 matrix wrapper (height 0→auto / opacity 0→1, 0.5s power3.out,
                 collapse 0.35s power2.in; reduced-motion sets height directly).
@@ -996,8 +1032,8 @@ Full matrix:    id="bench-matrix", width-matched framing. Desktop (lg): a
                 separator rows on a border-t hairline); row dividers
                 border-b --surface-200/80. Mobile: stacked collapsible category
                 accordions (VOICE+/SCALE+/…), each border-t --surface-200;
-                tapping a header (mono caption uppercase label + rotating
-                CaretDown, aria-expanded/aria-controls) expands only that
+                tapping a header (mono caption uppercase label,
+                aria-expanded/aria-controls) expands only that
                 category via GSAP height 0→auto (0.45s power3.out / 0.3s
                 power2.in; reduced-motion jumps). Inside each expanded category:
                 per metric, "Nova Echo AI" value on the bg-accent-hot-purple/6
@@ -1041,7 +1077,7 @@ grid (lg:grid-cols-3 gap-6, stacked on mobile) with the three supporting blocks.
 Supporting blocks are EQUAL height (grid stretch), top-anchored content, and each
 ends in a bottom-pinned footer line (`mt-auto` + border-t hairline) so their
 baselines line up — a ledger rhythm, not a mosaic. Mobile order: LOW LATENCY →
-HIGH CALL CAPACITY → PRIORITY SUPPORT → ALL-IN-ONE CRM.
+HIGH CALL CAPACITY → PRIORITY SUPPORT → CRM.
 
 1) LOW LATENCY — the primary proof, a DARK console (the "dark readout on light"
 motif: rounded-window, 1px border-hairline-on-dark, bg-surface-900, overflow-hidden,
@@ -1056,16 +1092,16 @@ three supporting blocks.
              border-t hairline (mt-5 → lg:mt-6), the simulated exchange rendered in the
              exact Agents transcription idiom (hero-transcript / hero-transcript-row /
              hero-speaker-tag / hero-speaker-text):
-             AI chip + "Hi Dana, this is Northlight Web Co. I'm calling to confirm what we've scoped
-             for Marlow & Co. — a full site rebuild with a new homepage and services
-             section, migration off your current CMS, SEO setup on the key pages, and one
-             month of post-launch support, with an onboarding call for your team. Does that
-             match what you're expecting?" → the waveform → CALLER chip
+AI chip + "Hi Dana, this is Northlight Web Co. — confirming what we've scoped:
+             a full site rebuild with a new homepage and services section, CMS migration,
+             SEO on key pages, and a month of post-launch support. Does that match what
+             you're expecting?" → CALLER chip
              + "That's exactly it — though could we move the target date to next month?"
 → AI chip + "No problem. I've updated the target to next month — the scope
               stays the same. I'll send the revised summary to your inbox." → CALLER chip
              + "Perfect, that's everything. Thanks so much." → intent-phase-chip status
-             ("RESPONDING" → flips to "CONFIRMING" at the end). Speaker tags use the same
+             ("RESPONDING" → flips to "CONFIRMING" at the end) → full-width waveform
+             below it. Speaker tags use the same
              business-name format as the Agents window (hero-speaker-tag): "DANA · CALLER"
              for the caller, "NORTHLIGHT WEB CO." for the AI (hero-speaker-tag-ai).
              The flow mirrors the product's onboarding: the AI starts the call, recaps the
@@ -1095,7 +1131,7 @@ MiniCall rail (full-width strip below the main panel): a 3-across row of compact
                "One agent, six calls, all at once" (font-display text-display-sm semibold) +
                body-sm supporting copy (open the windows to watch a single agent hold six
                parallel conversations — every call answered instantly, none left on hold) +
-               bordered CTA "View Full Transcripts" (rounded-btn,
+               bordered CTA "Full Transcripts" (rounded-btn,
                1px border --surface-700/30, --text-primary-light, hover border-surface-700/60 +
                hover:text-accent-purple, 16px ArrowRight that rotates 90° when open,
                aria-expanded + aria-controls="live-transcripts"). All six concurrent call
@@ -1103,27 +1139,37 @@ MiniCall rail (full-width strip below the main panel): a 3-across row of compact
                height, var(--dur-base) ease-out) in the responsive 3-up grid — none are shown
                by default, and the disclosure reveals them together. Reduced-motion:
                grid-height snaps instantly.
-  Waveform:  a two-segment SVG speech readout (viewBox 480×80, preserveAspectRatio none)
-             with three faint horizontal hairlines (stroke-white/5) like an instrument
-grid. AI recap "Hi Dana, this is Northlight Web Co. I'm calling to confirm what we've
-              scoped for Marlow & Co. — a full site rebuild..." draws left→right as a
-              closed asymmetrical envelope (buildLatencySegment, pathLength 1,
-              non-scaling 1.5px stroke + /10 soft fill, --accent-purple-soft/70), then a
-              silent gap strips the width, then the caller reply "That's exactly it — though
-              could we move the target date to next month?" draws the same way — the gap IS the response time. — NOT an
-             equalizer of many animated bars. Draws in contour-sequential
-             (stroke-dashoffset 1→0) then breathes very gently (whole svg opacity
-             1→0.82 yoyo). aria-hidden, decorative. This is the call-trace motif,
-             grounded in the product, and the section's ONLY motion loop.
-  Motion:    useLatencyProof — one-shot sequence on scroll (start "top 80%", play
-             none): AI scope recap fades up → AI curve draws in → "RESPONDING" chip
-             fades in → gap, then the caller curve draws in → caller reply fades up →
-             the AI change-confirmation line fades up → the caller close-out fades up →
-             chip crossfades to "CONFIRMING" → wave breathing starts. Disabled under
-             prefers-reduced-motion (everything static, chip reads "CONFIRMING").
+  Waveform:  a hero-wave-style layered speech readout (viewBox 480×80, preserveAspectRatio
+             none) with three faint horizontal hairlines (stroke-white/5) like an
+             instrument grid. Four layered rolling wave paths — purple / blue / cyan /
+             white, strokes 2.5–4px at 0.35–0.7 opacity — exactly mirror the hero
+             bottom's HeroWave mechanics (useLatencyWave.ts, same math adapted to
+             480 units): a sum of three traveling sines whose phase drifts continuously
+             (`phase = x × 0.022 − travel`, travel += dt × 2.8), amplitude breathes
+             via a slowly lerped target (0.5 + sin(now × 0.0006 + seed) × 0.3), and
+             per-point shape noise (noise1) prevents uniform ripples. A cyan→hot-purple
+             gradient ribbon fill sits behind the crests — the same color language as
+             the hero wave. An alpha mask (linearGradient fade at 0/0.06/0.94/1) softens
+             the edges. The critical storytelling element: a gapEnvelope(x) function
+             zeros amplitude smoothly across [200–300] user units — the response-time
+             gap reads as a flat silent band between the two spoken halves, so the gap
+             IS the response time. The wave rolls continuously from first paint (rAF loop
+             from useLatencyWave, no GSAP); reduced-motion draws one static frame
+             (amp 0.45). The shape never looks like a fixed envelope or a sliding block
+             — crests genuinely travel along the trace like real sound waves. aria-hidden,
+             decorative. This is the call-trace motif, grounded in the product, and the
+             section's ONLY motion loop.
+  Motion:    two hooks. useLatencyProof — one-shot sequence on scroll (start "top
+             80%", play none): AI scope recap fades up → "RESPONDING" chip fades in →
+             caller reply fades up → the AI change-confirmation line fades up → the
+             caller close-out fades up → chip crossfades to "CONFIRMING". useLatencyWave
+             runs from first paint — a continuous rAF loop redraws all five paths every
+             frame (same mechanics as HeroWave); the transcript reveal is purely
+             typographic (no stroke-dashoffset draw-in). Both disabled under
+             prefers-reduced-motion (wave static, chip reads "CONFIRMING").
   Access:    spoken text is real text; waveform aria-hidden; chip aria-live.
 
-2) HIGH CALL CAPACITY → 3) PRIORITY SUPPORT → 4) ALL-IN-ONE CRM — three EQUAL
+2) HIGH CALL CAPACITY → 3) PRIORITY SUPPORT → 4) CRM — three EQUAL
 text-only ledger cards (rounded-md, 1px border-surface-200, bg-surface-100, p-6 →
 p-8) via one shared component `LedgerCard` (/components/features/LedgerCard.tsx).
 No diagrams, no ticks, no chips, no funnel, no status dots — typography only. Each:
@@ -1138,9 +1184,12 @@ No diagrams, no ticks, no chips, no funnel, no status dots — typography only. 
   Card 3:    eyebrow "PRIORITY SUPPORT" → "Not "set-it-and-forget-it" voice AI"
              display-xs semibold → "Hands-on support from a team experienced in
              building and optimizing voice AI employees." → "A TEAM, NOT A QUEUE".
-  Card 4:    eyebrow "ALL-IN-ONE CRM" → "One platform for every conversation" display-xs
-             semibold → "Every follow-up and sales activity stays connected instead of
-             living in separate tools." → "NO SEPARATE TOOLS".
+  Card 4:    eyebrow "CRM" → "Your existing CRM, connected" display-xs
+             semibold → "Call outcomes and follow-ups flow into the tools your
+             team already uses — no migration required." → "NO NEW TOOL TO
+             LEARN". Understated by design: positions Nova Echo as working
+             WITH the buyer's existing CRM, deliberately NOT claiming an
+             all-in-one replacement this early in the narrative.
   Motion:    none per card (section-level parallax only). No per-card hooks, no CSS
              animation.
   Parity:    every card is IDENTICALLY structured — eyebrow (1 line) → heading (display-
@@ -1339,11 +1388,10 @@ Card anatomy (partner layout):
   Review:    border-t divider + restrained italic body-sm quote + attribution
              line (mono caption uppercase --text-secondary-light,
              "PAUL SUHA · MAYFLOWER AI"). Full review text, no toggle.
-  CTA:       mt-auto text link (body-sm font-semibold --text-primary-light) +
-             ArrowRight 14px bold --accent-purple → /results (real destination);
-             hover: text flips --accent-purple, arrow nudges +0.5.
-Section tail: "Show all stories" ghost link (self-center, body-sm, hover
-             --accent-purple) → /results.
+  CTA:       mt-auto text link (body-sm font-semibold --text-primary-light) →
+             /results (real destination); hover: text flips --accent-purple.
+Section tail: "All Stories" .btn-outline-light (self-center) + 16px ArrowRight
+             → /results.
 ```
 
 ## Demo / Build-your-Agent section

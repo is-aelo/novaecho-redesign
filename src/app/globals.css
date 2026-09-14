@@ -283,6 +283,31 @@ a, button {
   outline-offset: 2px;
 }
 
+.btn-outline-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  line-height: var(--text-body-sm--line-height);
+  font-weight: 500;
+  color: var(--text-primary-on-light);
+  border: 1px solid color-mix(in srgb, var(--surface-700) 30%, transparent);
+  border-radius: var(--radius-btn);
+  transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+
+.btn-outline-light:hover {
+  border-color: color-mix(in srgb, var(--surface-700) 60%, transparent);
+  color: var(--accent-purple);
+}
+
+.btn-outline-light:focus-visible {
+  outline: 2px solid var(--accent-purple);
+  outline-offset: 2px;
+}
+
 .btn-hero-primary {
   display: flex;
   align-items: center;
@@ -390,6 +415,32 @@ a, button {
 
 .benchmark-nova-header {
   border-bottom: 2px solid var(--accent-purple);
+}
+
+.bench-t2 {
+  font-size: 8px;
+}
+
+.bench-t3 {
+  font-size: 10px;
+}
+
+.bench-t4 {
+  font-size: 16px;
+}
+
+@media (max-width: 1023.98px) {
+  .bench-t2 {
+    font-size: 16px;
+  }
+
+  .bench-t3 {
+    font-size: 20px;
+  }
+
+  .bench-t4 {
+    font-size: 26px;
+  }
 }
 
 .modal-scrollbar::-webkit-scrollbar {

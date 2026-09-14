@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle, ArrowRight, CaretDown } from "@phosphor-icons/react/ssr";
+import { CheckCircle, ArrowRight } from "@phosphor-icons/react/ssr";
 
 type Rate = { label: string; value: string };
 
@@ -144,9 +144,9 @@ const customSolutions: CustomSolution[] = [
     description:
       "Let the Nova Echo team build and optimize your AI workforce around your business — from prompts and workflows to integrations and automation.",
     tags: ["Prompt Engineering", "Workflow Design", "CRM Integration", "Automation Setup"],
-    cta: "Talk to an Expert",
+    cta: "Contact Sales",
     href: "#",
-    detailsTitle: "View setup details",
+    detailsTitle: "Setup details",
     details: [
       "Advanced prompt engineered scripting",
       "Appointment booking & live transfer setup",
@@ -164,10 +164,10 @@ const customSolutions: CustomSolution[] = [
     description:
       "An enterprise-grade AI solution for organizations that need higher volume, custom development, dedicated support, and governance.",
     tags: ["Custom Development", "Dedicated Support", "Volume Pricing", "AI Governance"],
-    cta: "Contact Enterprise Sales",
+    cta: "Contact Sales",
     href: "https://api.leadconnectorhq.com/widget/booking/eWxaTEEvKvievf4MpUhs",
     external: true,
-    detailsTitle: "View enterprise details",
+    detailsTitle: "Enterprise details",
     details: [
       "Done-for-you setup included",
       "Custom development & complex integrations",
@@ -276,8 +276,7 @@ function renderPlanBody(
           onClick={() => onToggle(plan.key)}
           className="mt-4 inline-flex items-center gap-1 text-caption font-medium text-accent-purple transition-opacity hover:opacity-80"
         >
-          {isOpen ? "Hide features" : "View all features"}
-          <ArrowRight size={12} weight="bold" className={`transition-transform ${isOpen ? "rotate-90" : ""}`} />
+          {isOpen ? "Hide features" : "All features"}
         </button>
         <div id={`features-${plan.key}`} className={`collapsible-grid ${isOpen ? "is-open" : ""}`}>
           <div>
@@ -335,13 +334,13 @@ export default function Pricing() {
           </p>
         </div>
 
-        <div className="mt-5 hidden lg:mt-12 lg:grid lg:grid-cols-3 lg:items-start lg:gap-6">
+        <div className="mt-5 hidden lg:mt-12 lg:grid lg:grid-cols-3 lg:items-stretch lg:gap-6">
           {plans.map((plan) => (
             <article
               key={plan.key}
               className={`flex flex-col transition-colors ${
                 plan.recommended
-                  ? "relative rounded-md border border-accent-purple/30 bg-white px-8 py-12 lg:-my-6"
+                  ? "relative rounded-md border border-accent-purple/40 bg-white p-8"
                   : "rounded-md border border-surface-200 p-8 hover:bg-surface-100/40"
               }`}
             >
@@ -451,11 +450,6 @@ export default function Pricing() {
                         className="inline-flex items-center gap-1 font-mono text-caption font-medium uppercase tracking-wider text-text-secondary-light transition-colors hover:text-text-primary-light"
                       >
                         {isOpen ? "Hide details" : solution.detailsTitle}
-                        <CaretDown
-                          size={12}
-                          weight="bold"
-                          className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
-                        />
                       </button>
                     </div>
                     <div

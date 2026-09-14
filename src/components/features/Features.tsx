@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ArrowRight } from "@phosphor-icons/react/ssr";
 import LatencyPanel from "./LatencyPanel";
-import MiniCall from "./MiniCall";
+import MiniCall from "../benchmark/MiniCall";
 import LedgerCard from "./LedgerCard";
 
 export default function Features() {
@@ -218,9 +218,9 @@ export default function Features() {
             onClick={() => setShowTranscripts((v) => !v)}
             aria-expanded={showTranscripts}
             aria-controls="live-transcripts"
-            className="mt-6 inline-flex items-center gap-2 rounded-btn border border-surface-700/30 px-6 py-3 font-body text-body-sm font-medium text-text-primary-light transition-colors hover:border-surface-700/60 hover:text-accent-purple"
+            className="btn-outline-light mt-6"
           >
-            View Full Transcripts
+            Full Transcripts
             <ArrowRight
               size={16}
               weight="bold"
@@ -251,14 +251,14 @@ export default function Features() {
             footer="A team, not a queue"
           />
           <LedgerCard
-            eyebrow="All-in-one CRM"
+            eyebrow="CRM"
             heading={
               <p className="font-display text-display-xs font-semibold tracking-tight text-text-primary-light">
-                One platform for every conversation
+                Your existing CRM, connected
               </p>
             }
-            body="Every follow-up and sales activity stays connected instead of living in separate tools."
-            footer="No separate tools"
+            body="Call outcomes and follow-ups flow into the tools your team already uses — no migration required."
+            footer="No new tool to learn"
           />
         </div>
       </div>

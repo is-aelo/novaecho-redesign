@@ -70,15 +70,13 @@ export default function Benchmark() {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="bench-matrix"
-            className="mt-6 inline-flex items-center gap-2 rounded-btn border border-surface-700/30 px-6 py-3 font-body text-body-sm font-medium text-text-primary-light transition-colors hover:border-surface-700/60 hover:text-accent-purple"
+            className="btn-outline-light mt-6"
           >
-            View Full Benchmark
+            Full Benchmark
             <ArrowRight
               size={16}
               weight="bold"
-              className={`transition-transform ${
-                open ? "rotate-90" : ""
-              }`}
+              className={`transition-transform ${open ? "rotate-90" : ""}`}
             />
           </button>
         </div>

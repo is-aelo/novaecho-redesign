@@ -1,3 +1,4 @@
+import { ArrowRight } from "@phosphor-icons/react/ssr";
 import StoryCard, { type StoryCardData } from "./StoryCard";
 
 const stories: StoryCardData[] = [
@@ -46,9 +47,10 @@ export default function Stories() {
 
         <a
           href="/results"
-          className="mt-8 self-center px-6 py-2.5 text-caption md:text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-purple lg:mt-10"
+          className="btn-outline-light mt-8 self-center lg:mt-10"
         >
-          Show all stories
+          All Stories
+          <ArrowRight size={16} weight="bold" />
         </a>
       </div>
     </section>

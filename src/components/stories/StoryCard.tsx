@@ -1,5 +1,3 @@
-import { ArrowRight } from "@phosphor-icons/react/ssr";
-
 export type StoryCardData = {
   label: string;
   company: string;
@@ -59,14 +57,9 @@ export default function StoryCard({ story }: { story: StoryCardData }) {
 
       <a
         href="/results"
-        className="group mt-auto inline-flex items-center gap-2 pt-6 text-body-sm font-semibold text-text-primary-light transition-colors hover:text-accent-purple"
+        className="mt-auto inline-flex items-center gap-2 pt-6 text-body-sm font-semibold text-text-primary-light transition-colors hover:text-accent-purple"
       >
         Read the full story
-        <ArrowRight
-          size={14}
-          weight="bold"
-          className="text-accent-purple transition-transform duration-200 group-hover:translate-x-0.5"
-        />
       </a>
     </article>
   );

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CaretDown } from "@phosphor-icons/react/ssr";
 import gsap from "gsap";
 import {
   benchmarkCategories,
@@ -121,13 +120,6 @@ export default function BenchMatrix({ open }: BenchMatrixProps) {
                   <span className="font-mono text-caption font-medium uppercase tracking-wider text-text-primary-light">
                     {category.label}
                   </span>
-                  <CaretDown
-                    size={14}
-                    weight="bold"
-                    className={`shrink-0 text-text-secondary-light transition-transform ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                  />
                 </button>
                 <div
                   id={contentId}
