@@ -15,9 +15,8 @@ export type VoiceCall = {
   phase: VoicePhase;
   statusText: string;
   script: DemoScript;
-  showAi: boolean;
-  showCustomer: boolean;
-  showClosing: boolean;
+  turn: number;
+  showDecision: boolean;
   showIntent: boolean;
   showResult: boolean;
   visibleActions: number;
@@ -52,9 +51,11 @@ function prefersReducedMotion(): boolean {
 export default function useVoiceCall(): VoiceCall {
   const [agentId, setAgentId] = useState<AgentId>("receptionist");
   const [phase, setPhase] = useState<VoicePhase>("idle");
+  const [turn, setTurn] = useState(-1);
   const [visibleActions, setVisibleActions] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(prefersReducedMotion);
+  const [revealDecision, setRevealDecision] = useState(false);
   const [revealIntent, setRevealIntent] = useState(false);
   const [revealResult, setRevealResult] = useState(false);
 
@@ -64,8 +65,10 @@ export default function useVoiceCall(): VoiceCall {
     if (id === agentId) return;
     setAgentId(id);
     setPhase("idle");
+    setTurn(-1);
     setVisibleActions(0);
     setSeconds(0);
+    setRevealDecision(false);
     setRevealIntent(false);
     setRevealResult(false);
   }
@@ -85,21 +88,32 @@ export default function useVoiceCall(): VoiceCall {
     if (phase === "idle") {
       const timer = window.setTimeout(() => {
         setSeconds(0);
-        setVisibleActions(0);
-        setPhase("listening");
+        setTurn(0);
+        setPhase("speaking");
       }, 1000);
       return () => window.clearTimeout(timer);
     }
+    if (phase === "speaking") {
+      const timer = window.setTimeout(() => {
+        const next = turn + 1;
+        if (next < script.transcript.length && script.transcript[next].speaker === "caller") {
+          setTurn(next);
+          setPhase("listening");
+        } else {
+          setPhase("action");
+        }
+      }, 1900);
+      return () => window.clearTimeout(timer);
+    }
     if (phase === "listening") {
-      const timer = window.setTimeout(() => setPhase("processing"), 1100);
+      const timer = window.setTimeout(() => {
+        setTurn(turn + 1);
+        setPhase("processing");
+      }, 1400);
       return () => window.clearTimeout(timer);
     }
     if (phase === "processing") {
-      const timer = window.setTimeout(() => setPhase("speaking"), 800);
-      return () => window.clearTimeout(timer);
-    }
-    if (phase === "speaking") {
-      const timer = window.setTimeout(() => setPhase("action"), 1500);
+      const timer = window.setTimeout(() => setPhase("speaking"), 700);
       return () => window.clearTimeout(timer);
     }
     if (phase === "action") {
@@ -114,15 +128,17 @@ export default function useVoiceCall(): VoiceCall {
       return () => window.clearTimeout(timer);
     }
     if (phase === "complete") {
+      const decisionTimer = window.setTimeout(() => setRevealDecision(true), 500);
       const intentTimer = window.setTimeout(() => setRevealIntent(true), 800);
       const resultTimer = window.setTimeout(() => setRevealResult(true), 1300);
       return () => {
+        window.clearTimeout(decisionTimer);
         window.clearTimeout(intentTimer);
         window.clearTimeout(resultTimer);
       };
     }
     return;
-  }, [phase, visibleActions, reducedMotion, script.actions.length]);
+  }, [phase, turn, visibleActions, reducedMotion, script]);
 
   useEffect(() => {
     if (reducedMotion || phase === "idle" || phase === "complete") return;
@@ -134,18 +150,13 @@ export default function useVoiceCall(): VoiceCall {
 
   const displayPhase: VoicePhase = reducedMotion ? "complete" : phase;
   const displayActions = reducedMotion ? script.actions.length : visibleActions;
-  const inCallEnd = displayPhase === "action" || displayPhase === "complete";
 
   return {
     phase: displayPhase,
     statusText: STATUS_TEXT[displayPhase],
     script,
-    showAi:
-      displayPhase === "speaking" ||
-      displayPhase === "action" ||
-      displayPhase === "complete",
-    showCustomer: inCallEnd,
-    showClosing: displayPhase === "complete",
+    turn: reducedMotion ? script.transcript.length - 1 : turn,
+    showDecision: reducedMotion || revealDecision,
     showIntent: reducedMotion || revealIntent,
     showResult: reducedMotion || revealResult,
     visibleActions: displayActions,

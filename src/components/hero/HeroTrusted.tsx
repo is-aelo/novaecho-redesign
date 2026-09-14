@@ -14,19 +14,19 @@ export default function HeroTrusted() {
   return (
     <div
       data-hero-item
-      className="order-5 mx-auto mt-20 w-full sm:mt-4"
+      className="order-5 mx-auto mt-4 w-full"
     >
       <p className="text-center font-body text-caption text-text-secondary">Trusted by</p>
-      <div className="mt-1 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+      <div className="mt-1 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
         {brands.map((brand) => (
-          <span key={brand.alt} className="flex items-center gap-2.5">
+          <span key={brand.alt} className="flex items-center gap-2">
             <img
               src={brand.src}
               alt=""
               aria-hidden="true"
               className="h-5 w-auto object-contain"
             />
-            <span className="font-body text-body-md font-medium tracking-tight text-text-primary">
+            <span className="font-body text-body-sm font-medium tracking-tight text-text-primary">
               {brand.alt}
             </span>
           </span>

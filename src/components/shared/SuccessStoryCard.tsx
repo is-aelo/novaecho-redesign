@@ -120,7 +120,7 @@ export default function SuccessStoryCard({ story }: { story: SuccessStoryCardDat
 
       <section className="mt-8 border-t border-surface-200 pt-8">
         <SectionLabel accent>Impact</SectionLabel>
-        <div className="mt-4 flex flex-col gap-3 border-t border-surface-200 pt-6">
+        <div className="mt-4 flex flex-col gap-3">
           {story.impacts.map((impact) => {
             const icon = ICONS[impact.icon];
 

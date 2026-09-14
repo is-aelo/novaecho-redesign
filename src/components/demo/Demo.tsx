@@ -200,7 +200,7 @@ function BuildAgentPanel({ builder }: { builder: BuildAgentState }) {
               Agent build received
             </p>
             <p className="mt-3 font-display text-display-sm font-semibold tracking-tight text-text-primary-light">
-              {selected ? selected.role : "Your agent"} — ready when you are.
+              {selected ? selected.role : "Your agent"} — reserved on the voice line.
             </p>
             <p className="mt-2 max-w-prose text-body-sm leading-relaxed text-text-secondary-light">
               We&apos;ll reach out to configure your {selected ? selected.role.toUpperCase() : "agent"}
@@ -231,7 +231,7 @@ function BuildAgentPanel({ builder }: { builder: BuildAgentState }) {
             <button
               type="button"
               onClick={builder.goNext}
-              className="nudge-horizontal inline-flex items-center gap-1 rounded-btn border border-surface-700/30 px-6 py-2.5 font-body text-body-sm font-medium text-text-primary-light transition-colors hover:border-surface-700/60"
+              className="nudge-horizontal inline-flex items-center gap-1 rounded-btn border border-surface-700/30 px-6 py-3 font-body text-body-sm font-medium text-text-primary-light transition-colors hover:border-surface-700/60"
             >
               Continue
               <ArrowRight size={14} weight="bold" />
@@ -261,12 +261,12 @@ export default function Demo() {
           <h2 className="mt-3 font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
             Put your AI employee to work.
           </h2>
-          <p className="mt-4 max-w-lg text-body-sm md:text-body-md leading-relaxed text-text-secondary-light">
+          <p className="mt-3 max-w-lg text-body-sm md:text-body-md leading-relaxed text-text-secondary-light">
             See what Nova Echo can do for your business. Tell us what you need handled,
             and we&apos;ll help you build the right agent.
           </p>
 
-          <div className="mt-8 lg:mt-10">
+          <div className="mt-5 lg:mt-6">
             <AgentProfile agent={builder.agent ?? "receptionist"} />
           </div>
         </div>

@@ -331,7 +331,7 @@ Only true laptop/desktop screens (≥1024px) get desktop layout. When in doubt, 
 4px base scale: `4, 8, 12, 16, 24, 32, 48, 64, 96, 180`. Nav height capped at 64px.
 
 ### Section pattern — subtext to content gap
-The vertical gap between a section's subtext paragraph and its main content (card grid, logo track, etc.) must be `mt-5` (20px) on mobile and `lg:mt-6` (24px) on desktop.
+The vertical gap between a section's subtext paragraph and its main content (card grid, logo track, AgentWindow, etc.) must be `mt-5` (20px) on mobile and `lg:mt-6` (24px) on desktop. Applies uniformly to every section — headline, card grids, module grids, plan rails, and demo windows alike. A section tail (ghost link, disclosure CTA) below that content sits `mt-8` (32px) → `lg:mt-10` (40px).
 
 ## Radius
 ```
@@ -499,24 +499,26 @@ Each run plays once per selection (and once on load); no auto-loop, refresh repl
 Engine:        requestAnimationFrame, all geometry in refs (no React re-renders).
                Parameters (amplitude, speed, irregularity, bar energy) ease toward
                per-phase targets every frame — transitions are smooth, never jumping.
-Pacing:        ~1x demo sequence — idle 1000 → listening 1100 → processing 800 →
-                speaking 1500 → actions stagger 400 each → complete 400.
-                Call timer stays real-time (1s ticks).
-                Reveal order: conversation first (transcript rows reveal one line
-                at a time — AI opener at speaking, customer at action, AI closer at
-                complete), then intent (.reveal-block, complete + 800ms), then
-                workflow checklist + estimated ROI (.reveal-block, complete + 1300ms).
+Pacing:        ~1x demo sequence — idle 1000 → speaking 1900 → listening 1400 →
+                 processing 700 → (repeat until transcript ends in an AI line) →
+                 actions stagger 400 each → complete 400. Call timer stays
+                 real-time (1s ticks).
+                 Reveal order: each transcript row lights one line at a time in
+                 dialogue order (turn-index driven, `.voice-row` data-visible),
+                 always resolving into an AI closer → Agent decision
+                 (.reveal-block, complete + 500ms) → intent (complete + 800ms) →
+                 workflow checklist + estimated ROI (complete + 1300ms).
 Layers:        3 flowing curves (hot-purple 1.25px/0.16, purple 1.5px/0.22, purple 1.75px/0.42),
                84 center-weighted bars (purple→hot-purple fill, 0.38), 56 hairline ticks (hot-purple, 0.10).
                Center-weighted envelope: detail concentrates mid-band, edges fade via mask.
 Grain:         static SVG feTurbulence rect (fractalNoise, baseFrequency 0.8),
                white speckle at 0.07 opacity, inside the edge-fade mask so it melts
                into the background. Texture on the visualization only — never over text.
-Reduced motion: single static idle frame, no loop; full transcript + actions visible,
-               timer fixed at 00:42, status reads "Call completed".
+Reduced motion: single static idle frame, no loop; full transcript + Agent
+                decision + actions visible, timer fixed at 00:42, status reads "Call completed".
 Live region:   status + duration line is aria-live polite; hidden transcript rows are
                aria-hidden until revealed; state is never color-alone (text always present).
-Previews:      neutral mock businesses only (Bright Smile Studio, Harbor Realty Group,
+Previews:      neutral mock businesses only (Clarity Skin Studio, Harbor Realty Group,
                Peak Fitness Co.). Never Nova / Nova Echo in preview transcripts or speaker tags.
 ```
 
@@ -549,7 +551,7 @@ purple), never the hero's status green.
 Background:    --surface-50
 Headline:      display-md → display-lg, font-display, --text-primary-on-light
 Subtext:       body-sm → body-md, --text-secondary-on-light
-Window:        AgentWindow — gap mt-8 → lg:mt-10 below the subtext.
+Window:        AgentWindow — gap mt-5 → lg:mt-6 below the subtext.
 
 Band:        the hero terminal frame, unchanged: overflow-hidden rounded-window
                  (12px) border border-hairline-on-dark bg-surface-900 flat —
@@ -583,11 +585,20 @@ Panels px-4 py-4 → lg:px-6 lg:py-6. On mobile stacked panels join
   Panel head:  .console-panel-head — mono caption uppercase tracking-wider,
                --text-secondary-on-dark (the single header treatment for all
                three panels). mb-2 → lg:mb-3.
-Transcript:  the Call transcription text (.hero-speaker-text) matches the
-                hero terminal log: font-mono text-body-sm (14px/20px), speaker
-                tags mono uppercase chips (AI = soft-purple tint). Pure white for
-                the AI lines, --text-secondary-on-dark for the caller line — the
-                same dimming logic as the hero's older log lines.
+Transcript:  script.transcript is a multi-turn dialogue (typically 5 rows) held
+                 as a { speaker, text } array — AI opens, caller replies, AI asks a
+                 leading clarifying question that reuses the caller's own detail,
+                 caller answers with the constraint/goal that the closing turn then
+                 reasons from, AI closes with the choice it made and confirms the
+                 action. The AI must never jump to booking/action after one reply —
+                 it always asks one qualifying question first and its closer always
+                 cites what the caller said. A per-script `decision` string
+                 (why that choice, in the caller's words) renders as the "Agent
+                 decision" block. Display text matches the Call transcription
+                 frame: (.hero-speaker-text) — font-mono text-body-sm (14px/20px),
+                 speaker tags mono uppercase chips (AI = soft-purple tint). Pure
+                 white for the AI lines, --text-secondary-on-dark for the caller
+                 lines — the same dimming logic as the hero's older log lines.
   Emphasis:    the window has exactly two loud moments — the call intent
                 (display-xs headline + phase chip) and the Estimated ROI
                 (display-md --accent-purple-soft total). Everything else sits a step
@@ -611,10 +622,15 @@ Intent:      appears after the conversation block. "Call intent" caption +
                (Listening / Processing / Speaking / Taking action / Call completed).
                Revealed 800ms after the call completes (after every transcript row),
                hidden via .reveal-block until then.
-  Transcript:  the panel's first block. Rows always in DOM, revealed by opacity
-               (.voice-row), one line at a time in dialogue order — AI opener
-               reveals at speaking, customer at action, AI closer (aiFollowUp)
-               at complete, so the conversation always ends with the agent.
+Transcript:  the panel's first block. Rows always in DOM, revealed by opacity
+                (.voice-row), one line at a time in dialogue order — turn-index
+                driven: opening AI row at speaking, caller reply at listening,
+                AI row at processing→speaking, and so on until the transcript
+                ends on the AI closer, so the conversation always ends with the
+                agent. After the final row, an "Agent decision" block
+                (.reveal-block, display-xs font-display weight 500
+                --text-primary-on-dark) shows script.decision — the visible
+                reasoning behind the closer — 500ms after the call completes.
 Speaker chip: mono caption uppercase radius-sm, padding 2px 6px.
                 AI chip: --accent-purple-soft text on rgba(201,161,255,0.16).
                 Caller chip: --text-secondary-on-dark on rgba(255,255,255,0.10).
@@ -742,7 +758,10 @@ Intro:
                 subtext body-sm → md, --text-secondary-light.
 
 Part 1 — core plans (desktop ≥1024px):
-  Framing:      three separate columns via lg:grid-cols-3 lg:items-start lg:gap-6.
+  Framing:      three separate columns via lg:grid-cols-3 lg:items-start lg:gap-6,
+                rail gap from subtext mt-5 → lg:mt-12. The elevated center card's
+                lg:-my-6 pokes 24px above the rail, so the extra rail margin keeps a
+                standard ~24px visual gap between the intro and the card's top edge.
                 Light and Hyper are a MATCHED PAIR: identical rounded-md, 1px
                 border-surface-200, p-8, transparent bg (hover bg-surface-100/40 lift),
                 same font-semibold price (display-md). They visually recede together.
@@ -840,7 +859,7 @@ Header:
                 → body-md --text-secondary-light. Same centered-at-lg master
                 pattern as every other section.
 
-Module grid:    mt-10 → lg:mt-12, grid-cols-1 → lg:grid-cols-2, gap 0. Modules
+Module grid:    mt-5 → lg:mt-6, grid-cols-1 → lg:grid-cols-2, gap 0. Modules
                 flanked by hairlines only — border-t --surface-200 on every
                 module (the grid's top rule), lg:border-l on the right-column
                 modules (02, 04) so the two columns read as a data grid. The
@@ -954,7 +973,7 @@ Module type — Geist Mono only, three rungs of emphasis (never two focal
                       spanning the board) gives the sprint an absolute
                       elapsed-time scale.
 
-Disclosure:     after the grid — mt-8 → lg:mt-12, centered, generous whitespace,
+Disclosure:     after the grid — mt-8 → lg:mt-10, centered, generous whitespace,
                 no hairline. "Want the full comparison?" (font-display
                 text-display-sm semibold) + body-sm supporting copy + a bordered
                 CTA button: rounded-btn, 1px border --surface-700/30,
@@ -1011,7 +1030,11 @@ Left rail (all breakpoints — stacks above the proof on mobile):
              --text-secondary-light, max-w-md. No detail block — the rail ends
              after the subtext.
 
-Right stack (lg:col-span-8) — the LOW LATENCY primary panel only.
+Right stack (lg:col-span-8) — the LOW LATENCY primary panel first, spanning the whole
+             8 columns (full width as before). The MiniCall windows sit in their own FULL-WIDTH
+             strip below it (lg:col-span-12, 3-across: grid-cols-1 md:grid-cols-3, gap-4 →
+             lg:gap-5), aligning with the "Why Nova Echo Leads" rail above. The left rail holds
+             only the headline + subtext.
 
 Three-card strip (lg:col-span-12, full section width) — ONE even 3-column
 grid (lg:grid-cols-3 gap-6, stacked on mobile) with the three supporting blocks.
@@ -1024,32 +1047,80 @@ HIGH CALL CAPACITY → PRIORITY SUPPORT → ALL-IN-ONE CRM.
 motif: rounded-window, 1px border-hairline-on-dark, bg-surface-900, overflow-hidden,
 no shadow/no glass). It is the section's single focal moment, visually heavier than the
 three supporting blocks.
-  Chrome:    window-dot ×3 + console-panel-head "LIVE CALL · NOVA ECHO"; right:
+  Chrome:    window-dot ×3 + console-panel-head "SCOPE CONFIRMATION"; right:
              hero-live-dot (data-active) + "LOW LATENCY" mono caption uppercase
              --accent-purple-soft.
-  Body:      12-col split inside the window: LEFT (5) "Low Latency" display-xs
-             font-display semibold + one-line support (body-sm --text-secondary);
-             RIGHT (7) the simulated exchange, joined to the left block by a
-             border-t hairline (mobile) / border-l hairline (lg):
-             CALLER chip + "Can you book me for Friday?" → the waveform → AI chip
-             + "Absolutely. I have 9:30 a.m. available." → intent-phase-chip status
-             ("RESPONDING" → flips to "BOOKED" at the end).
+  Body:      single column, full-width transcript format (matches the Agents window):
+             heading BLOCK "Low Latency" display-xs font-display semibold + one-line
+             support (body-sm --text-secondary, max-w-xl) sits on top; below it, joined by a
+             border-t hairline (mt-5 → lg:mt-6), the simulated exchange rendered in the
+             exact Agents transcription idiom (hero-transcript / hero-transcript-row /
+             hero-speaker-tag / hero-speaker-text):
+             AI chip + "Hi Dana, this is Northlight Web Co. I'm calling to confirm what we've scoped
+             for Marlow & Co. — a full site rebuild with a new homepage and services
+             section, migration off your current CMS, SEO setup on the key pages, and one
+             month of post-launch support, with an onboarding call for your team. Does that
+             match what you're expecting?" → the waveform → CALLER chip
+             + "That's exactly it — though could we move the target date to next month?"
+→ AI chip + "No problem. I've updated the target to next month — the scope
+              stays the same. I'll send the revised summary to your inbox." → CALLER chip
+             + "Perfect, that's everything. Thanks so much." → intent-phase-chip status
+             ("RESPONDING" → flips to "CONFIRMING" at the end). Speaker tags use the same
+             business-name format as the Agents window (hero-speaker-tag): "DANA · CALLER"
+             for the caller, "NORTHLIGHT WEB CO." for the AI (hero-speaker-tag-ai).
+             The flow mirrors the product's onboarding: the AI starts the call, recaps the
+             full scope the client is availing to double-check, the caller agrees and asks
+             to change the target date, the AI confirms the adjusted plan, and the caller
+             closes out the call. A grounded, multi-turn confirmation loop that runs to a
+             natural end.
+Rows:      four hero-transcript-row entries — ai first (the scope recap), then user,
+               ai-2, user-2 (matching the AGENT_SCRIPTS transcript shape). The waveform sits
+               between the first AI recap and the caller's reply.
+MiniCall rail (full-width strip below the main panel): a 3-across row of compact dark windows
+                (same rounded-window/hairline/bg-surface-900 motif as the main panel, px-3
+                py-2 chrome) proving CONCURRENCY — the same Northlight Web Co. agent on
+                parallel outgoing calls. Each window shows: header = the call's topic only,
+                e.g. "INVOICE" (console-panel-head; no "Ongoing call"/"Live call" preamble) + live
+                dot + running mm:ss timer
+               (useCallTimer, tabular-nums), then TWO transcript rows (company chip + AI
+               line, caller chip + caller line), then a footer strip: "CONCURRENT" mono accent
+               tag + "Call N of 6" right-aligned. Three calls, distinct topics, all Northlight.
+               No waveform in the mini windows — the main panel keeps the section's sole wave
+               and motion loop; the rail only carries the live dot pulse + ticking timers
+               (persistent subtle life). Each window shows its full conversation (AI-first,
+               5 turns) at rest. On mobile they stack into a single column below the
+               main card.
+   Transcript disclosure: section tail below the MiniCall strip — same pattern as the
+               Benchmark section's disclosure (mt-8 → lg:mt-10, centered, no hairline):
+               "One agent, six calls, all at once" (font-display text-display-sm semibold) +
+               body-sm supporting copy (open the windows to watch a single agent hold six
+               parallel conversations — every call answered instantly, none left on hold) +
+               bordered CTA "View Full Transcripts" (rounded-btn,
+               1px border --surface-700/30, --text-primary-light, hover border-surface-700/60 +
+               hover:text-accent-purple, 16px ArrowRight that rotates 90° when open,
+               aria-expanded + aria-controls="live-transcripts"). All six concurrent call
+               windows (Call 1–6 of 6) sit collapsed behind a .collapsible-grid (0fr↔1fr
+               height, var(--dur-base) ease-out) in the responsive 3-up grid — none are shown
+               by default, and the disclosure reveals them together. Reduced-motion:
+               grid-height snaps instantly.
   Waveform:  a two-segment SVG speech readout (viewBox 480×80, preserveAspectRatio none)
              with three faint horizontal hairlines (stroke-white/5) like an instrument
-             grid. Caller utterance "Can you book me for Friday?" draws left→right as a
-             closed asymmetrical envelope (buildLatencySegment, pathLength 1,
-             non-scaling 1.5px stroke + /10 soft fill, --accent-purple-soft/70), then a
-             silent gap strips the width, then the AI reply "Absolutely. I have 9:30 a.m.
-             available." draws the same way — the gap IS the response time. — NOT an
+grid. AI recap "Hi Dana, this is Northlight Web Co. I'm calling to confirm what we've
+              scoped for Marlow & Co. — a full site rebuild..." draws left→right as a
+              closed asymmetrical envelope (buildLatencySegment, pathLength 1,
+              non-scaling 1.5px stroke + /10 soft fill, --accent-purple-soft/70), then a
+              silent gap strips the width, then the caller reply "That's exactly it — though
+              could we move the target date to next month?" draws the same way — the gap IS the response time. — NOT an
              equalizer of many animated bars. Draws in contour-sequential
              (stroke-dashoffset 1→0) then breathes very gently (whole svg opacity
              1→0.82 yoyo). aria-hidden, decorative. This is the call-trace motif,
              grounded in the product, and the section's ONLY motion loop.
   Motion:    useLatencyProof — one-shot sequence on scroll (start "top 80%", play
-             none): caller line fades up → caller curve draws in → "RESPONDING" chip
-             fades in → gap, then the AI curve draws in → AI reply fades up → chip
-             crossfades to "BOOKED" → wave breathing starts. Disabled under
-             prefers-reduced-motion (everything static, chip reads "BOOKED").
+             none): AI scope recap fades up → AI curve draws in → "RESPONDING" chip
+             fades in → gap, then the caller curve draws in → caller reply fades up →
+             the AI change-confirmation line fades up → the caller close-out fades up →
+             chip crossfades to "CONFIRMING" → wave breathing starts. Disabled under
+             prefers-reduced-motion (everything static, chip reads "CONFIRMING").
   Access:    spoken text is real text; waveform aria-hidden; chip aria-live.
 
 2) HIGH CALL CAPACITY → 3) PRIORITY SUPPORT → 4) ALL-IN-ONE CRM — three EQUAL
@@ -1086,25 +1157,45 @@ the 10,000+ figure is white-kept (no colored number). No gradient on any element
 no glow shadows, most typography neutral.
 ```
 
-## Partners section
+## Partners section — three deliberate business opportunities
 
-Light section on `--surface-50` with a 3-column card grid. Cards match the standard light
-product-panel chrome (`--surface-100` fill, `--surface-200` border). Three partner program types with icons.
+Light section on `--surface-50`. Not three generic feature cards: each card is ONE
+distinct business model, introduced by a categorical label (RESELL / BUILD / REFER)
+and closed by an understated text CTA. Hierarchy and hairline borders carry the
+premium/conversion feel — no gradients, no blobs, no shadows, no feature-illustration
+icons, no stock imagery.
 
 ```
-Background:       --surface-50
-Card fill:        --surface-100
-Card border:      --surface-200
-Card min-height:  min-h-45
-Headline:         display-md → display-lg, font-display, --text-primary-light
-Subtext:          body-sm → body-md, --text-secondary-light
-Icon:             --accent-purple, duotone, 24px
-Card title:       font-bold, body-md, --text-primary-light
-Card body:        body-sm, --text-secondary-light
-Grid:             1 col mobile → 3 cols at lg, gap-6 → gap-8
-Gap subtext:      mt-5 / lg:mt-6 (per section pattern)
-Card padding:     p-8
-Icons:            Buildings, Handshake, ShareNetwork (Phosphor duotone)
+Background:  --surface-50
+Header:      "Build More Revenue With Nova Echo" headline (display-md → display-lg,
+             font-display semibold, centered at lg like the benchmark/partners
+             header pattern, no eyebrow, no icon) → subtext "Whether you want to
+             resell AI, launch a voice AI service, or earn from referrals, Nova Echo
+             gives you the tools to make it happen." body-sm → md, --text-secondary.
+Grid:        1 col mobile → 3 cols at lg, gap-6, equal-height stretch
+Card:        light panel (rounded-md, 1px border-surface-200, bg-surface-100,
+             p-6 → p-8), CTA pinned at the bottom with mt-auto
+
+Card anatomy:
+  Label:     font-mono caption medium uppercase tracking-wider --accent-purple —
+             RESELL · BUILD · REFER. One accent per card.
+  Title:     "Reseller" / "Agency" / "Affiliate", display-sm font-display semibold.
+  A) Reseller (RESELL): description as specified → 3-row benefit ledger
+     (PARTNER SUPPORT · SALES RESOURCES · RECURRING REVENUE) → "Explore reseller program".
+  B) Agency (BUILD):     description as specified → 5-row benefit ledger
+     (WHITE-LABEL · CLIENT ACCOUNTS · WORKFLOWS · TRAINING · DEDICATED SUPPORT)
+     → "Explore agency program".
+  C) Affiliate (REFER):  "25%" is the PRIMARY VISUAL HOOK, not buried in copy —
+     display-lg BOLD tabular-nums --text-primary-light (number neutral, white-kept)
+     + "RECURRING COMMISSION" mono caption, on a border-t zone directly under the
+     title, then the referral description → "Join affiliate program".
+
+  Benefit ledger: ul on border-t, rows on border-b hairlines, mono caption
+     uppercase --text-secondary-light. Text only — no checkmarks, no bullets, no
+     dots, no pill badges.
+  CTA:         text button (body-sm font-semibold --text-primary-light) + ArrowRight
+     14px bold --accent-purple; hover: text flips --accent-purple and arrow nudges
+     +0.5 (translate-x). No real destinations in this concept build.
 ```
 
 ## Stories section — result-first Success Story system
@@ -1217,27 +1308,42 @@ Motion: none on this page — impact rows render statically (the homepage's
 count-up / fade lives in `useStoryResultReveal`, not used by the cards).
 ```
 
-### Homepage stories
+### Homepage stories — Partners-style narrative cards
 
-`/components/stories/Stories.tsx` + `/components/shared/SuccessStoryCard.tsx`
-— the same uniform card system as the Results page (identical data shape and
-`impacts` ASCII pad rendering). No workflow visualization, no featured /
-secondary type scaling.
+`/components/stories/Stories.tsx` + `/components/stories/StoryCard.tsx`.
+The homepage applies the Partners card anatomy (same layout as the partner
+program cards): no avatars, no impact icons, no mosaic. Each story is ONE
+company card with a categorical label, a primary outcome hook, a hairline
+ledger of the remaining results, the client review, and a bottom-pinned
+"Read the full story →" CTA to /results. (The Results page keeps its own
+uniform avatar-card system — see above.)
 
 ```
-Layout:   grid-cols-1 → lg:grid-cols-3 with gap-6 → lg:gap-8. One card is
-          INTENTIONALLY wider — Stephanie Garzon spans two columns
-          (lg:col-span-2, right side) and Paul Suha fills the remaining
-          one (left). All-cards-equal-width is the rule for the Results
-          page; this single-width-away variant is a homepage-only device to
-          signal one story is primary.
-Order:    identical CUSTOMER → IMPACT → CLIENT REVIEW anatomy as /results.
-Cards:    same chrome (1px --surface-200, radius-md, bg-surface-100,
-          p-6 → p-8, internal border-t dividers), so the wider card is
-          just a wider frame — no type or treatment change inside.
-
-Section pattern:  subtext → content mt-5 / lg:mt-6. Homepage keeps the
-  "Show all stories" ghost link (magenta hover) → /results.
+Header:    "Success Stories" headline (display-md → display-lg, centered at lg)
+           + subtext "Real results from real customers..." — same pattern as
+           the Partners/benchmark headers, no eyebrow.
+Grid:      grid-cols-1 → lg:grid-cols-2 gap-6 — two even equal-width company
+           cards (not the old 1+col-span-2 mosaic).
+Card anatomy (partner layout):
+  Label:     font-mono caption medium uppercase tracking-wider --accent-purple —
+             the vertical ("AGENCY", "HEALTHCARE · AGENCY").
+  Title:     company name, display-sm font-display semibold.
+  Hook:      border-t zone under the title. Numeric stories put ONE leading
+             metric as a display-lg BOLD tabular-nums --text-primary-light
+             figure + mono caption (e.g. "8" / "QUALIFIED TRANSFERS IN 20
+             MINUTES"); qualitative-only stories use a display-md semibold
+             statement instead ("More time for patient experience").
+  Ledger:    the remaining impacts as hairline rows (border-t on ul, border-b
+             on rows, py-2.5, font-mono caption uppercase --text-secondary-light) —
+             text only, no icons, no checkmarks, no pills.
+  Review:    border-t divider + restrained italic body-sm quote + attribution
+             line (mono caption uppercase --text-secondary-light,
+             "PAUL SUHA · MAYFLOWER AI"). Full review text, no toggle.
+  CTA:       mt-auto text link (body-sm font-semibold --text-primary-light) +
+             ArrowRight 14px bold --accent-purple → /results (real destination);
+             hover: text flips --accent-purple, arrow nudges +0.5.
+Section tail: "Show all stories" ghost link (self-center, body-sm, hover
+             --accent-purple) → /results.
 ```
 
 ## Demo / Build-your-Agent section

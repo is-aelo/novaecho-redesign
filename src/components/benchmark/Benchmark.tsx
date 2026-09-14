@@ -51,13 +51,13 @@ export default function Benchmark() {
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 lg:mt-12 lg:grid-cols-2">
+        <div className="mt-5 grid grid-cols-1 lg:mt-6 lg:grid-cols-2">
           {benchmarkModules.map((module) => (
             <BenchModule key={module.index} module={module} />
           ))}
         </div>
 
-        <div className="mt-8 flex flex-col items-center pb-6 text-center lg:mt-12 lg:pt-4">
+        <div className="mt-8 flex flex-col items-center pb-6 text-center lg:mt-10">
           <h3 className="font-display text-display-sm font-semibold tracking-tight text-text-primary-light">
             Want the full comparison?
           </h3>

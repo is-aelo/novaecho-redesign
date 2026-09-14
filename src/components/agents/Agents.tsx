@@ -18,7 +18,7 @@ export default function Agents() {
           </p>
         </div>
 
-        <div className="relative z-0 mt-8 lg:mt-10">
+        <div className="relative z-0 mt-5 lg:mt-6">
           <AgentWindow call={call} />
         </div>
       </div>

@@ -1,32 +1,27 @@
-import SuccessStoryCard, { type SuccessStoryCardData } from "@/components/shared/SuccessStoryCard";
+import StoryCard, { type StoryCardData } from "./StoryCard";
 
-const stories: SuccessStoryCardData[] = [
+const stories: StoryCardData[] = [
   {
-    author: "Paul Suha",
+    label: "Agency",
     company: "Mayflower AI",
-    industries: ["Agency"],
-    avatar: "/images/testimonials/imgi_3_Paul Suha.jpg",
-    impacts: [
-      { icon: "transfer", text: "8 qualified transfers in 20 minutes" },
-      { icon: "phone", text: "6,500+ calls handled" },
-      { icon: "reliability", text: "0 transfer failures" },
-    ],
+    hook: { value: "8", caption: "Qualified transfers in 20 minutes" },
+    ledgers: ["6,500+ calls handled", "0 transfer failures"],
     review:
       "Nova Echo Is Legendary. Genuinely such a pleasure to work with a company like this. Team is insanely helpful, literally treat you like family.",
+    attribution: "Paul Suha · Mayflower AI",
   },
   {
-    author: "Stephanie Garzon",
+    label: "Healthcare · Agency",
     company: "The Content Well",
-    industries: ["Healthcare", "Agency"],
-    avatar: "/images/testimonials/imgi_6_stephanie_garzon_2.jpg",
-    impacts: [
-      { icon: "patient", text: "More time for patient experience" },
-      { icon: "time", text: "Hours freed for staff" },
-      { icon: "workflow", text: "Inbound and outbound workflows streamlined" },
-      { icon: "focus", text: "Front desk focused on patient experience" },
+    statement: "More time for patient experience",
+    ledgers: [
+      "Hours freed for staff",
+      "Inbound and outbound workflows streamlined",
+      "Front desk focused on patient experience",
     ],
     review:
       "Our clients can focus more on crafting an exceptional patient experience and less on constantly being tied to the phone.",
+    attribution: "Stephanie Garzon · The Content Well",
   },
 ];
 
@@ -43,16 +38,15 @@ export default function Stories() {
           </p>
         </div>
 
-        <div className="mt-5 grid grid-cols-1 gap-6 lg:mt-6 lg:grid-cols-3 lg:gap-8">
-          <SuccessStoryCard key="paul-suha" story={stories[0]} />
-          <div className="lg:col-span-2">
-            <SuccessStoryCard key="stephanie-garzon" story={stories[1]} />
-          </div>
+        <div className="mt-5 grid grid-cols-1 gap-6 lg:mt-6 lg:grid-cols-2 lg:gap-6">
+          {stories.map((story) => (
+            <StoryCard key={story.company} story={story} />
+          ))}
         </div>
 
         <a
           href="/results"
-          className="mt-8 self-center px-6 py-2.5 text-caption md:text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-magenta rounded-btn"
+          className="mt-8 self-center px-6 py-2.5 text-caption md:text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-purple lg:mt-10"
         >
           Show all stories
         </a>

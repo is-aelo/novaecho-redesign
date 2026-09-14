@@ -13,17 +13,18 @@ import RoiWrapper from "@/components/roi/RoiWrapper";
 export default function Home() {
   return (
     <RoiWrapper>
-      <Nav />
-      <Hero />
-      <Features />
-      <Agents />
-      <Benchmark />
-      <Pricing />
-      <Partners />
-      <Stories />
-      <Demo />
+      <main className="flex-1">
+        <Nav />
+        <Hero />
+        <Features />
+        <Agents />
+        <Benchmark />
+        <Pricing />
+        <Partners />
+        <Stories />
+        <Demo />
+      </main>
       <Footer />
-      <main className="flex-1" />
     </RoiWrapper>
   );
 }

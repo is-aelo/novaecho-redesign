@@ -1,61 +1,109 @@
-import {
-  Handshake,
-  Buildings,
-  ShareNetwork,
-} from "@phosphor-icons/react/ssr";
+import { ArrowRight } from "@phosphor-icons/react/ssr";
 
-const programs = [
+type Program = {
+  label: string;
+  title: string;
+  description: string;
+  cta: string;
+  benefits?: string[];
+  commission?: string;
+};
+
+const programs: Program[] = [
   {
-    title: "Reseller Programs",
-    body: "Offer Nova Echo to your clients with generous commissions and full partner support.",
-    icon: Buildings,
+    label: "Resell",
+    title: "Reseller",
+    description:
+      "Offer Nova Echo as part of your existing services without building the underlying technology yourself.",
+    cta: "Explore reseller program",
+    benefits: ["Partner support", "Sales resources", "Recurring revenue"],
   },
   {
-    title: "Agency Programs",
-    body: "Build a voice AI agency around our platform with wholesale pricing and dedicated support.",
-    icon: Handshake,
+    label: "Build",
+    title: "Agency",
+    description:
+      "Build a dedicated voice AI business with Nova Echo powering the technology behind the scenes.",
+    cta: "Explore agency program",
+    benefits: ["White-label", "Client accounts", "Workflows", "Training", "Dedicated support"],
   },
   {
-    title: "Affiliate Program",
-    body: "Earn 25% recurring commissions by referring clients through our affiliate dashboard.",
-    icon: ShareNetwork,
+    label: "Refer",
+    title: "Affiliate",
+    description:
+      "Refer businesses to Nova Echo and earn recurring commissions from the customers you bring in.",
+    cta: "Join affiliate program",
+    commission: "25%",
   },
 ];
 
 export default function Partners() {
   return (
-    <section className="w-full bg-surface-50 px-6 py-16">
+    <section id="partners" className="w-full scroll-mt-16 bg-surface-50 px-6 py-16">
       <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12">
         <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
           <h2 className="font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
-            Partner Programs
+            Build More Revenue With Nova Echo
           </h2>
           <p className="mt-3 max-w-2xl text-body-sm lg:text-body-md leading-relaxed text-text-secondary-light">
-            Grow with Nova Echo. Whether you resell, build, or refer — there&#39;s a program for you.
+            Whether you want to resell AI, launch a voice AI service, or earn from referrals,
+            Nova Echo gives you the tools to make it happen.
           </p>
         </div>
 
-        <div className="mt-5 grid grid-cols-1 gap-6 lg:mt-6 lg:grid-cols-3 lg:gap-8">
-          {programs.map((program) => {
-            const Icon = program.icon;
+        <div className="mt-5 grid grid-cols-1 gap-6 lg:mt-6 lg:grid-cols-3 lg:gap-6">
+          {programs.map((program) => (
+            <article
+              key={program.title}
+              className="flex flex-col rounded-md border border-surface-200 bg-surface-100 p-6 md:p-8"
+            >
+              <p className="font-mono text-caption font-medium uppercase tracking-wider text-accent-purple">
+                {program.label}
+              </p>
+              <h3 className="mt-3 font-display text-display-sm font-semibold tracking-tight text-text-primary-light">
+                {program.title}
+              </h3>
 
-            return (
-              <article
-                key={program.title}
-                className="flex flex-col gap-3 border border-surface-200 bg-surface-100 rounded-md p-6 md:p-8 text-left min-h-45"
-              >
-                <div className="flex items-center justify-start">
-                  <Icon className="text-accent-purple" size={24} weight="duotone" />
+              {program.commission ? (
+                <div className="mt-5 border-t border-surface-200 pt-5">
+                  <p className="font-display text-display-lg font-bold tracking-tight tabular-nums text-text-primary-light">
+                    {program.commission}
+                  </p>
+                  <p className="mt-1 font-mono text-caption uppercase tracking-wider text-text-secondary-light">
+                    Recurring commission
+                  </p>
                 </div>
-                <h3 className="font-semibold text-body-sm md:text-body-md text-text-primary-light">
-                  {program.title}
-                </h3>
-                <p className="flex-1 text-caption md:text-body-sm leading-relaxed text-text-secondary-light">
-                  {program.body}
-                </p>
-              </article>
-            );
-          })}
+              ) : null}
+
+              <p className="mt-5 text-body-sm leading-relaxed text-text-secondary-light">
+                {program.description}
+              </p>
+
+              {program.benefits ? (
+                <ul className="mt-5 border-t border-surface-200">
+                  {program.benefits.map((benefit) => (
+                    <li
+                      key={benefit}
+                      className="border-b border-surface-200 py-2.5 font-mono text-caption uppercase tracking-wider text-text-secondary-light"
+                    >
+                      {benefit}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+
+              <button
+                type="button"
+                className="group mt-auto inline-flex items-center gap-2 pt-6 text-body-sm font-semibold text-text-primary-light transition-colors hover:text-accent-purple"
+              >
+                {program.cta}
+                <ArrowRight
+                  size={14}
+                  weight="bold"
+                  className="text-accent-purple transition-transform duration-200 group-hover:translate-x-0.5"
+                />
+              </button>
+            </article>
+          ))}
         </div>
       </div>
     </section>

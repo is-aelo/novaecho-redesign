@@ -301,7 +301,7 @@ function renderPlanBody(
         className={`mt-auto w-full whitespace-nowrap text-caption md:text-body-sm ${
           plan.recommended
             ? "btn-primary"
-            : "flex w-full items-center justify-center rounded-btn border border-surface-700/30 px-6 py-2.5 font-semibold text-text-primary-light transition-colors hover:border-surface-700/60"
+            : "flex w-full items-center justify-center rounded-btn border border-surface-700/30 px-6 py-3 font-semibold text-text-primary-light transition-colors hover:border-surface-700/60"
         }`}
       >
         {plan.cta}
@@ -335,7 +335,7 @@ export default function Pricing() {
           </p>
         </div>
 
-        <div className="mt-5 hidden lg:mt-6 lg:grid lg:grid-cols-3 lg:gap-6">
+        <div className="mt-5 hidden lg:mt-12 lg:grid lg:grid-cols-3 lg:items-start lg:gap-6">
           {plans.map((plan) => (
             <article
               key={plan.key}

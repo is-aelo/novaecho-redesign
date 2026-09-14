@@ -23,7 +23,7 @@ export default function Footer() {
 
   return (
     <footer className="w-full bg-surface-950 px-6 py-12 lg:py-16">
-      <div className="mx-auto flex max-w-6xl flex-col gap-10 lg:flex-row lg:justify-between">
+      <div className="mx-auto flex max-w-6xl flex-col gap-10 lg:flex-row lg:justify-between lg:gap-24">
         <div className="flex max-w-md flex-col gap-5">
           <a href="/" className="flex items-center gap-2.5">
             <Image
