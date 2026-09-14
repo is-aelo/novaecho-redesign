@@ -76,7 +76,7 @@ export default function Benchmark() {
             <ArrowRight
               size={16}
               weight="bold"
-              className={`transition-transform ${open ? "rotate-90" : ""}`}
+              className={`transition-transform ${open ? "-rotate-90" : ""}`}
             />
           </button>
         </div>

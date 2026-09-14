@@ -218,7 +218,9 @@ matrix category headers) and story card link CTAs (Read the full story, Read
 full review) are text-only — no arrow or caret icons; hover signals on card
 links are text-color flips, not icon nudges. The main .btn-outline-light CTAs
 (Full Benchmark, Full Transcripts, All Stories) carry a 16px ArrowRight (bold)
-that rotates 90° when open on the two disclosure CTAs.
+that rotates −90° (points up) when open on the two disclosure CTAs — open
+reads as "collapse" now that everything is shown; closed keeps the forward
+→, and the All Stories link never rotates.
 
 Nav lockup: novaecho-logo.png at 32px + font-display display-xs (18px) semibold
 tracking-tight, gap-3 — scales up to stay level with the taller header CTA.
@@ -506,8 +508,11 @@ load, disabled under prefers-reduced-motion.
 ### Agent window voice demo — Conversation → Understanding → Action
 
 Runs inside the AgentWindow in the Agents section (no window on the hero). Three
-agent scripts (Receptionist default, Speed-to-Lead, Mass Outbound), each with
-its own conversation, actions, description, mock company, and waveform energy. Selecting an agent
+agent scripts (Receptionist default, Speed-to-Lead, Mass Outbound) for ONE mock
+business (Clarity Skin Studio), each with
+its own conversation, actions, description, and waveform energy. All three
+share the same studio context so the selector compares agent ROLES, not
+industries. Selecting an agent
 resets and replays that agent's sequence once — no reload, no navigation, no modal.
 Each run plays once per selection (and once on load); no auto-loop, refresh replays.
 
@@ -534,8 +539,9 @@ Reduced motion: single static idle frame, no loop; full transcript + Agent
                 decision + actions visible, timer fixed at 00:42, status reads "Call completed".
 Live region:   status + duration line is aria-live polite; hidden transcript rows are
                aria-hidden until revealed; state is never color-alone (text always present).
-Previews:      neutral mock businesses only (Clarity Skin Studio, Harbor Realty Group,
-               Peak Fitness Co.). Never Nova / Nova Echo in preview transcripts or speaker tags.
+Previews:      one neutral mock business only — Clarity Skin Studio — across
+               all three agent scripts (front desk, instant follow-up, outbound).
+               Never Nova / Nova Echo in preview transcripts or speaker tags.
 ```
 
 ## Iconography
@@ -935,15 +941,16 @@ Module type — Geist Mono only, three rungs of emphasis (never two focal
                    8px / 400 — fine print: caption lines, footers, scale
                     ticks — 0.7–0.85
   Mobile legibility (< lg, max-width 1023.98px): the three rungs scale up
-                ~×2 in coordinate units so they survive the narrow
-                single-column panel (text renders ~11.4 / 14.3 / 18.6px instead
-                of 4.4 / 5.5 / 8.8px on a 343 × 200px SVG — the taller 280-unit
-                canvas paired with larger mobile coordinate text keeps every
-                label comfortably readable). Implemented as the
-                .bench-t2 / .bench-t3 / .bench-t4 utilities in globals.css:
-                desktop 8 / 10 / 16 → mobile 16 / 20 / 26. The emphasis
-                hierarchy and the "exactly one payoff" rule carry over
-                unchanged — only sizes move.
+                in coordinate units so they survive the narrow single-column
+                panel, but stay within the fixed 480 × 280 viewBox so no label
+                collides with the element above/below it (a ~×2 bump to
+                16 / 20 / 26 pushed axis labels into the latency footer and
+                stacked ruler labels into their ticks — retired). Implemented as
+                the .bench-t2 / .bench-t3 / .bench-t4 utilities in globals.css:
+                desktop 8 / 10 / 16 → mobile 12 / 14 / 20 (text renders ~8.6 /
+                10 / 14.3px instead of 4.4 / 5.5 / 8.8px on a 343px-wide panel).
+                The emphasis hierarchy and the "exactly one payoff" rule carry
+                over unchanged — only sizes move.
   01 Voice Quality    conversational waveform — 7 speech-like syllabic bursts
                       grouped into 3 phrase clusters (brief pauses between
                       phrases), each with an ASYMMETRIC envelope (fast attack,
@@ -980,11 +987,15 @@ Module type — Geist Mono only, three rungs of emphasis (never two focal
                       ever crosses text. Footer note "5 shown · 3,000+
                       available" at 8px — a sample of the catalog, not the
                       whole map. Least decorated visual.
-  05 Implementation   2-day sprint board — two three-step stacks, "DAY 1 ·
-                      0–24H" and "DAY 2 · 24–48H" (day headers stay on the
-                      label rung at 10px; step labels sit on the fine-print
-                      rung at 8px — the original compact board's proportion,
-                      scaled up under lg like every other rung). Each a vertical
+05 Implementation   2-day sprint board — two three-step stacks, "DAY 1 ·
+                       0–24H" and "DAY 2 · 24–48H" (day headers stay on the
+                       label rung at 10px; step labels sit on the fine-print
+                       rung at 8px — the original compact board's proportion,
+                       scaled up under lg like every other rung). Step labels
+                       flush to the outer rail edge (left column start-anchored
+                       at x=76, right column end-anchored at x=344) so they
+                       never clip or collide at the larger mobile rungs. Each
+                       a vertical
                       dot rail. Completion state
                       reads at a glance: done items are filled dots with a
                       hairline checkmark, the pending "Human QA pass" stays
@@ -1016,7 +1027,7 @@ Disclosure:     after the grid — mt-8 → lg:mt-10, centered, generous whitesp
                 --text-primary-light, hover border-surface-700/60 +
                 hover:text-accent-purple (matches pricing side-card CTA).
                 Label "Full Benchmark" with a 16px ArrowRight that rotates
-                90° when open; aria-expanded + aria-controls. Toggles the
+                −90° (points up) when open; aria-expanded + aria-controls. Toggles the
                 matrix wrapper (height 0→auto / opacity 0→1, 0.5s power3.out,
                 collapse 0.35s power2.in; reduced-motion sets height directly).
                 Matrix wrapper is inert while collapsed.
@@ -1120,7 +1131,7 @@ MiniCall rail (full-width strip below the main panel): a 3-across row of compact
                 dot + running mm:ss timer
                (useCallTimer, tabular-nums), then TWO transcript rows (company chip + AI
                line, caller chip + caller line), then a footer strip: "CONCURRENT" mono accent
-               tag + "Call N of 6" right-aligned. Three calls, distinct topics, all Northlight.
+               tag + "Call N of 3" right-aligned. Three calls, distinct topics, all Northlight.
                No waveform in the mini windows — the main panel keeps the section's sole wave
                and motion loop; the rail only carries the live dot pulse + ticking timers
                (persistent subtle life). Each window shows its full conversation (AI-first,
@@ -1128,14 +1139,14 @@ MiniCall rail (full-width strip below the main panel): a 3-across row of compact
                main card.
    Transcript disclosure: section tail below the MiniCall strip — same pattern as the
                Benchmark section's disclosure (mt-8 → lg:mt-10, centered, no hairline):
-               "One agent, six calls, all at once" (font-display text-display-sm semibold) +
-               body-sm supporting copy (open the windows to watch a single agent hold six
+"One agent, multiple calls, all at once" (font-display text-display-sm semibold) +
+                body-sm supporting copy (open the windows to watch a single agent hold multiple
                parallel conversations — every call answered instantly, none left on hold) +
                bordered CTA "Full Transcripts" (rounded-btn,
                1px border --surface-700/30, --text-primary-light, hover border-surface-700/60 +
-               hover:text-accent-purple, 16px ArrowRight that rotates 90° when open,
-               aria-expanded + aria-controls="live-transcripts"). All six concurrent call
-               windows (Call 1–6 of 6) sit collapsed behind a .collapsible-grid (0fr↔1fr
+               hover:text-accent-purple, 16px ArrowRight that rotates −90° (points up) when open,
+aria-expanded + aria-controls="live-transcripts"). All three concurrent call
+                windows (Call 1–3 of 3) sit collapsed behind a .collapsible-grid (0fr↔1fr
                height, var(--dur-base) ease-out) in the responsive 3-up grid — none are shown
                by default, and the disclosure reveals them together. Reduced-motion:
                grid-height snaps instantly.
@@ -1365,7 +1376,10 @@ program cards): no avatars, no impact icons, no mosaic. Each story is ONE
 company card with a categorical label, a primary outcome hook, a hairline
 ledger of the remaining results, the client review, and a bottom-pinned
 "Read the full story →" CTA to /results. (The Results page keeps its own
-uniform avatar-card system — see above.)
+uniform avatar-card system — see above.) The section carries
+`id="results"` (with scroll-mt matching the nav offset) so the homepage
+Nav "Results" link scrolls here and the scroll-spy marks it active when
+in view.
 
 ```
 Header:    "Success Stories" headline (display-md → display-lg, centered at lg)

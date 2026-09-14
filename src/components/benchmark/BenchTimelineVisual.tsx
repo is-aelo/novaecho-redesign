@@ -13,7 +13,7 @@ const RULER_Y = 236;
 const RULER_LABEL_Y = 256;
 
 const COLUMNS = [
-  {
+{
     dotX: 62,
     labX: 76,
     anchor: "start" as const,

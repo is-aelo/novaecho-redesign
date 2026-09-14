@@ -65,7 +65,7 @@ export default function MiniCall({
           Concurrent
         </span>
         <span className="ml-auto font-mono text-caption tabular-nums text-text-secondary">
-          Call {callIndex} of 6
+          Call {callIndex} of 3
         </span>
       </div>
     </div>

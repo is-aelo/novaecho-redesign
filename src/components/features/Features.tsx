@@ -118,99 +118,16 @@ export default function Features() {
             callIndex={3}
             startSeconds={58}
           />
-          <MiniCall
-            heading="Site audit"
-              callerTag="Luis · Lead"
-              transcript={[
-                {
-                  speaker: "ai",
-                  text: "Hi Luis, the site audit finished this morning — your core web vitals are solid, but I spotted a few title tags missing keywords.",
-                },
-                {
-                  speaker: "caller",
-                  text: "Nice. Can you fix those today?",
-                },
-                {
-                  speaker: "ai",
-                  text: "Already queued — I'll rewrite the tags and run a quick check before tonight.",
-                },
-                {
-                  speaker: "caller",
-                  text: "Perfect. And the follow-up email so I can review?",
-                },
-                {
-                  speaker: "ai",
-                  text: "On its way — you'll have the before/after list in your inbox shortly.",
-                },
-              ]}
-              callIndex={4}
-              startSeconds={82}
-            />
-            <MiniCall
-              heading="Support"
-              callerTag="Nadia · Client"
-              transcript={[
-                {
-                  speaker: "ai",
-                  text: "Hi Nadia, I'm on it — your staging login wasn't going through, so I've reset it for you.",
-                },
-                {
-                  speaker: "caller",
-                  text: "Thanks, that was blocking our designer all morning.",
-                },
-                {
-                  speaker: "ai",
-                  text: "Understood — the new credentials are in your inbox, valid from now.",
-                },
-                {
-                  speaker: "caller",
-                  text: "Sending them over to her now. Anything else I should do?",
-                },
-                {
-                  speaker: "ai",
-                  text: "Nothing else — I've also logged the fix on your ticket for reference.",
-                },
-              ]}
-              callIndex={5}
-              startSeconds={109}
-            />
-            <MiniCall
-              heading="Analytics setup"
-              callerTag="Miko · Lead"
-              transcript={[
-                {
-                  speaker: "ai",
-                  text: "Hi Miko, I've connected the analytics to your staging site — conversions should start tracking within the hour.",
-                },
-                {
-                  speaker: "caller",
-                  text: "Good. Will it include form submissions?",
-                },
-                {
-                  speaker: "ai",
-                  text: "Yes — form submissions, calls, and outbound links are all tagged.",
-                },
-                {
-                  speaker: "caller",
-                  text: "Perfect, that's the plan launch check then.",
-                },
-                {
-                  speaker: "ai",
-                  text: "Right — I'll send a confirmation once the first events come through.",
-                },
-              ]}
-              callIndex={6}
-              startSeconds={131}
-            />
           </div>
         </div>
 
         <div className="flex flex-col items-center text-center lg:col-span-12">
           <h3 className="font-display text-display-sm font-semibold tracking-tight text-text-primary-light">
-            One agent, six calls, all at once
+            One agent, multiple calls, all at once
           </h3>
           <p className="mt-2 max-w-md text-body-sm leading-relaxed text-text-secondary-light">
-            Open the windows to watch a single agent hold six parallel conversations —
+            Open the windows to watch a single agent hold multiple parallel
+            conversations —
             every call answered instantly, none left on hold.
           </p>
           <button
@@ -224,7 +141,7 @@ export default function Features() {
             <ArrowRight
               size={16}
               weight="bold"
-              className={`transition-transform ${showTranscripts ? "rotate-90" : ""}`}
+              className={`transition-transform ${showTranscripts ? "-rotate-90" : ""}`}
             />
           </button>
         </div>

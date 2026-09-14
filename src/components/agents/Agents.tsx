@@ -14,7 +14,7 @@ export default function Agents() {
             Your Agents to <span className="hero-text-highlight">Success</span>
           </h2>
           <p className="mt-3 max-w-2xl text-body-sm lg:text-body-md leading-relaxed text-text-secondary-light">
-            Three specialized AI agents — each one sounds, thinks, and responds like a real person.
+            Three specialized agents for one business — compare how each one sounds, thinks, and responds like a real person.
           </p>
         </div>
 
