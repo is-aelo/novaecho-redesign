@@ -129,7 +129,7 @@ export const AGENT_SCRIPTS: DemoScript[] = [
     id: "outbound",
     name: "Mass Outbound",
     tagline: "High-volume calls · handoff",
-    roiName: "Mass Outbound Calling",
+    roiName: "Mass Outbound",
     description:
       "Upload your opt-in leads and let your agent call every lead, ask what fits them, and hand off the best matches to sales.",
     agentLabel: "AI Outbound Agent",

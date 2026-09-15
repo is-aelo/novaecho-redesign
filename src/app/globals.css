@@ -569,7 +569,7 @@ a, button {
 
 .agent-nav-btn:hover .agent-nav-icon,
 .agent-nav-btn[data-active="true"] .agent-nav-icon {
-  color: var(--accent-purple-soft);
+  color: var(--text-primary-on-dark);
 }
 
 .agent-nav-name {

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, CaretDown, Check, Phone } from "@phosphor-icons/react";
 import AgentProfile from "./AgentProfile";
-import { AGENTS, VOICES } from "./agents";
+import { AGENTS, VOICES, type AgentChoice } from "./agents";
 import useBuildAgent, { type BuildAgentState, type FormField } from "./useBuildAgent";
 import { useRoiModal } from "@/contexts/RoiContext";
 
@@ -89,9 +89,11 @@ function VoiceSelect({ builder }: { builder: BuildAgentState }) {
 function BuildAgentPanel({
   builder,
   onSubmit,
+  onSelectAgent,
 }: {
   builder: BuildAgentState;
   onSubmit: () => void;
+  onSelectAgent: (agent: AgentChoice) => void;
 }) {
   const selected = AGENTS.find((entry) => entry.id === builder.agent) ?? null;
   const voice = VOICES.find((v) => v.value === builder.voice);
@@ -149,7 +151,10 @@ function BuildAgentPanel({
                   key={agent.id}
                   type="button"
                   aria-pressed={builder.agent === agent.id}
-                  onClick={() => builder.selectAgent(agent.id)}
+                  onClick={() => {
+                    onSelectAgent(agent.id);
+                    builder.selectAgent(agent.id);
+                  }}
                   className={`rounded-md border p-4 text-left transition-colors ${
                     builder.agent === agent.id
                       ? "border-accent-purple bg-white"
@@ -291,7 +296,13 @@ function BuildAgentPanel({
 
 export default function Demo() {
   const builder = useBuildAgent();
-  const { openRoi, setTransitioning, setTransitionNote } = useRoiModal();
+  const { openRoi, setTransitioning, setTransitionNote, builderAgent, setBuilderAgent } = useRoiModal();
+
+  useEffect(() => {
+    if (builderAgent && builderAgent !== builder.agent) {
+      builder.selectAgent(builderAgent);
+    }
+  }, [builderAgent]);
 
   const selectedRole = AGENTS.find((entry) => entry.id === builder.agent)?.role ?? "Receptionist";
 
@@ -312,9 +323,6 @@ export default function Demo() {
     <section id="book-call" className="w-full bg-surface-50 px-6 py-16 scroll-mt-16">
       <div className="mx-auto flex max-w-6xl flex-col gap-12 lg:flex-row lg:items-start lg:gap-16" data-parallax data-parallax-y="12" data-section-reveal>
         <div className="flex flex-1 flex-col" data-reveal-item>
-          <p className="font-mono text-caption font-medium uppercase tracking-wider text-accent-purple">
-            The final step
-          </p>
           <h2 className="mt-3 font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
             Put your AI employee to work.
           </h2>
@@ -338,7 +346,7 @@ export default function Demo() {
         </div>
 
         <div className="w-full lg:max-w-md" data-reveal-item>
-          <BuildAgentPanel builder={builder} onSubmit={handleBuild} />
+          <BuildAgentPanel builder={builder} onSubmit={handleBuild} onSelectAgent={setBuilderAgent} />
         </div>
       </div>
     </section>

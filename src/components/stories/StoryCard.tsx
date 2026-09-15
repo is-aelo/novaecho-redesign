@@ -57,7 +57,7 @@ export default function StoryCard({ story }: { story: StoryCardData }) {
 
       <a
         href="/results"
-        className="mt-auto inline-flex items-center gap-2 pt-6 text-body-sm font-semibold text-text-primary-light transition-colors hover:text-accent-purple"
+        className="mt-auto inline-flex items-center gap-2 pt-6 text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-purple"
       >
         Read the full story
       </a>

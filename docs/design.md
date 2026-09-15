@@ -235,6 +235,18 @@ that rotates −90° (points up) when open on the two disclosure CTAs — open
 reads as "collapse" now that everything is shown; closed keeps the forward
 →, and the All Stories link never rotates.
 
+Plain text buttons — no border, no background, text + optional icon only
+(Calculate your ROI, Calculate yours, Start Fresh, story card CTAs, Partners
+program CTAs, solution disclosure links) — use font-body text-body-sm
+font-medium (500) uniformly. Bordered .btn-outline-light CTAs and footer
+nav links are not part of this rule.
+
+Button icon rule: inside every button or CTA, icon color always matches the
+button's own text color (inherit currentColor). No icon sits in a different
+color than the label it accompanies inside a button; accent-colored icons
+are reserved for non-button data reads (stat icons, feature checkmarks,
+workflow lists).
+
 Nav lockup: novaecho-logo.png at 32px + font-display display-xs (18px) semibold
 tracking-tight, gap-3 — scales up to stay level with the taller header CTA.
 
@@ -710,9 +722,9 @@ Estimated ROI:is the rail's payoff block and the window's dominant accent —
   Icons:       PhoneIncoming (Receptionist), Lightning (Speed-to-Lead),
                Megaphone (Mass Outbound).
 Active:      rgba(255,255,255,0.10) pill + --text-primary-on-dark medium text +
-                icon flips --accent-purple-soft (text label always present —
-                never color-alone) + aria-pressed/aria-current.
-  Hover:       rgba(255,255,255,0.06) pill, icon → --accent-purple-soft, text → primary.
+                icon follows text color (--text-primary-on-dark — icons always
+                match their button's text color) + aria-pressed/aria-current.
+  Hover:       rgba(255,255,255,0.06) pill, icon → --text-primary-on-dark with text, same match.
   Focus:       2px solid --accent-purple-soft outline, offset 2px.
   Description: selected agent description (caption secondary — the scale's
                smallest size) sits below the selector list, separated by a hairline
@@ -1466,7 +1478,6 @@ Layout:           flex-col gap-12 → lg:flex-row lg:items-start lg:gap-16.
                   Left column flex-1; right column w-full → lg:max-w-md.
                   Mobile order: headline → copy → AI employee → Build Agent
                   interface (CTA lives inside it). data-parallax y=12.
-Eyebrow:          "THE FINAL STEP" — mono caption uppercase --accent-purple.
 Headline:         "Put your AI employee to work." display-md → display-lg,
                   font-display bold, --text-primary-light. No gradient text.
 Subtext:          "See what Nova Echo can do for your business. Tell us what
@@ -1496,6 +1507,12 @@ AgentWindow console voice (the benchmark "dark readout on light" motif):
   Motion:         role + tagline remount with .demo-step-in on agent change;
                   waveform bars .demo-wave-bar (scaleY stagger). Both disabled
                   under prefers-reduced-motion.
+  Below visual:   a quiet "Calculate your ROI →" plain-text button (font-body
+                  text-body-sm font-medium, --text-primary-light, hover
+                  --accent-purple, ArrowRight) that calls openRoi with the
+                  currently selected agent's role — a secondary path beneath
+                  the primary "Build My Agent" action. No second primary CTA
+                  in this section.
 
 Build-your-agent interface (right) — progressive disclosure, one step visible:
   Panel:          rounded-md, 1px border-surface-200, bg-surface-100,
@@ -1679,6 +1696,13 @@ Scenario:         "What are you trying to improve?" — three compact selectable
                   it preselects on open from the opened agent's script and seeds that
                   scenario's default inputs; switching mid-modal keeps the user's
                   numbers and does NOT alter the calculation formula.
+                  Agent sync: the builder's "What should your AI agent do?" pick and
+                  the calculator's scenario share one source of truth (builderAgent
+                  in the ROI context). Picking an agent in the builder seeds the
+                  calculator on open; changing the scenario rows INSIDE the
+                  calculator writes the matching agent back to the builder's grid.
+                  "Something else" has no calculator scenario and is left untouched
+                  when the calculator silently falls back to Receptionist.
 
 Categories:       three, separated by border-t hairline dividers (NOT cards):
   YOUR CALLS        total calls, missed calls, calls left on hold

@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import type { RoiCalculation } from "@/components/roi/calc";
+import type { AgentChoice } from "@/components/demo/agents";
 
 export type { RoiCalculation };
 
@@ -11,6 +12,9 @@ interface RoiContextValue {
   sessionCount: number;
   openRoi: (agentType: string) => void;
   closeRoi: () => void;
+
+  builderAgent: AgentChoice | null;
+  setBuilderAgent: (agent: AgentChoice) => void;
 
   resultsOpen: boolean;
   results: RoiCalculation | null;
@@ -38,6 +42,7 @@ export function RoiProvider({ children }: { children: ReactNode }) {
   const [isTransitioning, setTransitioning] = useState(false);
   const [transitionNote, setTransitionNote] = useState("");
   const [formResetKey, setFormResetKey] = useState(0);
+  const [builderAgent, setBuilderAgent] = useState<AgentChoice | null>(null);
 
   function openRoi(type: string) {
     setAgentType(type);
@@ -75,6 +80,7 @@ export function RoiProvider({ children }: { children: ReactNode }) {
         isTransitioning, setTransitioning,
         transitionNote, setTransitionNote,
         formResetKey, resetForm,
+        builderAgent, setBuilderAgent,
       }}
     >
       {children}

@@ -437,7 +437,7 @@ export default function Pricing() {
                         {...(solution.external
                           ? { target: "_blank", rel: "noopener noreferrer" }
                           : {})}
-                        className="nudge-horizontal inline-flex items-center gap-1 font-body text-body-sm font-semibold text-accent-purple"
+                        className="nudge-horizontal inline-flex items-center gap-1 font-body text-body-sm font-medium text-accent-purple"
                       >
                         {solution.cta}
                         <ArrowRight size={14} weight="bold" />

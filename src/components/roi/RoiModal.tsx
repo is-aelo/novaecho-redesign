@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react"
 import { ArrowRight, X } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { useRoiModal } from "@/contexts/RoiContext";
+import type { AgentChoice } from "@/components/demo/agents";
 import { calcResults } from "./calc";
 import ImpactChart from "./ImpactChart";
 
@@ -75,7 +76,7 @@ const SCENARIOS: Scenario[] = [
     id: "outbound",
     label: "Mass Outbound",
     desc: "Call large opt-in lead lists and identify hot prospects.",
-    agentName: "Mass Outbound Calling",
+    agentName: "Mass Outbound",
     defaults: {
       totalCalls: "1200",
       missedCalls: "80",
@@ -316,7 +317,8 @@ function ScenarioSelect({ active, onSelect }: { active: SceneId; onSelect: (s: S
 }
 
 export default function RoiModal() {
-  const { open, agentType, closeRoi, openResults, setTransitioning, setTransitionNote } = useRoiModal();
+  const { open, agentType, closeRoi, openResults, setTransitioning, setTransitionNote, setBuilderAgent } =
+    useRoiModal();
   const seededScenario = SCENARIOS.find((s) => s.agentName === agentType) ?? SCENARIOS[0];
   const [scenario, setScenario] = useState<SceneId>(seededScenario.id);
   const [values, setValues] = useState<Record<FieldKey, string>>(seededScenario.defaults);
@@ -431,7 +433,13 @@ export default function RoiModal() {
         </div>
 
         <div className="flex flex-col p-6 lg:p-8">
-          <ScenarioSelect active={scenario} onSelect={(s) => setScenario(s.id)} />
+          <ScenarioSelect
+            active={scenario}
+            onSelect={(s) => {
+              setScenario(s.id);
+              setBuilderAgent(s.id as AgentChoice);
+            }}
+          />
 
           <div className="mt-5 flex flex-col">
             {CATEGORIES.map((category, i) => (

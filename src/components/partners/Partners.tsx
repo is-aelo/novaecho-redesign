@@ -93,13 +93,13 @@ export default function Partners() {
 
               <button
                 type="button"
-                className="group mt-auto inline-flex items-center gap-2 pt-6 text-body-sm font-semibold text-text-primary-light transition-colors hover:text-accent-purple"
+                className="group mt-auto inline-flex items-center gap-2 pt-6 text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-purple"
               >
                 {program.cta}
                 <ArrowRight
                   size={14}
                   weight="bold"
-                  className="text-accent-purple transition-transform duration-200 group-hover:translate-x-0.5"
+                  className="transition-transform duration-200 group-hover:translate-x-0.5"
                 />
               </button>
             </article>
