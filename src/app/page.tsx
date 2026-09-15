@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Nav from "@/components/nav/Nav";
 import Hero from "@/components/hero/Hero";
 import Features from "@/components/features/Features";
@@ -9,6 +10,10 @@ import Footer from "@/components/footer/Footer";
 import Partners from "@/components/partners/Partners";
 import Stories from "@/components/stories/Stories";
 import RoiWrapper from "@/components/roi/RoiWrapper";
+
+export const metadata: Metadata = {
+  title: "Nova Echo AI | Home",
+};
 
 export default function Home() {
   return (

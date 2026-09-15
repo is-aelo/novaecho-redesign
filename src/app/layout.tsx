@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nova Echo",
+  title: "Nova Echo AI",
   description: "Nova Echo AI — Concept Redesign",
 };
 

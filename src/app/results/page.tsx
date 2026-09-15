@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import Nav from "@/components/nav/Nav";
 import Results from "@/components/results/Results";
 import Footer from "@/components/footer/Footer";
+
+export const metadata: Metadata = {
+  title: "Nova Echo AI | Results",
+};
 
 export default function ResultsPage() {
   return (
