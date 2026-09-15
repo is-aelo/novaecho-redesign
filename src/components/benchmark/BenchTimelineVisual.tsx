@@ -94,7 +94,7 @@ export default function BenchTimelineVisual() {
                 return (
                   <g
                     key={step.label}
-                    opacity={revealed ? (isActive ? 1 : 0.6) : 0}
+                    opacity={revealed ? (isActive ? 1 : 0.9) : 0}
                   >
                     <g transform={`translate(${col.dotX}, ${ROW_Y[i]})`}>
                       {step.done ? (

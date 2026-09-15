@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { X, TrendUp, Medal } from "@phosphor-icons/react";
+import { X, TrendUp, Trophy } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { useRoiModal } from "@/contexts/RoiContext";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
@@ -87,7 +87,11 @@ export default function RoiResultsModal() {
   const parts = [
     { label: "Recovered bookings", value: results.revenueBenefit, swatch: "bg-accent-purple" },
     { label: "Cost savings", value: results.costSavings, swatch: "bg-accent-purple-soft" },
-    { label: "Returned staff time", value: results.timeValue, swatch: "bg-surface-700" },
+    {
+      label: `Returned staff time · ${results.staffHours.toLocaleString("en-US")} hrs`,
+      value: results.timeValue,
+      swatch: "bg-surface-700",
+    },
   ];
   const pct = (v: number) => (total > 0 ? (v / total) * 100 : 0);
 
@@ -130,7 +134,7 @@ export default function RoiResultsModal() {
               <p className="font-mono text-caption font-semibold uppercase tracking-wider text-text-secondary-light">
                 Net monthly ROI
               </p>
-              <p className="mt-1 flex items-center gap-2 font-display text-display-md font-bold tabular-nums tracking-tight text-accent-purple sm:text-display-lg">
+              <p className="mt-1 flex items-center gap-2 font-display text-display-sm font-bold tabular-nums tracking-tight text-accent-purple sm:text-display-md lg:text-display-lg">
                 <TrendUp size={22} weight="bold" className="text-accent-purple" />
                 {money(results.netRoi)}
               </p>
@@ -141,9 +145,9 @@ export default function RoiResultsModal() {
             <div className="flex flex-col gap-3 border-t border-surface-200 pt-4 md:border-l md:border-t-0 md:pl-8 md:pt-0">
               <div>
                 <p className="font-mono text-caption font-semibold uppercase tracking-wider text-text-secondary-light">
-                  Monthly benefit
+                  Gross monthly benefit
                 </p>
-                <p className="mt-0.5 font-display text-display-sm font-semibold tabular-nums text-text-primary-light">
+                <p className="mt-0.5 font-display text-body-lg font-semibold tabular-nums text-text-primary-light sm:text-display-sm">
                   {money(total)}
                 </p>
               </div>
@@ -151,7 +155,7 @@ export default function RoiResultsModal() {
                 <p className="font-mono text-caption font-semibold uppercase tracking-wider text-text-secondary-light">
                   Return on plan
                 </p>
-                <p className="mt-0.5 font-display text-display-sm font-semibold tabular-nums text-text-primary-light">
+                <p className="mt-0.5 font-display text-body-lg font-semibold tabular-nums text-text-primary-light sm:text-display-sm">
                   {results.roiPct.toFixed(0)}% · {money(results.planPrice)}/mo
                 </p>
               </div>
@@ -193,9 +197,9 @@ export default function RoiResultsModal() {
           <div data-stagger className="grid gap-5 sm:grid-cols-2">
             <div className="rounded-md border border-surface-200 bg-white p-5 md:p-6">
               <p className="font-mono text-caption font-semibold uppercase tracking-wider text-text-secondary-light">
-                Estimated annual impact
+                Estimated net annual impact
               </p>
-              <p className="mt-1 font-display text-display-md font-bold tabular-nums tracking-tight text-accent-purple">
+              <p className="mt-1 font-display text-display-sm font-bold tabular-nums tracking-tight text-accent-purple sm:text-display-md">
                 {money(results.annualImpact)}
               </p>
               <p className="mt-1 font-mono text-caption text-text-secondary-light">
@@ -206,14 +210,12 @@ export default function RoiResultsModal() {
               <p className="font-mono text-caption font-semibold uppercase tracking-wider text-accent-purple">
                 Recommended plan
               </p>
-              <p className="mt-1 flex items-center gap-2 font-display text-display-md font-semibold text-text-primary-light">
-                <Medal size={20} weight="fill" className="text-accent-purple" />
+              <p className="mt-1 flex items-center gap-2 font-display text-display-sm font-semibold text-text-primary-light sm:text-display-md">
+                <Trophy size={20} weight="fill" className="text-accent-purple shrink-0" />
                 {results.plan}
-                <span className="text-text-secondary-light">·</span>
-                <span className="text-text-secondary-light">{money(results.planPrice)}/mo</span>
               </p>
               <p className="mt-1 font-mono text-caption text-text-secondary-light">
-                fits your {money(total)}/mo benefit level
+                {money(results.planPrice)}/mo · fits your {money(total)}/mo benefit level
               </p>
             </div>
           </div>

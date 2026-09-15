@@ -224,7 +224,7 @@ export default function Nav() {
 
         <nav
           ref={menuRef}
-          className="absolute left-0 right-0 top-full mt-1 flex-col gap-1 rounded-xl bg-white px-5 py-4 shadow-sm border border-surface-200 lg:hidden"
+          className="absolute left-0 right-0 top-full mt-1 hidden flex-col gap-1 rounded-xl bg-white px-5 py-4 shadow-sm border border-surface-200 lg:hidden"
         >
           {links.map((link) => (
             <a

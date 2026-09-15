@@ -655,10 +655,6 @@ a, button {
   animation: bench-send-flow 0.6s linear infinite;
 }
 
-.bench-go-live[data-live="true"] {
-  animation: hero-live-pulse 2s ease-in-out infinite;
-}
-
 .bench-go-live[data-live="true"] rect {
   filter: drop-shadow(var(--glow-go-live));
 }
@@ -834,6 +830,32 @@ a, button {
   }
 }
 
+@keyframes loading-ring {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+
+  50% {
+    transform: scale(1.12);
+    opacity: 0.7;
+  }
+}
+
+@keyframes loading-dot {
+  0%,
+  100% {
+    transform: scale(0.7);
+    opacity: 0.25;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .nav-header,
   .nav-bar {
@@ -864,10 +886,6 @@ a, button {
     animation: none;
   }
 
-  .bench-go-live[data-live="true"] {
-    animation: none;
-  }
-
   .collapsible-grid {
     transition: none;
   }
@@ -879,6 +897,11 @@ a, button {
 
   .demo-step-in,
   .demo-wave-bar {
+    animation: none;
+  }
+
+  .loading-ring,
+  .loading-dot {
     animation: none;
   }
 }

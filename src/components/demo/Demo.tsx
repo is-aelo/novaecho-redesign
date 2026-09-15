@@ -291,7 +291,9 @@ function BuildAgentPanel({
 
 export default function Demo() {
   const builder = useBuildAgent();
-  const { setTransitioning, setTransitionNote } = useRoiModal();
+  const { openRoi, setTransitioning, setTransitionNote } = useRoiModal();
+
+  const selectedRole = AGENTS.find((entry) => entry.id === builder.agent)?.role ?? "Receptionist";
 
   function handleBuild() {
     const role = AGENTS.find((entry) => entry.id === builder.agent)?.role;
@@ -324,6 +326,15 @@ export default function Demo() {
           <div className="mt-5 lg:mt-6">
             <AgentProfile agent={builder.agent ?? "receptionist"} />
           </div>
+
+          <button
+            type="button"
+            onClick={() => openRoi(selectedRole)}
+            className="nudge-horizontal mt-4 inline-flex items-center gap-2 font-body text-body-sm font-medium text-text-primary-light transition-colors hover:text-accent-purple"
+          >
+            Calculate your ROI
+            <ArrowRight size={16} weight="bold" aria-hidden="true" />
+          </button>
         </div>
 
         <div className="w-full lg:max-w-md" data-reveal-item>

@@ -8,6 +8,7 @@ export interface RoiCalculation {
   revenueBenefit: number;
   costSavings: number;
   timeValue: number;
+  staffHours: number;
 }
 
 export const plans = [
@@ -42,5 +43,6 @@ export function calcResults(values: Record<string, number>): RoiCalculation {
     revenueBenefit,
     costSavings,
     timeValue,
+    staffHours: values.hoursSpent,
   };
 }

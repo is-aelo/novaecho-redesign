@@ -1045,14 +1045,18 @@ Module type — Geist Mono only, three rungs of emphasis (never two focal
                       sequence reaches all six steps, lights GO LIVE, and does
                       NOT loop; only a refresh replays it (reduced-motion
                       renders all six static immediately). Once the board is
-                      complete, the dashed segment carries a marching-dash
-                      send animation (.bench-send-line, dashoffset 0 → −5,
-                      0.6s linear loop, opacity 0.45 → 1) and the GO LIVE
-                      square + label light up (.bench-go-live: opacity pulse
-                      every 2s + --glow-go-live drop-shadow on both). During
+complete, the dashed segment carries a marching-dash
+                       send animation (.bench-send-line, dashoffset 0 → −5,
+                       0.6s linear loop, opacity 0.45 → 1) and the GO LIVE
+                       square + label light up (.bench-go-live: static
+                       --glow-go-live drop-shadow on both — no opacity pulse,
+                       no blink). During
                       the reveal cycle the dash stays static dim and GO LIVE
-                      stays flat. All of it is disabled under
-                      prefers-reduced-motion (static, full opacity).
+stays flat. Done steps hold ~0.9 opacity once they age
+                       past the active reveal (quiet, but legible); the pending
+                       Human QA pass reads dimmer by contrast.
+                       All of it is disabled under
+                       prefers-reduced-motion (static, full opacity).
                       A bottom hour ruler (0h / 24h / 48h ticks + 8px labels,
                       spanning the board) gives the sprint an absolute
                       elapsed-time scale.
