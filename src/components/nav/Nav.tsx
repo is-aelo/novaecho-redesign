@@ -44,24 +44,29 @@ export default function Nav() {
     }
     if (!isOnHomepage()) return;
 
-    const ids = links.map((l) => l.href.replace("#", ""));
-    const els = ids.map((id) => document.getElementById(id)).filter(Boolean);
+    const els = links
+      .map((link) => document.getElementById(link.href.replace("#", "")))
+      .filter((el): el is HTMLElement => el !== null);
     if (els.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible.length > 0) {
-          setActive(`#${visible[0].target.id}`);
+    function update() {
+      let current = "";
+      for (const el of els) {
+        // last section whose top passed the offset line is the active one
+        if (el.getBoundingClientRect().top <= OFFSET + 24) {
+          current = `#${el.id}`;
         }
-      },
-      { rootMargin: `-${OFFSET + 24}px 0px -40% 0px` }
-    );
+      }
+      if (current) setActive(current);
+    }
 
-    els.forEach((el) => observer.observe(el!));
-    return () => observer.disconnect();
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
   }, [pathname]);
 
   useEffect(() => {

@@ -427,8 +427,13 @@ Background:    --surface-hero (near-black #0A0A0A) + 4 vertical hairlines,
                narrow, tall viewport.
 Layout:        flex column, min-h-screen (full viewport height — never taller).
                The content column is a flex-1 wrapper that justifies the stack
-               to center; the bottom wave is the final flex item, tucking
-               directly under the content with no dead space above it. This
+               to center and carries pt-16 md:pt-20 (64px/80px — exactly the fixed-nav
+               clearance; the rest of the centering slack distribution is left
+               to justify-center, so the headline starts tight against the nav
+               band, not pushed down), so the centered stack always clears the
+               fixed 64px nav on short viewports and stays optically centered
+               at every breakpoint. The bottom wave is the final flex item,
+               tucking directly under the content with no dead space above it. This
                guarantees a single full-viewport hero: the wave sits in the
                lower band, and overflow-hidden clips any sub-pixel spill. No
                overlay, no negative margins except the wave's -mx-4 / lg:-mx-6
@@ -446,12 +451,14 @@ Grid:          single centered column at ALL breakpoints — grid-cols-1 gap-6
                max-w-2xl on desktop (matches the subheadline measure). The
                terminal body breathes on px-4 py-6 with gap-2 between lines.
                No middle-dot separators, no numbered markers.
-Headline:      display-sm → display-md → display-xl (22px/28px → 34px/38px →
-               48px/50px), font-display, weight 600, sentence case, solid white
-               — never gradient. MUST fit on one row at every breakpoint; step
-               the size down (not down the type color/weight) when a viewport
-               can't hold the phrase on a single line.
-               "Never sleep on sales again"
+Headline:      display-sm → display-lg → display-xl (22px/28px → 44px/48px →
+                48px/50px), font-display, weight 600, sentence case, solid white
+                — never gradient. MUST fit on one row at every breakpoint; step
+                the size down (not down the type color/weight) when a viewport
+                can't hold the phrase on a single line. The display-md step is
+                skipped in the hero: tablets (md–lg) get display-lg, not the
+                smaller phone scale.
+                "Never sleep on sales again"
 Subheadline:   body-sm (14px/20px), font-body, weight 300 (font-light),
                --text-secondary-on-dark — one line, sentence case, describes the
                product: "AI voice agents that answer calls, qualify leads, and
@@ -496,11 +503,11 @@ Body = a real CLI install feed (font-mono/Geist Mono,
                Banner lines stay full once printed (product identity, not a
                progression step). All lines keep their layout space so the
                window never grows/shrinks and the hero column never shifts.
-               Hold ~4s on the completed step, then reset to the banner and
-               replay. Pulse ring, line reveal, and cursor blink are disabled
-               under prefers-reduced-motion (full log renders static — banner
-               constant, steps in dimmed cascade). Frame is w-full max-w-md
-               (mobile) → lg:max-w-2xl (desktop).
+Hold ~4s on the completed step, then reset to the banner and
+                replay. Pulse ring, line reveal, and cursor blink are disabled
+                under prefers-reduced-motion (full log renders static — banner
+                constant, steps in dimmed cascade). Frame is w-full max-w-md
+                (mobile) → max-w-xl (tablet, md–lg) → lg:max-w-2xl (desktop).
 Texture:       a faint echo-waveform band (.hero-window-wave) sits behind the log
                lines — static vertical-bar SVG in --accent-cyan at ~0.5% opacity,
                masked so it melts toward the window edges and stays a whisper
@@ -517,12 +524,15 @@ CTA row:       primary = .btn-hero-primary (flat solid --surface-700 navy, no
                nav's prominent "Book Discovery Call" (→ #book-call), so it stays a
                quiet ghost — de-emphasized so the nav CTA doesn't compete with two
                equally prominent buttons.
-               Left column. All breakpoints: both buttons share one row (inline flex,
-               gap-4, wrap allowed on narrow screens), each keeping its
-               intrinsic (content-hugging) width — never full-bleed,
-               never stacked.
-Documentation for: Fixed padding (12px/24px) and 15px text stay identical on every
-                breakpoint — only the container switches from column to row.
+Left column. All breakpoints: both buttons share one row (inline flex,
+                gap-4, wrap allowed on ultra-narrow ≤320px screens), each keeping
+                its intrinsic (content-hugging) width — never full-bleed,
+                never stacked.
+Documentation for: Default button padding 12px/24px and 15px text stay
+                 identical above 380px. At ≤380px the hero buttons compact to
+                 padding 12px/20px + 14px text so the pair still shares one
+                 row on 360px-class viewports (Galaxy S8 etc.); only ≥320px screens
+                 allow the row to wrap.
 Trusted by:   a static (no marquee, no motion) social-proof row — NOT the
                 retired animated logo band. Desktop: col-span-2, row 3 right,
                 directly below the subheadline. Mobile: order-5, BELOW the CTA

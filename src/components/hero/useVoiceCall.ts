@@ -90,7 +90,7 @@ export default function useVoiceCall(): VoiceCall {
         setSeconds(0);
         setTurn(0);
         setPhase("speaking");
-      }, 1000);
+      }, 350);
       return () => window.clearTimeout(timer);
     }
     if (phase === "speaking") {
@@ -102,35 +102,35 @@ export default function useVoiceCall(): VoiceCall {
         } else {
           setPhase("action");
         }
-      }, 1900);
+      }, 650);
       return () => window.clearTimeout(timer);
     }
     if (phase === "listening") {
       const timer = window.setTimeout(() => {
         setTurn(turn + 1);
         setPhase("processing");
-      }, 1400);
+      }, 450);
       return () => window.clearTimeout(timer);
     }
     if (phase === "processing") {
-      const timer = window.setTimeout(() => setPhase("speaking"), 700);
+      const timer = window.setTimeout(() => setPhase("speaking"), 250);
       return () => window.clearTimeout(timer);
     }
     if (phase === "action") {
       if (visibleActions < script.actions.length) {
         const timer = window.setTimeout(
           () => setVisibleActions((count) => count + 1),
-          400
+          150
         );
         return () => window.clearTimeout(timer);
       }
-      const timer = window.setTimeout(() => setPhase("complete"), 400);
+      const timer = window.setTimeout(() => setPhase("complete"), 150);
       return () => window.clearTimeout(timer);
     }
     if (phase === "complete") {
-      const decisionTimer = window.setTimeout(() => setRevealDecision(true), 500);
-      const intentTimer = window.setTimeout(() => setRevealIntent(true), 800);
-      const resultTimer = window.setTimeout(() => setRevealResult(true), 1300);
+      const decisionTimer = window.setTimeout(() => setRevealDecision(true), 200);
+      const intentTimer = window.setTimeout(() => setRevealIntent(true), 300);
+      const resultTimer = window.setTimeout(() => setRevealResult(true), 450);
       return () => {
         window.clearTimeout(decisionTimer);
         window.clearTimeout(intentTimer);

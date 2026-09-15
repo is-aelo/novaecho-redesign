@@ -28,16 +28,16 @@ export default function Hero() {
     >
       <HeroBackground />
 
-      <div className="relative z-10 flex w-full flex-1 flex-col justify-center">
+      <div className="relative z-10 flex w-full flex-1 flex-col justify-center pt-16 md:pt-20">
         <div className="mx-auto grid w-full max-w-3xl grid-cols-1 gap-6">
           <div
             data-hero-item
             className="flex flex-col gap-2 text-center"
           >
-            <h1 className="mt-8 font-display text-display-sm font-semibold tracking-tight text-text-primary md:text-display-md lg:text-display-xl">
+            <h1 className="font-display text-display-sm font-semibold tracking-tight text-text-primary md:text-display-lg lg:text-display-xl">
               Never sleep on sales again
             </h1>
-            <p className="mx-auto max-w-2xl font-body text-body-sm font-light leading-relaxed text-text-secondary">
+            <p className="mx-auto max-w-2xl text-balance font-body text-body-sm font-light leading-relaxed text-text-secondary">
               AI voice agents that answer calls, qualify leads, and book
               appointments &mdash; around the clock.
             </p>
@@ -45,7 +45,7 @@ export default function Hero() {
 
           <div
             data-hero-item
-            className="order-3 mx-auto w-full max-w-md lg:max-w-2xl"
+            className="order-3 mx-auto w-full max-w-md md:max-w-xl lg:max-w-2xl"
           >
             <div className="overflow-hidden rounded-window border border-hairline-on-dark bg-surface-900">
               <div className="flex items-center gap-2 border-b border-hairline-on-dark px-4 py-3">
