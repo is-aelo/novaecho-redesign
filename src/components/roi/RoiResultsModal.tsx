@@ -1,10 +1,15 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { X, TrendUp, Medal, type Icon as PhosphorIcon } from "@phosphor-icons/react";
+import { X, TrendUp, Medal } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { useRoiModal } from "@/contexts/RoiContext";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
+import ImpactChart from "./ImpactChart";
+
+const money = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
+
+const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export default function RoiResultsModal() {
   const { resultsOpen, results, closeResults, openRoi, agentType, setTransitioning, resetForm } = useRoiModal();
@@ -37,6 +42,28 @@ export default function RoiResultsModal() {
         { opacity: 0, y: 24, scale: 0.97 },
         { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }
       );
+
+      if (!reduced()) {
+        const stagger = Array.from(panel.querySelectorAll("[data-stagger]"));
+        const bars = Array.from(panel.querySelectorAll<HTMLElement>("[data-bar]"));
+        gsap.set(stagger, { opacity: 0, y: 16 });
+        gsap.set(bars, { transformOrigin: "left center", scaleX: 0 });
+        gsap.to(stagger, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "power3.out",
+          stagger: 0.08,
+          delay: 0.15,
+        });
+        gsap.to(bars, {
+          scaleX: 1,
+          duration: 0.7,
+          ease: "power3.out",
+          stagger: 0.1,
+          delay: 0.3,
+        });
+      }
     } else {
       gsap.to(panel, {
         opacity: 0,
@@ -56,6 +83,14 @@ export default function RoiResultsModal() {
 
   if (!results) return null;
 
+  const total = results.total;
+  const parts = [
+    { label: "Recovered bookings", value: results.revenueBenefit, swatch: "bg-accent-purple" },
+    { label: "Cost savings", value: results.costSavings, swatch: "bg-accent-purple-soft" },
+    { label: "Returned staff time", value: results.timeValue, swatch: "bg-surface-700" },
+  ];
+  const pct = (v: number) => (total > 0 ? (v / total) * 100 : 0);
+
   return (
     <div
       ref={overlayRef}
@@ -63,15 +98,18 @@ export default function RoiResultsModal() {
     >
       <div
         ref={panelRef}
-        className="relative w-full max-w-4xl max-h-full overflow-y-auto bg-surface-100 border border-surface-200 rounded-lg hidden modal-scrollbar"
+        className="relative w-full max-w-5xl max-h-full overflow-y-auto bg-surface-100 border border-surface-200 rounded-lg hidden modal-scrollbar"
       >
         <div className="sticky top-0 z-10 flex items-center justify-between bg-surface-100/90 backdrop-blur-md px-6 py-4 border-b border-surface-200 lg:px-8">
           <div>
-            <h2 className="font-display text-display-sm font-semibold text-text-primary-light">
+            <p className="font-mono text-caption font-semibold uppercase tracking-wider text-accent-purple">
+              Nova Echo · ROI report
+            </p>
+            <h2 className="mt-1 font-display text-display-sm font-semibold text-text-primary-light">
               Your ROI Results
             </h2>
             <p className="mt-0.5 text-body-sm text-text-secondary-light">
-              Based on the metrics you entered.
+              Modeled from the metrics you entered.
             </p>
           </div>
           <button
@@ -83,75 +121,113 @@ export default function RoiResultsModal() {
           </button>
         </div>
 
-        <div className="p-6 lg:p-8 flex flex-col gap-6">
-          <div className="rounded-sm bg-surface-50 border border-surface-200 p-5 flex flex-col gap-3">
-            <ResultRow
-              label="Total Monthly Benefit"
-              value={`$${results.total.toLocaleString("en-US", { maximumFractionDigits: 0 })}`}
-              accent
-            />
-            <ResultRow
-              label="Best Nova Plan"
-              value={results.plan}
-              accent
-              icon={Medal}
-            />
-            <ResultRow
-              label="Plan Cost"
-              value={`$${results.planPrice}/mo`}
-            />
-          </div>
-
-          <div className="rounded-sm bg-surface-50 border border-surface-200 p-5 flex flex-col gap-3">
-            <ResultRow
-              label="Net Monthly ROI"
-              value={`$${results.netRoi.toLocaleString("en-US", { maximumFractionDigits: 0 })}`}
-            />
-            <ResultRow
-              label="ROI Percentage"
-              value={`${results.roiPct.toFixed(0)}%`}
-            />
-            <ResultRow
-              label="Annual Impact"
-              value={`$${results.annualImpact.toLocaleString("en-US", { maximumFractionDigits: 0 })}`}
-              accent
-            />
-          </div>
-
-          <div className="rounded-sm bg-surface-50/50 border border-surface-200/60 p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-caption font-semibold uppercase tracking-wider text-surface-700">
-                Breakdown
-              </span>
+        <div className="flex flex-col gap-5 p-6 lg:p-8">
+          <div
+            data-stagger
+            className="flex flex-col gap-4 rounded-md border border-surface-200 bg-white p-5 md:flex-row md:items-center md:justify-between md:p-6"
+          >
+            <div>
+              <p className="font-mono text-caption font-semibold uppercase tracking-wider text-text-secondary-light">
+                Net monthly ROI
+              </p>
+              <p className="mt-1 flex items-center gap-2 font-display text-display-md font-bold tabular-nums tracking-tight text-accent-purple sm:text-display-lg">
+                <TrendUp size={22} weight="bold" className="text-accent-purple" />
+                {money(results.netRoi)}
+              </p>
+              <p className="mt-1 font-mono text-caption text-text-secondary-light">
+                after {results.plan} · {money(results.planPrice)}/mo
+              </p>
             </div>
-            <div className="flex flex-col gap-2">
-              <BreakdownRow
-                label="Recovered revenue (missed + hold)"
-                value={`$${results.revenueBenefit.toLocaleString("en-US", { maximumFractionDigits: 0 })}`}
-              />
-              <BreakdownRow
-                label="Receptionist cost savings"
-                value={`$${results.costSavings.toLocaleString("en-US", { maximumFractionDigits: 0 })}`}
-              />
-              <BreakdownRow
-                label="Value of your time back"
-                value={`$${results.timeValue.toLocaleString("en-US", { maximumFractionDigits: 0 })}`}
-              />
+            <div className="flex flex-col gap-3 border-t border-surface-200 pt-4 md:border-l md:border-t-0 md:pl-8 md:pt-0">
+              <div>
+                <p className="font-mono text-caption font-semibold uppercase tracking-wider text-text-secondary-light">
+                  Monthly benefit
+                </p>
+                <p className="mt-0.5 font-display text-display-sm font-semibold tabular-nums text-text-primary-light">
+                  {money(total)}
+                </p>
+              </div>
+              <div>
+                <p className="font-mono text-caption font-semibold uppercase tracking-wider text-text-secondary-light">
+                  Return on plan
+                </p>
+                <p className="mt-0.5 font-display text-display-sm font-semibold tabular-nums text-text-primary-light">
+                  {results.roiPct.toFixed(0)}% · {money(results.planPrice)}/mo
+                </p>
+              </div>
             </div>
           </div>
 
-          <p className="text-caption text-text-secondary-light/60 leading-relaxed text-center">
-            This is a concept estimate and may not reflect the full accuracy of the official Nova Echo AI ROI calculator.
-          </p>
+          <div data-stagger className="grid gap-5 lg:grid-cols-5">
+            <div className="lg:col-span-3">
+              <ImpactChart monthly={total} bookings={results.revenueBenefit} active={resultsOpen} />
+            </div>
+            <div className="rounded-md border border-surface-200 bg-white p-5 lg:col-span-2">
+              <p className="font-mono text-caption font-semibold uppercase tracking-wider text-text-secondary-light">
+                Monthly benefit composition
+              </p>
+              <div className="mt-4 flex h-2 w-full overflow-hidden rounded-full bg-surface-200">
+                {parts.map((part) => (
+                  <div
+                    key={part.label}
+                    data-bar
+                    className={`h-full ${part.swatch}`}
+                    style={{ width: `${pct(part.value)}%` }}
+                  />
+                ))}
+              </div>
+              <div className="mt-4 flex flex-col gap-3">
+                {parts.map((part) => (
+                  <div key={part.label} className="flex items-center gap-2.5">
+                    <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${part.swatch}`} />
+                    <span className="flex-1 text-caption text-text-secondary-light">{part.label}</span>
+                    <span className="font-mono text-caption font-medium tabular-nums text-text-primary-light">
+                      {money(part.value)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div data-stagger className="grid gap-5 sm:grid-cols-2">
+            <div className="rounded-md border border-surface-200 bg-white p-5 md:p-6">
+              <p className="font-mono text-caption font-semibold uppercase tracking-wider text-text-secondary-light">
+                Estimated annual impact
+              </p>
+              <p className="mt-1 font-display text-display-md font-bold tabular-nums tracking-tight text-accent-purple">
+                {money(results.annualImpact)}
+              </p>
+              <p className="mt-1 font-mono text-caption text-text-secondary-light">
+                12 months, with {results.plan} included
+              </p>
+            </div>
+            <div className="rounded-md border border-accent-purple/30 bg-accent-purple/5 p-5 md:p-6">
+              <p className="font-mono text-caption font-semibold uppercase tracking-wider text-accent-purple">
+                Recommended plan
+              </p>
+              <p className="mt-1 flex items-center gap-2 font-display text-display-md font-semibold text-text-primary-light">
+                <Medal size={20} weight="fill" className="text-accent-purple" />
+                {results.plan}
+                <span className="text-text-secondary-light">·</span>
+                <span className="text-text-secondary-light">{money(results.planPrice)}/mo</span>
+              </p>
+              <p className="mt-1 font-mono text-caption text-text-secondary-light">
+                fits your {money(total)}/mo benefit level
+              </p>
+            </div>
+          </div>
 
           <div className="flex flex-col gap-3 pt-2">
             <button
+              data-stagger
               onClick={() => { closeResults(); scrollTo("#book-call"); }}
               className="btn-primary w-full"
             >
               Book Discovery Call
             </button>
             <button
+              data-stagger
               onClick={() => {
                 closeResults();
                 resetForm();
@@ -161,50 +237,20 @@ export default function RoiResultsModal() {
                   openRoi(agentType);
                 }, 400);
               }}
-              className="text-body-sm font-medium text-text-secondary-light underline underline-offset-2 decoration-surface-200 hover:text-surface-700 hover:decoration-surface-700 transition-colors"
+              className="text-body-sm font-medium text-text-secondary-light underline underline-offset-2 decoration-surface-200 transition-colors hover:text-accent-magenta hover:decoration-accent-magenta"
             >
               Start Fresh
             </button>
           </div>
+
+          <p
+            data-stagger
+            className="text-center font-mono text-caption leading-relaxed text-text-secondary-light/60"
+          >
+            Concept estimate — not the full accuracy of the official Nova Echo AI ROI calculator.
+          </p>
         </div>
       </div>
-    </div>
-  );
-}
-
-function ResultRow({
-  label,
-  value,
-  accent,
-  icon: Icon,
-}: {
-  label: string;
-  value: string;
-  accent?: boolean;
-  icon?: PhosphorIcon;
-}) {
-  return (
-    <div className="flex items-center justify-between">
-      <span className="text-body-sm text-text-secondary-light/80">{label}</span>
-      <span className="flex items-center gap-1.5">
-        {accent && (Icon ? <Icon size={14} weight="fill" className="text-accent-magenta" /> : <TrendUp size={14} weight="bold" className="text-accent-magenta" />)}
-        <span
-          className={`font-mono text-body-sm font-semibold ${
-            accent ? "text-accent-magenta" : "text-text-primary-light"
-          }`}
-        >
-          {value}
-        </span>
-      </span>
-    </div>
-  );
-}
-
-function BreakdownRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center justify-between">
-      <span className="text-caption text-text-secondary-light">{label}</span>
-      <span className="font-mono text-caption text-text-secondary-light font-medium">{value}</span>
     </div>
   );
 }

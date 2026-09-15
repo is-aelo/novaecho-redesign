@@ -4,14 +4,16 @@ import { ReactNode, useRef, useEffect } from "react";
 import { RoiProvider, useRoiModal } from "@/contexts/RoiContext";
 import gsap from "gsap";
 import { useParallax } from "@/hooks/useParallax";
+import { useSectionReveal } from "@/hooks/useSectionReveal";
 import RoiModal from "./RoiModal";
 import RoiResultsModal from "./RoiResultsModal";
 
 function TransitionOverlay() {
-  const { isTransitioning } = useRoiModal();
+  const { isTransitioning, transitionNote } = useRoiModal();
   const overlayRef = useRef<HTMLDivElement>(null);
   const spinnerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
+  const noteRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const overlay = overlayRef.current;
@@ -36,6 +38,13 @@ function TransitionOverlay() {
         { opacity: 0, y: 6 },
         { opacity: 1, y: 0, duration: 0.3, delay: 0.15, ease: "power2.out" }
       );
+      if (transitionNote) {
+        gsap.fromTo(
+          noteRef.current,
+          { opacity: 0, y: 6 },
+          { opacity: 1, y: 0, duration: 0.3, delay: 0.3, ease: "power2.out" }
+        );
+      }
     } else {
       gsap.to(overlay, {
         opacity: 0,
@@ -44,7 +53,7 @@ function TransitionOverlay() {
         onComplete: () => gsap.set(overlay, { display: "none" }),
       });
     }
-  }, [isTransitioning]);
+  }, [isTransitioning, transitionNote]);
 
   return (
     <div
@@ -62,20 +71,38 @@ function TransitionOverlay() {
         >
           Just a moment&hellip;
         </span>
+        {transitionNote ? (
+          <p
+            ref={noteRef}
+            className="max-w-xs text-center text-caption leading-relaxed text-accent-purple"
+          >
+            {transitionNote}
+          </p>
+        ) : null}
       </div>
     </div>
   );
 }
 
+function RoiModals() {
+  const { sessionCount } = useRoiModal();
+  return (
+    <>
+      <RoiModal key={sessionCount} />
+      <TransitionOverlay />
+      <RoiResultsModal />
+    </>
+  );
+}
+
 export default function RoiWrapper({ children }: { children: ReactNode }) {
   useParallax();
+  useSectionReveal();
 
   return (
     <RoiProvider>
       {children}
-      <RoiModal />
-      <TransitionOverlay />
-      <RoiResultsModal />
+      <RoiModals />
     </RoiProvider>
   );
 }

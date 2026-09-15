@@ -8,6 +8,7 @@ export type { RoiCalculation };
 interface RoiContextValue {
   open: boolean;
   agentType: string;
+  sessionCount: number;
   openRoi: (agentType: string) => void;
   closeRoi: () => void;
 
@@ -19,6 +20,8 @@ interface RoiContextValue {
 
   isTransitioning: boolean;
   setTransitioning: (v: boolean) => void;
+  transitionNote: string;
+  setTransitionNote: (v: string) => void;
 
   formResetKey: number;
   resetForm: () => void;
@@ -29,13 +32,16 @@ const RoiContext = createContext<RoiContextValue | null>(null);
 export function RoiProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [agentType, setAgentType] = useState("");
+  const [sessionCount, setSessionCount] = useState(0);
   const [resultsOpen, setResultsOpen] = useState(false);
   const [results, setResults] = useState<RoiCalculation | null>(null);
   const [isTransitioning, setTransitioning] = useState(false);
+  const [transitionNote, setTransitionNote] = useState("");
   const [formResetKey, setFormResetKey] = useState(0);
 
   function openRoi(type: string) {
     setAgentType(type);
+    setSessionCount((n) => n + 1);
     setOpen(true);
   }
 
@@ -64,9 +70,10 @@ export function RoiProvider({ children }: { children: ReactNode }) {
   return (
     <RoiContext.Provider
       value={{
-        open, agentType, openRoi, closeRoi,
+        open, agentType, sessionCount, openRoi, closeRoi,
         resultsOpen, results, openResults, closeResults, reopenRoi,
         isTransitioning, setTransitioning,
+        transitionNote, setTransitionNote,
         formResetKey, resetForm,
       }}
     >

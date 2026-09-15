@@ -23,8 +23,8 @@ export default function Footer() {
 
   return (
     <footer className="w-full bg-surface-950 px-6 py-12 lg:py-16">
-      <div className="mx-auto flex max-w-6xl flex-col gap-10 lg:flex-row lg:justify-between lg:gap-24">
-        <div className="flex max-w-md flex-col gap-5">
+      <div className="mx-auto flex max-w-6xl flex-col gap-10 lg:flex-row lg:justify-between lg:gap-24" data-section-reveal>
+        <div className="flex max-w-md flex-col gap-5" data-reveal-item>
           <a href="/" className="flex items-center gap-2.5">
             <Image
               src="/images/novaecho-logo.png"
@@ -78,7 +78,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4" data-reveal-item>
           <h3 className="font-display text-body-sm lg:text-body-md font-semibold text-text-primary">
             Docs
           </h3>
@@ -110,7 +110,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4" data-reveal-item>
           <h3 className="font-display text-body-sm lg:text-body-md font-semibold text-text-primary">
             Contact Us
           </h3>

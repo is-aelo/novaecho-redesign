@@ -37,7 +37,6 @@ export default function useBuildAgent(): BuildAgentState {
 
   function selectAgent(value: AgentChoice) {
     setAgent(value);
-    setStep(2);
   }
 
   function selectVoice(value: string) {
@@ -54,7 +53,8 @@ export default function useBuildAgent(): BuildAgentState {
   }
 
   function goNext() {
-    if (step === 2) setStep(3);
+    if (step === 1 && agent) setStep(2);
+    else if (step === 2) setStep(3);
   }
 
   function submit() {

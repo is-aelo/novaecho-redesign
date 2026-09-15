@@ -39,8 +39,8 @@ const programs: Program[] = [
 export default function Partners() {
   return (
     <section id="partners" className="w-full scroll-mt-16 bg-surface-50 px-6 py-16">
-      <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12">
-        <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
+      <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12" data-section-reveal>
+        <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center" data-reveal-item>
           <h2 className="font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
             Build More Revenue With Nova Echo
           </h2>
@@ -50,7 +50,7 @@ export default function Partners() {
           </p>
         </div>
 
-        <div className="mt-5 grid grid-cols-1 gap-6 lg:mt-6 lg:grid-cols-3 lg:gap-6">
+        <div className="mt-5 grid grid-cols-1 gap-6 lg:mt-6 lg:grid-cols-3 lg:gap-6" data-reveal-item>
           {programs.map((program) => (
             <article
               key={program.title}

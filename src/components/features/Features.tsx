@@ -14,8 +14,9 @@ export default function Features() {
         className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16"
         data-parallax
         data-parallax-y="12"
+        data-section-reveal
       >
-        <div className="flex flex-col lg:col-span-4">
+        <div className="flex flex-col lg:col-span-4" data-reveal-item>
           <h2 className="font-display text-display-md lg:text-display-lg font-semibold leading-tight tracking-tight text-text-primary-light">
             Why Nova Echo Leads the Voice AI Platform
           </h2>
@@ -25,13 +26,14 @@ export default function Features() {
           </p>
         </div>
 
-        <div className="flex flex-col lg:col-span-8">
+        <div className="flex flex-col lg:col-span-8" data-reveal-item>
           <LatencyPanel />
         </div>
 
         <div
           id="live-transcripts"
           className={`collapsible-grid lg:col-span-12 ${showTranscripts ? "is-open" : ""}`}
+          data-reveal-item
         >
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:gap-5">
             <MiniCall
@@ -121,7 +123,7 @@ export default function Features() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center text-center lg:col-span-12">
+        <div className="flex flex-col items-center text-center lg:col-span-12" data-reveal-item>
           <h3 className="font-display text-display-sm font-semibold tracking-tight text-text-primary-light">
             One agent, multiple calls, all at once
           </h3>
@@ -146,7 +148,7 @@ export default function Features() {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:col-span-12">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:col-span-12" data-reveal-item>
           <LedgerCard
             eyebrow="High call capacity"
             heading={

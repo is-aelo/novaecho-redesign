@@ -8,6 +8,12 @@ import useHeroStatus from "./useHeroStatus";
 import useVoiceCall from "./useVoiceCall";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 
+const WAVE_BARS = [
+  18, 30, 48, 66, 80, 90, 74, 56, 40, 26, 34, 52, 70, 88, 96, 78, 60, 44, 28,
+  38, 58, 78, 94, 100, 84, 66, 48, 32, 44, 64, 84, 98, 90, 72, 54, 36, 46, 66,
+  82, 70,
+];
+
 export default function Hero() {
   const { containerRef } = useHeroEntrance();
   const call = useVoiceCall();
@@ -49,57 +55,80 @@ export default function Hero() {
                 <span className="console-panel-head">Nova Echo Session</span>
                 <span className="hero-status-dot ml-auto" aria-hidden="true" />
               </div>
-              <div className="flex flex-col gap-2 px-4 py-6">
-                {blocks.map((block, index) => {
-                  const revealed = index < visibleCount;
-                  const isActive = revealed && index === visibleCount - 1;
-                  const { kind, content } = block;
-                  const check = content.startsWith("✔ ") ? "✔ " : null;
-                  const label = check ? content.slice(2) : content;
-                  const lineTone =
-                    kind === "banner" && index === 0
-                      ? "font-semibold text-accent-purple-soft"
-                      : kind === "banner"
-                        ? "text-accent-purple-soft/80"
-                        : "text-accent-purple-soft";
-                  return (
-                    <div
-                      key={`${kind}-${content}`}
-                      aria-hidden={!revealed}
-                      className={`hero-status-line font-mono text-body-sm ${lineTone} ${
-                        !revealed
-                          ? "opacity-0"
-                          : isActive || kind === "banner"
-                            ? "opacity-100"
-                            : "opacity-40"
-                      }`}
-                    >
-                      {kind === "step" && (
-                        <span
-                          className="text-accent-purple-soft/50"
-                          aria-hidden="true"
-                        >
-                          {"~$ "}
-                        </span>
-                      )}
-                      {check && (
-                        <span
-                          className="text-accent-purple-soft/40"
-                          aria-hidden="true"
-                        >
-                          {check}
-                        </span>
-                      )}
-                      {label}
-                      {isActive && (
-                        <span
-                          className="hero-status-cursor"
-                          aria-hidden="true"
+              <div className="relative flex flex-col gap-2 px-4 py-6">
+                <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+                  <svg
+                    className="hero-window-wave h-full w-full"
+                    viewBox="0 0 640 120"
+                    preserveAspectRatio="none"
+                  >
+                    {WAVE_BARS.map((bar, index) => {
+                      const height = bar * 0.6;
+                      return (
+                        <rect
+                          key={index}
+                          x={8 + index * 16}
+                          y={60 - height / 2}
+                          width={6}
+                          height={height}
+                          fill="var(--accent-cyan)"
                         />
-                      )}
-                    </div>
-                  );
-                })}
+                      );
+                    })}
+                  </svg>
+                </div>
+                <div className="relative flex flex-col gap-2">
+                  {blocks.map((block, index) => {
+                    const revealed = index < visibleCount;
+                    const isActive = revealed && index === visibleCount - 1;
+                    const { kind, content } = block;
+                    const check = content.startsWith("✔ ") ? "✔ " : null;
+                    const label = check ? content.slice(2) : content;
+                    const lineTone =
+                      kind === "banner" && index === 0
+                        ? "font-semibold text-accent-purple-soft"
+                        : kind === "banner"
+                          ? "text-accent-purple-soft/80"
+                          : "text-accent-purple-soft";
+                    return (
+                      <div
+                        key={`${kind}-${content}`}
+                        aria-hidden={!revealed}
+                        className={`hero-status-line font-mono text-body-sm ${lineTone} ${
+                          !revealed
+                            ? "opacity-0"
+                            : isActive || kind === "banner"
+                              ? "opacity-100"
+                              : "opacity-40"
+                        }`}
+                      >
+                        {kind === "step" && (
+                          <span
+                            className="text-accent-purple-soft/50"
+                            aria-hidden="true"
+                          >
+                            {"~$ "}
+                          </span>
+                        )}
+                        {check && (
+                          <span
+                            className="text-status-green"
+                            aria-hidden="true"
+                          >
+                            {check}
+                          </span>
+                        )}
+                        {label}
+                        {isActive && (
+                          <span
+                            className="hero-status-cursor"
+                            aria-hidden="true"
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>

@@ -320,8 +320,8 @@ export default function Pricing() {
 
   return (
     <section id="pricing" className="w-full bg-surface-50 px-6 py-16 scroll-mt-16">
-      <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12">
-        <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center">
+      <div className="mx-auto flex max-w-6xl flex-col" data-parallax data-parallax-y="12" data-section-reveal>
+        <div className="flex max-w-3xl flex-col items-start text-left lg:mx-auto lg:items-center lg:text-center" data-reveal-item>
           <p className="font-mono text-caption font-medium uppercase tracking-wider text-accent-purple">
             Pricing
           </p>
@@ -334,7 +334,7 @@ export default function Pricing() {
           </p>
         </div>
 
-        <div className="mt-5 hidden lg:mt-12 lg:grid lg:grid-cols-3 lg:items-stretch lg:gap-6">
+        <div className="mt-5 hidden lg:mt-12 lg:grid lg:grid-cols-3 lg:items-stretch lg:gap-6" data-reveal-item>
           {plans.map((plan) => (
             <article
               key={plan.key}
@@ -352,7 +352,7 @@ export default function Pricing() {
           ))}
         </div>
 
-        <div className="mt-5 lg:hidden lg:mt-6">
+        <div className="mt-5 lg:hidden lg:mt-6" data-reveal-item>
           <div className="flex gap-1 overflow-hidden rounded-sm border border-surface-200 bg-white p-1">
             {plans.map((plan, i) => (
               <button
@@ -387,7 +387,7 @@ export default function Pricing() {
           </div>
         </div>
 
-        <div className="mt-16 rounded-md border border-surface-200 bg-surface-100 p-6 md:p-8 lg:mt-24">
+        <div className="mt-16 rounded-md border border-surface-200 bg-surface-100 p-6 md:p-8 lg:mt-24" data-reveal-item>
           <p className="font-mono text-caption font-medium uppercase tracking-wider text-accent-purple">
             Need More Than a Standard Plan?
           </p>

@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, CaretDown, Check } from "@phosphor-icons/react";
+import { ArrowRight, CaretDown, Check, Phone } from "@phosphor-icons/react";
 import AgentProfile from "./AgentProfile";
 import { AGENTS, VOICES } from "./agents";
 import useBuildAgent, { type BuildAgentState, type FormField } from "./useBuildAgent";
+import { useRoiModal } from "@/contexts/RoiContext";
 
 const inputClass =
   "w-full rounded-sm border border-surface-200 bg-white px-3 py-2.5 font-body text-body-sm text-text-primary-light placeholder:text-text-secondary-light/30 outline-none transition-colors focus:border-accent-purple";
@@ -85,7 +86,13 @@ function VoiceSelect({ builder }: { builder: BuildAgentState }) {
   );
 }
 
-function BuildAgentPanel({ builder }: { builder: BuildAgentState }) {
+function BuildAgentPanel({
+  builder,
+  onSubmit,
+}: {
+  builder: BuildAgentState;
+  onSubmit: () => void;
+}) {
   const selected = AGENTS.find((entry) => entry.id === builder.agent) ?? null;
   const voice = VOICES.find((v) => v.value === builder.voice);
   const divisor = builder.step === "done" ? 3 : builder.step;
@@ -159,7 +166,7 @@ function BuildAgentPanel({ builder }: { builder: BuildAgentState }) {
               ))}
             </div>
             <p className="mt-4 font-mono text-caption text-text-secondary-light/50">
-              Pick one — the next step unlocks.
+              Pick an agent, then press Continue.
             </p>
           </>
         )}
@@ -200,13 +207,16 @@ function BuildAgentPanel({ builder }: { builder: BuildAgentState }) {
               Agent build received
             </p>
             <p className="mt-3 font-display text-display-sm font-semibold tracking-tight text-text-primary-light">
-              {selected ? selected.role : "Your agent"} — reserved on the voice line.
+              A demo call is on the way.
             </p>
-            <p className="mt-2 max-w-prose text-body-sm leading-relaxed text-text-secondary-light">
-              We&apos;ll reach out to configure your {selected ? selected.role.toUpperCase() : "agent"}
-              {voice ? ` with the ${voice.label} voice` : ""} with the details you shared
-              {builder.email ? ` at ${builder.email}` : ""}.
-            </p>
+            <div className="mt-3 flex items-start gap-3 rounded-md border border-accent-purple/30 bg-accent-purple/5 px-4 py-3">
+              <Phone size={18} weight="fill" className="mt-0.5 shrink-0 text-accent-purple" />
+              <p className="font-body text-caption leading-relaxed text-text-secondary-light">
+                Your {selected ? selected.role.toUpperCase() : "agent"} will ring you soon to
+                demo how it handles real calls{voice ? ` in the ${voice.label} voice` : ""},
+                using the details and prompt you entered{builder.email ? ` at ${builder.email}` : ""}.
+              </p>
+            </div>
             <button
               type="button"
               onClick={builder.reset}
@@ -218,31 +228,62 @@ function BuildAgentPanel({ builder }: { builder: BuildAgentState }) {
         )}
       </div>
 
-      {builder.step !== 1 && builder.step !== "done" && (
-        <div className="mt-6 flex items-center justify-between gap-4 border-t border-surface-200 pt-5">
-          <button
-            type="button"
-            onClick={builder.goBack}
-            className="font-mono text-caption font-medium uppercase tracking-wider text-text-secondary-light transition-colors hover:text-text-primary-light"
-          >
-            Back
-          </button>
-          {builder.step === 2 ? (
-            <button
-              type="button"
-              onClick={builder.goNext}
-              className="nudge-horizontal inline-flex items-center gap-1 rounded-btn border border-surface-700/30 px-6 py-3 font-body text-body-sm font-medium text-text-primary-light transition-colors hover:border-surface-700/60"
-            >
-              Continue
-              <ArrowRight size={14} weight="bold" />
-            </button>
-          ) : (
-            <button type="button" onClick={builder.submit} className="btn-primary nudge-horizontal flex-1">
-              Build My Agent
-              <ArrowRight size={16} weight="bold" />
-            </button>
+      {builder.step !== "done" && (
+        <>
+          <div className="mt-6 flex items-center justify-between gap-4 border-t border-surface-200 pt-5">
+            {builder.step === 1 ? (
+              <span aria-hidden="true" />
+            ) : (
+              <button
+                type="button"
+                onClick={builder.goBack}
+                className="font-mono text-caption font-medium uppercase tracking-wider text-text-secondary-light transition-colors hover:text-text-primary-light"
+              >
+                Back
+              </button>
+            )}
+            {builder.step === 1 && (
+              <button
+                type="button"
+                onClick={builder.goNext}
+                disabled={!builder.agent}
+                className="nudge-horizontal inline-flex items-center gap-1 rounded-btn border border-surface-700/30 px-6 py-3 font-body text-body-sm font-medium text-text-primary-light transition-colors hover:border-surface-700/60 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-surface-700/30"
+              >
+                Continue
+                <ArrowRight size={14} weight="bold" />
+              </button>
+            )}
+            {builder.step === 2 && (
+              <button
+                type="button"
+                onClick={builder.goNext}
+                className="nudge-horizontal inline-flex items-center gap-1 rounded-btn border border-surface-700/30 px-6 py-3 font-body text-body-sm font-medium text-text-primary-light transition-colors hover:border-surface-700/60"
+              >
+                Continue
+                <ArrowRight size={14} weight="bold" />
+              </button>
+            )}
+            {builder.step === 3 && (
+              <button type="button" onClick={onSubmit} className="btn-primary nudge-horizontal flex-1">
+                Build My Agent
+                <ArrowRight size={16} weight="bold" />
+              </button>
+            )}
+          </div>
+          {builder.step === 3 && (
+            <div className="mt-4 flex items-start gap-3 rounded-md border border-accent-purple/30 bg-accent-purple/5 px-4 py-3">
+              <Phone size={18} weight="fill" className="mt-0.5 shrink-0 text-accent-purple" />
+              <p className="font-body text-caption leading-relaxed text-text-secondary-light">
+                <span className="font-semibold text-text-primary-light">
+                  Expect a demo call.
+                </span>{" "}
+                Your new agent will ring you in the{" "}
+                {voice ? `${voice.label} voice` : "voice you chose"}, using the
+                details and prompt you entered.
+              </p>
+            </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );
@@ -250,11 +291,25 @@ function BuildAgentPanel({ builder }: { builder: BuildAgentState }) {
 
 export default function Demo() {
   const builder = useBuildAgent();
+  const { setTransitioning, setTransitionNote } = useRoiModal();
+
+  function handleBuild() {
+    const role = AGENTS.find((entry) => entry.id === builder.agent)?.role;
+    setTransitionNote(
+      `A demo call is on its way — your new ${role ?? "agent"} will ring you shortly.`
+    );
+    setTransitioning(true);
+    setTimeout(() => {
+      setTransitioning(false);
+      setTransitionNote("");
+      builder.submit();
+    }, 400);
+  }
 
   return (
     <section id="book-call" className="w-full bg-surface-50 px-6 py-16 scroll-mt-16">
-      <div className="mx-auto flex max-w-6xl flex-col gap-12 lg:flex-row lg:items-start lg:gap-16" data-parallax data-parallax-y="12">
-        <div className="flex flex-1 flex-col">
+      <div className="mx-auto flex max-w-6xl flex-col gap-12 lg:flex-row lg:items-start lg:gap-16" data-parallax data-parallax-y="12" data-section-reveal>
+        <div className="flex flex-1 flex-col" data-reveal-item>
           <p className="font-mono text-caption font-medium uppercase tracking-wider text-accent-purple">
             The final step
           </p>
@@ -271,8 +326,8 @@ export default function Demo() {
           </div>
         </div>
 
-        <div className="w-full lg:max-w-md">
-          <BuildAgentPanel builder={builder} />
+        <div className="w-full lg:max-w-md" data-reveal-item>
+          <BuildAgentPanel builder={builder} onSubmit={handleBuild} />
         </div>
       </div>
     </section>

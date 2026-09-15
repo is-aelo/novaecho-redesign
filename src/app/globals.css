@@ -44,10 +44,14 @@
     radial-gradient(120% 90% at 0% 100%, rgba(16, 26, 51, 0.2) 0%, rgba(16, 26, 51, 0.04) 30%, rgba(16, 26, 51, 0) 55%);
   --gradient-accent-ring: linear-gradient(135deg, rgba(112, 0, 255, 0.9), rgba(186, 15, 255, 0.9));
   --gradient-text-highlight: var(--gradient-accent-ring);
+  --hero-glow-pink: rgba(217, 70, 239, 0.12);
+  --hero-glow-blue: rgba(59, 130, 246, 0.15);
   --hero-glow:
-    radial-gradient(60% 65% at 24% 14%, rgba(0, 209, 255, 0.15) 0%, rgba(79, 172, 254, 0.07) 42%, rgba(0, 209, 255, 0) 60%);
+    radial-gradient(36% 44% at 17% 18%, var(--hero-glow-pink) 0%, rgba(217, 70, 239, 0) 62%),
+    radial-gradient(44% 54% at 62% 45%, var(--hero-glow-blue) 0%, rgba(59, 130, 246, 0) 62%);
   --hero-glow-mobile:
-    radial-gradient(85% 50% at 20% 10%, rgba(0, 209, 255, 0.12) 0%, rgba(79, 172, 254, 0.06) 42%, rgba(0, 209, 255, 0) 62%);
+    radial-gradient(60% 40% at 15% 12%, var(--hero-glow-pink) 0%, rgba(217, 70, 239, 0) 58%),
+    radial-gradient(58% 42% at 70% 54%, var(--hero-glow-blue) 0%, rgba(59, 130, 246, 0) 60%);
   /* DEPRECATED: retired as default fill. The primary default is now --gradient-btn. */
   --gradient-button-primary: linear-gradient(135deg, #E61EAD 0%, #BA0FFF 40%, #7000FF 65%, #2C259A 88%, #1E3A8A 100%);
 
@@ -267,14 +271,15 @@ a, button {
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 500;
-  color: var(--white);
-  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary-on-dark);
+  background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: var(--radius-btn);
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.48);
 }
 
@@ -501,6 +506,12 @@ a, button {
   .hero-glow {
     background-image: var(--hero-glow-mobile);
   }
+}
+
+.hero-window-wave {
+  opacity: 0.005;
+  -webkit-mask-image: radial-gradient(80% 90% at 50% 52%, #000 0%, #000 58%, transparent 80%);
+  mask-image: radial-gradient(80% 90% at 50% 52%, #000 0%, #000 58%, transparent 80%);
 }
 
 .hero-wave {

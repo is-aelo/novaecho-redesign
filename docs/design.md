@@ -35,10 +35,10 @@ Everything below is mathematically derived from the seven brand values above, fo
 --surface-200:  #E5E5E5   (light card border)
 
 Status:
---status-green: #34D399   (hero LED only — the pulsing "live session" dot in
-                           the hero window chrome. Once the terminal text moved
-                           to --accent-purple-soft, green survives only as the
-                           LED.)
+--status-green: #34D399   (success/completed states on dark surfaces — the pulsing
+                           "live session" LED in the hero window chrome AND the
+                           terminal's ✓ banner checks: "installed" vs. in-flight
+                           ~$ steps. Never for in-progress states or buttons.)
 
 Dark console window fill (derived — maps to the near-monochrome gradient below,
 no translucent glass):
@@ -71,14 +71,16 @@ Light surfaces (Features, stats, etc.) use `--text-primary-on-light` and `--text
                                 spokes). The light lavender-violet reads brightest
                                 on near-black. Never on light surfaces — those use
                                 --accent-purple. Only --status-green shares dark
-                                surfaces, and only for done/completed states.)
+                                surfaces, and only for done/completed states
+                                (LED + terminal ✓ checks).)
                                 paired with purple only in glow/gradient contexts, never solid fills)
---accent-cyan: #00D1FF         (scoped accent — the hero glow's cyan stop + the hero
-                                bottom wave's cyan crest layer + ribbon top stop.
-                                The one blue note on the page — hero background only.
+--accent-cyan: #00D1FF         (scoped accent — the hero bottom wave's cyan crest
+                                layer + ribbon top stop + the faint in-window echo
+                                waveform. The one blue note on the page —
+                                hero background/console texture only.
                                 Never used on buttons, text, borders, or light surfaces.)
---accent-blue: #4FACFE         (scoped accent — the hero glow's light stop + the hero
-                                bottom wave's blue layer (derived from brand sky).
+--accent-blue: #4FACFE         (scoped accent — the hero bottom wave's blue layer
+                                (derived from brand sky).
                                 Same scope as --accent-cyan: hero background only.)
 --accent-magenta: #E61EAD      (light-surface hover/active accent — nav, footer, stories)
 ```
@@ -101,8 +103,10 @@ Level 2 --- Subtle gradient (emphasis only):
 
 Level 3 --- Hero gradient / glow (reserved):
   Major visual moments only. Hero is the strongest use of color on the page.
-  Everything below calms down. Cyan/blue hero glow behind the headline, low-opacity
-  waveform band, and one soft glow inside the console window.
+  Everything below calms down. Two-point pink→blue hero glow (diagonal light
+  flow: soft pink/purple top-left behind the headline, soft blue/cyan behind
+  the terminal), low-opacity waveform band, and a faint echo waveform inside
+  the hero window.
 ```
 
 ```
@@ -116,19 +120,28 @@ Level 3 --- Hero gradient / glow (reserved):
   Use: large full-width bands (enterprise section, footer transition).
   Near-monochrome — the shift should be barely perceptible, not a visible band.
 
+--hero-glow-pink: rgba(217,70,239,0.12)   (hero glow #1 — soft pink/purple, top-left
+                                           behind the logo/headline area. Ties to the
+                                           pink/magenta logo family.)
+--hero-glow-blue: rgba(59,130,246,0.15)   (hero glow #2 — soft blue/cyan, behind/near the
+                                           terminal window. Ties to the blue CTA family.)
 --hero-glow:
-  radial-gradient(60% 65% at 24% 14%, rgba(0,209,255,0.15) 0%, rgba(79,172,254,0.07) 42%, rgba(0,209,255,0) 60%)
-  Use: hero background ONLY (desktop ≥ lg). A soft cyan→blue radial wash behind the
-  headline, offset slightly left (at ~24% horizontal, ~14% vertical of the hero),
-  dissolving to transparent at ~60% of its own width so it never reads as a centered
-  "wealth app" glow. Flat, no motion. Never on buttons, text, borders, or light surfaces.
+  radial-gradient(36% 44% at 17% 18%, var(--hero-glow-pink) 0%, rgba(217,70,239,0) 62%),
+  radial-gradient(44% 54% at 62% 45%, var(--hero-glow-blue) 0%, rgba(59,130,246,0) 62%)
+  Use: hero background ONLY (desktop ≥ lg). A two-point radial — one soft pink/
+  purple glow top-left behind the headline (at ~17% x / ~18% y), one soft blue/cyan
+  glow behind the terminal (at ~62% x / ~45% y) — each dissolving to transparent
+  by ~62% of its own size so they never merge into a centered "wealth app" radial.
+  Together they read as a diagonal light flow from logo → terminal → CTA. Flat, no
+  motion. Never on buttons, text, borders, or light surfaces.
 
 --hero-glow-mobile:
-  radial-gradient(85% 50% at 20% 10%, rgba(0,209,255,0.12) 0%, rgba(79,172,254,0.06) 42%, rgba(0,209,255,0) 62%)
-  Use: hero background ONLY (< lg — mobile and tablet). Wider and shorter than the
-  desktop glow, positioned up toward the stacked headline block, slightly lower
-  opacity. Keeps the glow a faint wash on a narrow, tall viewport instead of a
-  centered smear. Same scope rules as --hero-glow.
+  radial-gradient(60% 40% at 15% 12%, var(--hero-glow-pink) 0%, rgba(217,70,239,0) 58%),
+  radial-gradient(58% 42% at 70% 54%, var(--hero-glow-blue) 0%, rgba(59,130,246,0) 60%)
+  Use: hero background ONLY (< lg — mobile and tablet). Wider, shorter version of the
+  two-point glow — pink tracks the stacked headline block top-left, blue sits
+  lower-center-right behind the stacked terminal. Keeps the diagonal flow a faint
+  wash on a narrow, tall viewport. Same scope rules as --hero-glow.
 
 --gradient-window: RETIRED — removed from globals.css. The AgentWindow no longer
   uses a navy corner-glow fill; it reuses the hero terminal frame: flat
@@ -192,8 +205,8 @@ Hero primary (.btn-hero-primary):
   focus:    2px solid var(--accent-purple) outline, offset 2px
             Used ONLY on the hero "Meet the agents" CTA.
 
-Secondary — default: rgba(255,255,255,0.06) fill, 1px solid rgba(255,255,255,0.24) border, white text
-Secondary — hover:    fill → rgba(255,255,255,0.12), border brightens to rgba(255,255,255,0.48)
+Secondary — default: transparent fill (ghost), 1px solid rgba(255,255,255,0.24) border, --text-secondary-on-dark text
+Secondary — hover:    text → white, fill → rgba(255,255,255,0.08), border brightens to rgba(255,255,255,0.48)
 
 Outline light (.btn-outline-light):
   default:  transparent fill, 1px border color-mix(30% --surface-700, transparent),
@@ -382,21 +395,24 @@ here; it now renders in the Agents section only (below). The animated "Trusted
 by Industry Leaders" logo marquee is gone — replaced by a static, restrained
 "Trusted by" row (5 select brands) under the subheadline, described below. No
 marquee motion anywhere. Two-column text row on lg, stacked on mobile. No
-ambient purple/pink Web3 gradient blobs — color comes from a single offset
-cyan/blue glow behind the headline and the low-opacity waveform band. Must look
+ambient purple/pink Web3 gradient blobs — color comes from a two-point diagonal
+glow (soft pink/purple top-left behind the headline, soft blue/cyan behind the
+terminal) and the low-opacity waveform band. Must look
 excellent with all effects removed (solid text, flat surfaces).
 
 ```
 Background:    --surface-hero (near-black #0A0A0A) + 4 vertical hairlines,
                1px rgba(255,255,255,0.035), full hero height, vertically faded at
-               both ends, aligned to container. Plus ONE soft radial --hero-glow
-               (cyan → blue), offset left behind the headline (at ~24% x / ~14% y),
-               dissolving to transparent by ~60% of its width — never centered,
-               never a "wealth app" radial. Flat, no motion.
-               Mobile/tablet (< lg): swaps to --hero-glow-mobile — a wider,
-               shorter radial (85% w × 50% h at ~20% x / ~10% y, slightly lower
-               opacity) so it tracks the stacked headline block and stays a faint
-               wash instead of a bright smear on a narrow, tall viewport.
+               both ends, aligned to container. Plus the two-point --hero-glow
+               (pink/purple top-left at ~17% x / ~18% y + blue/cyan at ~62% x /
+               ~45% y behind the terminal), each radial dissolving to transparent
+               by ~62% of its own size — never merged into a centered
+               "wealth app" radial. Flat, no motion.
+               Mobile/tablet (< lg): swaps to --hero-glow-mobile — wider, shorter
+               two-point radials (pink ~15% x / ~12% y, blue ~70% x / ~54% y,
+               slightly lower opacity) so they track the stacked headline block
+               and terminal and stay a faint wash instead of a bright smear on a
+               narrow, tall viewport.
 Layout:        flex column, min-h-screen (full viewport height — never taller).
                The content column is a flex-1 wrapper that justifies the stack
                to center; the bottom wave is the final flex item, tucking
@@ -438,17 +454,19 @@ Live status:   a small live indicator framed as a terminal "install" session
                only the pulsing --status-green dot (no label), as a status LED.
 Body = a real CLI install feed (font-mono/Geist Mono,
                 text-body-sm, --accent-purple-soft — same light lavender text
-                as the AgentWindow; the two console windows share one voice,
-                and the hero no longer uses green text). Sequence, like
+                as the AgentWindow; the two console windows share one voice.
+                Green is reserved for done states only: the LED + the ✓ checks).
+                Sequence, like
                 scaffolding a framework:
                  banner prints FIRST (fast, 200ms/line):
                    "NOVA ECHO AI"           semibold, full lavender — the
                                             terminal echoing the product name;
                                             the ONE all-caps exception on the
                                             hero
-                   "✔ human-like conversations"  check glyph at 40% lavender
-                   "✔ 30 languages"               (muted, literal CLI install
-                   "✔ 80% lower cost"             checkmark, not emoji), label
+                   "✔ human-like conversations"  check glyph in --status-green
+                   "✔ 30 languages"               (the success color — installed/
+                   "✔ 80% lower cost"             completed, distinct from the
+                                            in-flight ~$ steps), label
                                             at 80% lavender — same column as
                                             the title, no indent
                  then the steps stream (≈2.2s each, opacity fade via
@@ -471,9 +489,22 @@ Body = a real CLI install feed (font-mono/Geist Mono,
                under prefers-reduced-motion (full log renders static — banner
                constant, steps in dimmed cascade). Frame is w-full max-w-md
                (mobile) → lg:max-w-2xl (desktop).
+Texture:       a faint echo-waveform band (.hero-window-wave) sits behind the log
+               lines — static vertical-bar SVG in --accent-cyan at ~0.5% opacity,
+               masked so it melts toward the window edges and stays a whisper
+               texture over the near-black fill, never competing with the text.
+               Purely decorative (aria-hidden); no motion, so reduced-motion needs
+               no special handling. The one exception to the "one wave per page"
+               rule — the page's loud waveform is still the hero's bottom band.
 CTA row:       primary = .btn-hero-primary (flat solid --surface-700 navy, no
                gradient, single accent color) "Meet the agents" (no icon) → #solutions.
-               secondary = .btn-secondary (outline) "Receive a call" → #book-call.
+               secondary = .btn-secondary (ghost — transparent fill, hairline
+               border, secondary text) "Receive a call" → #book-call.
+               Hierarchy is intentional: the hero leads with exactly ONE loud
+               action (Meet the agents). "Receive a call" shares a target with the
+               nav's prominent "Book Discovery Call" (→ #book-call), so it stays a
+               quiet ghost — de-emphasized so the nav CTA doesn't compete with two
+               equally prominent buttons.
                Left column. All breakpoints: both buttons share one row (inline flex,
                gap-4, wrap allowed on narrow screens), each keeping its
                intrinsic (content-hugging) width — never full-bleed,
@@ -690,25 +721,30 @@ Active:      rgba(255,255,255,0.10) pill + --text-primary-on-dark medium text +
                right-rail Estimated ROI block (RoiPreview) only.
 ```
 
-## Hero background — near-black + offset glow + structural grid
+## Hero background — near-black + two-point glow + structural grid
 
-The hero's one allowed atmospheric treatment: a single soft cyan→blue radial glow
-(`--hero-glow`) offset slightly left and up, behind the headline. The center
-reading column stays clean `--surface-hero` (near-black #0A0A0A). No purple/pink
-Web3-template gradient anywhere. Flat `--surface-hero` everywhere else, with 4
+The hero's one allowed atmospheric treatment: a two-point diagonal radial glow
+(`--hero-glow`) — soft pink/purple top-left behind the logo/headline area, soft
+blue/cyan behind the terminal window. The glow is a flat layer, never decorative
+blobs; it ties the pink logo and blue CTA into one diagonal light flow across the
+hero. The center reading column stays clean `--surface-hero` (near-black #0A0A0A).
+Flat `--surface-hero` everywhere else, with 4
 vertical 1px hairlines at rgba(255,255,255,0.035), full hero height, vertically
 faded at both ends via mask.
 
 ```
-Glow:         --hero-glow — radial-gradient(60% 65% at 24% 14%,
-              rgba(0,209,255,0.15) 0%, rgba(79,172,254,0.07) 42%,
-              rgba(0,209,255,0) 60%). Cyan → blue, brand wave colors.
-              Offset left behind the headline, never dead-center. Dissolves
-              to transparent by ~60% of its width. Static — no motion.
-              < lg: --hero-glow-mobile — radial-gradient(85% 50% at 20% 10%,
-              rgba(0,209,255,0.12) 0%, rgba(79,172,254,0.06) 42%,
-              rgba(0,209,255,0) 62%) — wider, shorter, softer, tracking the
-              stacked headline block on narrow viewports.
+Glow:         --hero-glow — two-point radial:
+                1) pink/purple, var(--hero-glow-pink) rgba(217,70,239,0.12),
+                   at 17% x / 18% y, top-left behind the headline
+                2) blue/cyan, var(--hero-glow-blue) rgba(59,130,246,0.15),
+                   at 62% x / 45% y, behind the terminal window
+              Each radial dissolves to transparent by ~62% of its own size —
+              never merged into a dead-center "wealth app" glow. Together they
+              read as a diagonal light flow from logo → terminal → CTA.
+              Static — no motion.
+              < lg: --hero-glow-mobile — wider, shorter pair (pink at ~15% x /
+              12% y, blue at ~70% x / 54% y, slightly lower opacity) tracking
+              the stacked headline block and terminal on narrow viewports.
 Background:   --surface-hero (near-black #0A0A0A), flat, no gradient fill.
 Grid:         4 vertical 1px hairlines rgba(255,255,255,0.035), full hero height,
               vertically faded at both ends via mask, aligned to the container.
@@ -757,8 +793,9 @@ Accessibility: aria-hidden, decorative only — the real live-call status lives 
                AgentWindow's aria-live region, not here.
 ```
 
-This is the ONLY waveform on the hero and the only full-bleed one on the page.
-The console has no waveform of its own.
+This is the ONLY full-bleed waveform on the page. The hero console's faint
+in-window echo band (see "Live status" above) is the one subtle exception — a
+quiet background texture at ~0.5% opacity, never a competing element.
 
 ## Pricing section — decision journey (START → SCALE → EXPAND → CUSTOM)
 
@@ -1470,8 +1507,14 @@ Build-your-agent interface (right) — progressive disclosure, one step visible:
                   cards (Receptionist · Speed-to-Lead · Mass Outbound ·
                   Something else). Card: rounded-md, border-surface-200,
                   bg-white, p-4, display font body-md label + mono caption
-                  blurb; selected → border-accent-purple. Selecting advances
-                  to step 02 (auto).
+                  blurb; selected → border-accent-purple. Selecting an agent
+                  arms the footer's Continue button (NOTE: it does NOT advance
+                  automatically — step 01 now ends on an explicit Continue
+                  press, so the visitor confirms their pick before the
+                  business-info step). Continue is disabled (opacity-40,
+                  cursor-not-allowed, no hover lift) until an agent is
+                  selected. Helper under the grid: "Pick an agent, then press
+                  Continue."
   Step 02 — business: FULL NAME, EMAIL, COMPANY, PHONE (OPTIONAL marker on
                   label). Inputs: rounded-sm, 1px border-surface-200, bg-white,
                   body-sm, px-3 py-2.5, focus:border-accent-purple,
@@ -1493,10 +1536,13 @@ Build-your-agent interface (right) — progressive disclosure, one step visible:
                   chrome, resize-none) + helper "You don't need to write a
                   perfect prompt. Just describe what you want your agent to
                   do."
-  Step bar:       border-t hairline row: "BACK" caption link (secondary-light,
-                  hover primary) + next action. Step 02 next = Continue
-                  (rounded-btn, 1px border-surface-700/30, body-sm, transparent
-                  fill — the pricing secondary-button language). Step 03 next
+  Step bar:       border-t hairline row — left: "BACK" caption link (secondary-
+                  light, hover primary) on steps 02 and 03 (step 01 shows an
+                  empty spacer instead). Right: the next action.
+                  Step 01 next = Continue (rounded-btn, 1px border-surface-
+                  700/30, body-sm, transparent fill — the pricing secondary-
+                  button language), disabled until an agent is selected. Step
+                  02 next = the same Continue, always enabled. Step 03 next
                   = the PRIMARY CTA.
   Primary CTA:    "Build My Agent" + ArrowRight 16 bold, .btn-primary (.nudge-
                   horizontal), flex-1. Sanctioned: it uses the single allowed
@@ -1504,10 +1550,29 @@ Build-your-agent interface (right) — progressive disclosure, one step visible:
                   reveals the confirmation state — it does not POST anywhere
                   (no backend; the brief's condition is met: it triggers the
                   existing flow).
+  Expectation:    step 03 carries the demo-call promise as a pronounced callout
+                  under the CTA row: rounded-md box, 1px border accent-
+                  purple/30, fill accent-purple/5, Phone 18 bold icon in
+                  --accent-purple, "Expect a demo call." in semibold
+                  --text-primary-light with the supporting line naming the
+                  chosen voice label (falls back to "voice you chose") and the
+                  "details and prompt you entered" — explicit at the point of
+                  submission.
+  Submit flow:    "Build My Agent" routes through the shared "Just a moment…"
+                  transition overlay: it sets isTransitioning(true) + a
+                  transition note "A demo call is on its way — your new
+                  {role} will ring you shortly." (accent-purple caption under
+                  the spinner, 0.3s fade-up at 0.3s delay), waits --dur-base,
+                  then reveals the confirmation state and clears the note. The
+                  note is demo-only — the ROI calculator transition clears it
+                  so its overlay stays generic ("Just a moment…" only).
   Done:           confirmation (aria-live): "AGENT BUILD RECEIVED" caption in
-                  --accent-purple → "{Role} — ready when you are." display-sm
-                  → follow-up line (echoes role, chosen voice label, and email
-                  if provided) → "START OVER" caption link resets.
+                  --accent-purple → "A demo call is on the way." display-sm →
+                  a bordered callout (same chrome as step 03) tying the demo
+                  call to the chosen role, voice label, email, and the
+                  "details and prompt you entered" — the promise is the
+                  headline of the finished state → "START OVER" caption link
+                  resets.
   No fake voice:  no play buttons or audio players — voice names are selectable
                   text only. If real samples ever exist, they'd become inline
                   previews in this same dropdown step, never before it.
@@ -1563,6 +1628,16 @@ ease-emphasis:      back.out(1.2)   CTA emphasis only, use sparingly — not on 
 ### Patterns
 ```
 scroll-reveal:    opacity 0→1, translateY 24px→0, stagger 80ms per child, trigger at 80% viewport
+section-reveal:   global implementation of scroll-reveal — /hooks/useSectionReveal mounted
+                   once in RoiWrapper. Marks: [data-section-reveal] on a section's content
+                   wrapper (not the full-bleed <section>, so backgrounds stay still) +
+                   [data-reveal-item] on its top-level children; targets are direct children
+                   (falls back to the group itself if none marked). Per group: opacity 0→1,
+                   y 24→0, --dur-slow power2.out, stagger 80ms, ScrollTrigger start "top 80%",
+                   toggleActions "play none none none", clearProps transform. Applied to
+                   Features, Agents, Pricing, Partners, Stories, Demo, Footer — skipped on
+                   Hero (has hero-entrance) and Benchmark (has bench-module). Disabled under
+                   prefers-reduced-motion.
 hero-entrance:     headline words stagger in, --dur-hero, ease-out-standard, runs once on load
 cta-hover:         scale 1→1.02, glow opacity 0→1, --dur-fast
 call-trace-bars:   waveform bars grow from 0 height on scroll into view, stagger 40ms
@@ -1578,51 +1653,148 @@ bench-disclosure:  matrix wrapper height 0→auto + opacity, 0.5s power3.out (op
 
 ## ROI Calculator Modal
 
-Full-screen modal overlay triggered by "Calculate ROI" buttons in the Agents section. Dark theme matching the hero, with an 8-field input form on the left and calculated results on the right.
+Full-screen modal overlay triggered by the "Calculate yours" link on the hero ROI preview (`openRoi(agentType)`). Progressive-disclosure, live-updating estimator — no submit-to-see-results. Two-column on desktop (40% inputs / 60% results), stacked on mobile with one input category per step and the live result on screen.
 
 ```
-Background:       --surface-100 (matches section card bg), border --surface-200
+Layout:           panel max-w-5xl, SINGLE column — all inputs (scenario + every
+                  category) stack above the impact panel, which sits below the fields
+Background:       --surface-100 panel, border --surface-200 (light, highly readable)
 Overlay:          bg-black/60 backdrop-blur-sm
-Panel:            max-w-4xl, padding p-6 → lg:p-8
-Text:             --text-primary-light / --text-secondary-light throughout
-Title:            display-md, font-display, bold, --text-primary — dynamically shows agent name
-Subtext:          body-sm, --text-secondary
+Header:           sticky, border-b --surface-200, bg-surface-100/90 backdrop-blur
+  Eyebrow:        "ROI ESTIMATOR" — font-mono caption, semibold, --accent-purple
+  Title:          "What are missed calls costing you?" — display-sm → lg:display-md
+  Subtext:        "Estimate the revenue, time, and opportunities your business could
+                  recover with Nova Echo."
+  Close:          h-9 w-9, rounded-btn, --text-secondary-light, hover bg-surface-200
 
-Input section:
-  Label:          caption, medium, --text-secondary at 60% opacity
-  Input border:   1px --surface-800, focus-within --accent-purple, rounded-sm
-  Input fill:     transparent
-  Input text:     body-sm, font-mono, --text-primary
-  Input placeholders: "e.g., 200", etc.
-  Fields:         totalCalls, missedCalls, holdCalls, closeRate, ticketValue,
-                  receptionistCost, hoursSpent, hourlyRate
-  Slider fields:  closeRate (0–100, step 1, default 25, unit %),
-                  hoursSpent (0–200, step 1, default 40),
-                  hourlyRate (0–500, step 5, default 100, unit $)
-  Slider track:   8px height, rounded-full, linear-gradient fill using
-                  interpolated magenta→hot-purple for the active portion
-                  and var(--surface-200) for the inactive portion (light bg)
-  Slider thumb:   20px diameter, rounded-full, shadow-glow
-                  Fill matches track active color via CSS variable
-  Slider value:   font-mono text-body-sm font-semibold text-accent-magenta tabular-nums
-                  Hover: scale-110
-                  Active: scale-90
-                  Focus-visible: 2px surface-950 ring + 4px accent-purple ring via box-shadow
-                  Transitions: all, 150ms
-  Calculate CTA:  btn-primary, full width, disabled (opacity-40) until all fields filled
-  Start Fresh:    clears all form fields and reopens blank calculator
+Scenario:         "What are you trying to improve?" — three compact selectable rows
+                  (Receptionist / Speed-to-Lead / Mass Outbound), NOT pricing cards.
+                  Row: rounded-sm, 1px border, bg-white, display-sm semibold title +
+                  one-line mono caption description + dot indicator (--accent-purple
+                  when active, --surface-200 otherwise). Selection is contextual UI:
+                  it preselects on open from the opened agent's script and seeds that
+                  scenario's default inputs; switching mid-modal keeps the user's
+                  numbers and does NOT alter the calculation formula.
 
-Results section:
-  Empty state:    dashed border --surface-800, centered prompt text
-  Result rows:    border-b --surface-800/60, font-mono values, accent-purple for key figures
-  Breakdown:      caption-size, --text-secondary at 40% opacity labels
+Categories:       three, separated by border-t hairline dividers (NOT cards):
+  YOUR CALLS        total calls, missed calls, calls left on hold
+  YOUR REVENUE      average customer value ($), booking / close rate (slider %)
+  YOUR CURRENT COST monthly receptionist cost ($/mo), hours spent answering calls
+                    (hrs), value of your time per hour (slider $)
+  Category header: font-mono caption semibold uppercase, --surface-700
+  Field label:     font-mono caption medium uppercase, --text-secondary-light 60%;
+                   flashes to --accent-purple for ~600ms when its value changes
+  Field grid:      fields render in a responsive grid inside a category —
+                   grid-cols-1 → sm:grid-cols-2 → lg:grid-cols-3, gap-4 — to keep
+                   the input stack compact; categories separated by mt-5/pt-5
+                   hairline dividers
+Number inputs:    h-10 box, rounded-sm, 1px --surface-200, bg-white,
+                  focus-within:border-accent-purple; contextual prefix ($) / suffix
+                  (calls/mo, hrs, /mo) in mono caption 50% opacity — prefix and suffix
+                  are whitespace-nowrap + shrink-0 single-line units, input is min-w-0
+                  so the unit never wraps; body-sm --text-primary-light; inputMode
+                  numeric, digits only. NO vague placeholders — every field ships with
+                  a sensible default so the estimate is live from the moment the modal
+                  opens.
+Sliders:          closeRate (0–100, step 1, %) and hourlyRate ($0–500, step 5)
+  Value:          mono body-sm semibold --accent-purple tabular-nums, prominent
+  Track:          h-1.5 rounded-full --surface-200, active fill 1.5 --accent-purple
+  Thumb:          16px, rounded-full, --accent-purple via --thumb-bg CSS var,
+                  shadow-glow, hover scale-110, active scale-90, focus-visible 2px
+                  surface-100 + 4px accent-purple ring, transitions 150ms
 
-Plan recommendation:
-  Total < $500      → Nova Light ($99/mo)
-  Total $500–$1999  → Nova Super ($333/mo)
-  Total ≥ $2000     → Nova Hyper ($1,299/mo)
+Flow:             one consistent flow on every breakpoint — scenario, then all
+                  categories, then the impact panel. No step gating; the result is
+                  always directly below the last field.
 
-Calculation:
+Result panel:     the visual anchor — dark. --surface-950, border --surface-800,
+                  rounded-md, p-6 → md:p-7, full width under the inputs, height
+                  hugs content (no stretch)
+  Eyebrow:        "YOUR POTENTIAL IMPACT" — mono caption semibold --accent-purple-soft
+  Primary:        totalMonthlyBenefit — display-lg bold tabular, --text-primary;
+                  label "ESTIMATED MONTHLY OPPORTUNITY" (mono caption, secondary 70%).
+                  The number tweens smoothly on every input change (GSAP number tween,
+                  0.5s power2.out, instant under reduced motion).
+  Chart:          "recovered revenue · cumulative" — a 12-month benchmark-style chart
+                  (ImpactChart.tsx) reusing the Benchmark module visual language:
+                  framed rounded-window box, --surface-900, border-hairline-on-dark,
+                  BenchGrid (dark) hairline grid + corner brackets, BenchGrain noise
+                  overlay, viewBox 480×280 max-w-md mx-auto. Cumulative recovered line
+                  (12 evenly spaced months, cumulative = totalMonthlyBenefit × month
+                  with a deterministic micro-wobble that is zero at months 1 and 12 so
+                  the endpoint lands exactly on totalMonthlyBenefit × 12). Accent line
+                  1.25px --accent-purple-soft opacity 0.7, area fill opacity 0.1; solid
+                  reference line at the bookings-recovered figure (revenueBenefit, gray,
+                  opacity 0.45, label "bookings ≈X / mo"), grid
+                  rows at 25 / 50 / 75 / 100% of annual, $ axis labels (compact) on the
+                  left, month ticks 1–12 and "month" unit on the baseline, ONE focal
+                  16px annotation "≈value / yr" at the month-12 endpoint. Curves
+                  (pathLength 1) draw in once on open — dash 1→0, 1.1s power2.inOut,
+                  stagger 0.12s — and re-draw on each reopen (keyed to `open`);
+                  static under prefers-reduced-motion. Live: line, axis, and annotation
+                  values update on every input change.
+  Secondary:      two supporting metrics under a border-t hairline: annual opportunity
+                  (totalMonthlyBenefit × 12) in --accent-purple-soft and staff time
+                  recovered / month in --text-primary, both display-sm semibold
+                  tabular-nums.
+  Explanation:    body-sm, --text-secondary 90% — dynamically generated plain-English
+                  sentence: "Your {missed} missed calls and {hold} calls left on hold
+                  each month represent about {revenueBenefit}/month in lost or delayed
+                  bookings — before counting the {hours} hours of staff time spent on
+                  the phone."
+  CTA:            btn-primary full width, "SEE YOUR FULL ROI" + ArrowRight 16 — routes
+                  through the shared "Just a moment" transition into the results modal.
+
+Results modal:    the ROI report screen — light, matching the calculator (same
+                  max-w-5xl, same --surface-100 panel with --surface-200 border), so
+                  the two screens feel like one product: enter in the estimator, land
+                  in the report. Cards sit on white (bg-white, border --surface-200,
+                  rounded-md) — this is the light complement to the calculator's dark
+                  impact panel, and the dark ImpactChart framed visual reads as the
+                  deliberate dark moment inside the report (same pattern as the
+                  estimator's dark panel under light fields).
+  Header:         sticky, --surface-100/90 backdrop-blur, border-b --surface-200.
+                  Eyebrow "NOVA ECHO · ROI REPORT" in mono caption --accent-purple;
+                  H2 "Your ROI Results"; subtitle "Modeled from the metrics you
+                  entered."
+  Hero:           NET MONTHLY ROI — display-md → lg, font-bold tabular-nums,
+                  --accent-purple, TrendUp 22 --accent-purple beside it; mono caption
+                  "AFTER {PLAN} · $X/MO". Flanked on desktop by the secondary block
+                  (border-l hairlined): monthly benefit total and "{roiPct}% return
+                  on ${planPrice}/mo".
+  Visual row:     lg:grid-cols-5 — the cumulative recovered-revenue graph
+                  (ImpactChart, reusing the calculator's chart, col-span-3)
+                  beside the MONTHLY BENEFIT COMPOSITION card (col-span-2): a 2px
+                  stacked bar (rounded-full, --surface-200 track) with three
+                  proportional segments (recovered bookings --accent-purple · cost
+                  savings --accent-purple-soft · returned staff time --surface-700)
+                  and a legend of swatch + mono label + $ value.
+  Annual + plan:  sm:grid-cols-2 row — ESTIMATED ANNUAL IMPACT (net × 12, display-md
+                  bold --accent-purple, caption "12 MONTHS, WITH {PLAN} INCLUDED")
+                  beside the recommended-plan callout (border --accent-purple/30,
+                  bg --accent-purple/5): Medal icon + plan name + price, caption
+                  "fits your $X/mo benefit level".
+  CTA:            btn-primary "BOOK DISCOVERY CALL" full width → smooth-scrolls to
+                  #book-call (closes modal); "Start Fresh" link beneath replays the
+                  transition overlay and reopens the ROI estimator seeded to the
+                  same agent type (light hover uses --accent-magenta per the
+                  light-surface hover accent rule).
+  Disclaimer:     mono caption, --text-secondary-light 60%, centered.
+  Motion:         panel entrance as the ROI modal; then the bands + CTAs stagger-in
+                  (opacity 0→1, y 16→0, 0.5s power3.out, 0.08s stagger, 0.15s delay),
+                  the composition segments scaleX 0→1 (0.7s power3.out, 0.1s stagger,
+                  0.3s delay), and the chart's curves draw on reopen via its `active`
+                  prop. All skipped under prefers-reduced-motion. Report figures
+                  stay static (no live tween).
+
+Defaults (seeded per scenario on open — the modal remounts per session via a
+  context session counter, so state resets to the triggering scenario's defaults
+  without setState-in-effect):
+  Receptionist:   300 / 25 / 10 / 28% / $350 / $2,400 / 45h / $70
+  Speed-to-Lead:  400 / 20 / 8 / 24% / $950 / $0 / 35h / $80     (no front desk)
+  Mass Outbound:  1,200 / 80 / 0 / 10% / $600 / $0 / 45h / $60   (no front desk)
+
+Calculation (UNCHANGED — business formulas preserved):
   recoveredMissedRevenue  = missedCalls × (closeRate/100) × ticketValue
   recoveredHoldRevenue    = holdCalls × (closeRate/100) × ticketValue
   revenueBenefit          = recoveredMissed + recoveredHold
@@ -1632,6 +1804,11 @@ Calculation:
   netMonthlyROI           = totalMonthlyBenefit − planCost
   roiPercentage           = (netMonthlyROI / planCost) × 100
   annualImpact            = netMonthlyROI × 12
+  Displayed live:         totalMonthlyBenefit (primary), totalMonthlyBenefit × 12
+                          (annual), hoursSpent (time). The full plan/net breakdown
+                          lives in the results modal, reached via "See your full ROI."
+  Plan recommendation:    Total < $500 → Nova Light ($99/mo) · $500–$1,999 → Nova
+                          Super ($333/mo) · ≥ $2,000 → Nova Hyper ($1,299/mo)
 
 Modal entrance:  GSAP scale 0.97→1, y 24→0, opacity 0→1, power3.out, 0.4s
 Overlay:         GSAP opacity 0→1, power2.out, 0.3s
