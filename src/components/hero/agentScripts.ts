@@ -135,11 +135,11 @@ export const AGENT_SCRIPTS: DemoScript[] = [
     agentLabel: "AI Outbound Agent",
     callIntent: "Qualify the call and hand off to a specialist",
     company: "Clarity Skin Studio",
-    callerTag: "Priya · Prospect",
+    callerTag: "Naomi · Prospect",
     transcript: [
       {
         speaker: "ai",
-        text: "Hi Priya, quick call from Clarity Skin Studio about our new HydraGlow membership — is now a good time?",
+        text: "Hi Naomi, quick call from Clarity Skin Studio about our new HydraGlow membership — is now a good time?",
       },
       {
         speaker: "caller",

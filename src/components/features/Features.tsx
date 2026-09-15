@@ -66,11 +66,11 @@ export default function Features() {
           />
           <MiniCall
             heading="SEO package"
-            callerTag="Priya · Lead"
+            callerTag="Sofia · Lead"
             transcript={[
               {
                 speaker: "ai",
-                text: "Hi Priya, following up on the SEO package for your new site — are you ready to lock in the monthly plan?",
+                text: "Hi Sofia, following up on the SEO package for your new site — are you ready to lock in the monthly plan?",
               },
               {
                 speaker: "caller",
@@ -94,11 +94,11 @@ export default function Features() {
           />
           <MiniCall
             heading="Hosting renewal"
-            callerTag="Marcus · Client"
+            callerTag="Derek · Client"
             transcript={[
               {
                 speaker: "ai",
-                text: "Hi Marcus, just a heads-up your hosting plan renews next week — want me to keep it on the same tier?",
+                text: "Hi Derek, just a heads-up your hosting plan renews next week — want me to keep it on the same tier?",
               },
               {
                 speaker: "caller",
